@@ -1,0 +1,53 @@
+html, body{
+    margin:0;
+    padding:0;
+    overflow:hidden;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+.wrapper{
+    display:flex;
+    gap:1rem;
+    background:#C874D9;
+    height:100vh;
+    justify-content:center;
+}
+
+.wrapper header{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:1rem;
+}
+
+.wrapper section{
+    overflow-y:auto;
+}
+
+.wrapper section{
+    width:max(50%,
+        100vh);
+}
+
+.wrapper section ul{
+    list-style:none;
+    padding:0;
+    padding-left:25vh;
+    padding-top:25vh;
+    padding-bottom:25vh;
+    overflow:hidden;
+    width:100%;
+}
+
+.wrapper section ul li{
+    display:block;
+    width:50vh;
+    height:50vh;
+    background:white;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+    margin:1rem;
+}
