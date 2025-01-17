@@ -1,10 +1,26 @@
 console.log("teste");
 
+const tsuruFrom = 40;
+const tsuruTo = 50;
+
+const listOfImages = [];
+for (let i = tsuruFrom; i <= tsuruTo; i++) {
+  listOfImages.push(`./img/${i}.jpeg`);
+}
+
+listOfImages.reverse();
+
 document.addEventListener("DOMContentLoaded", () => {
   console.log("teste load");
   const wrapperEl = document.querySelector(".wrapper");
   const listContainerEl = document.getElementById("list-container");
   const listEl = document.getElementById("list");
+
+  listOfImages.forEach((imgSrc) => {
+    const liEl = document.createElement("li");
+    liEl.style.backgroundImage = `url(${imgSrc})`;
+    listEl.appendChild(liEl);
+  });
 
   const listItemsEls = document.querySelectorAll("#list li");
   console.log({ listItemsEls, wrapperEl, listContainerEl, listEl });
@@ -16,12 +32,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     thisEl.setAttribute(
       "data-initial-degree",
-      Math.floor(Math.random() * 361) - 180
+      Math.floor(Math.random() * 181) - 90
     );
   });
 
   const renderFrame = () => {
-    console.log("renderFrameCalled");
     const listContainerElRect = listContainerEl.getBoundingClientRect();
     const listContainerElTop = listContainerElRect.top;
     const listContainerElBottom = listContainerElRect.bottom;
@@ -50,15 +65,25 @@ document.addEventListener("DOMContentLoaded", () => {
         distanceToCenterPercent *
         initialDegree *
         (itsPreviousToCenter ? 1 : -1);
-      thisEl.innerHTML = `center: ${distanceToCenterPercent} - ${
-        itsPreviousToCenter ? "antes" : "depois"
-      }`;
       thisEl.style.transform = `scale(${scale}) rotateZ(${rotateZ}deg)`;
     });
   };
 
   listContainerEl.addEventListener("scroll", () => {
-    console.log("scroll");
+    if (currentFrameRenderingTimer) {
+      window.cancelAnimationFrame(currentFrameRenderingTimer);
+    }
+    currentFrameRenderingTimer = window.requestAnimationFrame(renderFrame);
+  });
+
+  window.addEventListener("resize", () => {
+    if (currentFrameRenderingTimer) {
+      window.cancelAnimationFrame(currentFrameRenderingTimer);
+    }
+    currentFrameRenderingTimer = window.requestAnimationFrame(renderFrame);
+  });
+
+  window.addEventListener("orientationchange", () => {
     if (currentFrameRenderingTimer) {
       window.cancelAnimationFrame(currentFrameRenderingTimer);
     }
