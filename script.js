@@ -34,7 +34,7 @@ const tsuruTo = 55;
 
 const listOfImages = [];
 for (let i = tsuruFrom; i <= tsuruTo; i++) {
-  listOfImages.push(`./img/${i}.jpeg`);
+  listOfImages.push(`./img/tsurus/${i}.jpeg`);
 }
 
 listOfImages.reverse();
