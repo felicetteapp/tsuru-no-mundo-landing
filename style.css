@@ -9,6 +9,7 @@
   --color-2-alpha: rgba(224, 108, 159, 0);
   --color-3: #651538;
   --color-3:white;
+  font-size:20px;
 }
 
 @media (orientation: portrait) {
@@ -22,7 +23,7 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  font-family: sans-serif;
+  font-family: "Danfo", serif;
 }
 
 * {
@@ -70,11 +71,6 @@ header {
   text-align: center;
   height: calc(var(--space-to-center) / 1.5);
   color: var(--color-3);
-/*  background: linear-gradient(
-    180deg,
-    var(--color-1) 0%,
-    var(--color-1-alpha) 100%
-  ); */
 }
 
 
@@ -82,14 +78,21 @@ header,footer{
   pointer-events: none;
 }
 
-
-header h1 {
-    display: inline-block;
-    color:var(--color-3);
-    padding: 0 0.5em ;
-    backdrop-filter: blur(10px);
-    border-radius: 0.5em;
+header h1{
+  padding: 0 0.5em ;
+  backdrop-filter: blur(10px);
+  border-radius: 0.5em;
+  display: inline-block;
+  color:var(--color-3);
+  line-height: 1;
 }
+
+@media (max-width: 400px) {
+  header h1 {
+    width: min-content;
+  }
+}
+
 
 footer {
   display: flex;

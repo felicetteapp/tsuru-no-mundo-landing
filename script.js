@@ -30,7 +30,7 @@ const calculateEaseBetween = (from, to, progress, easeFn) => {
 };
 
 const tsuruFrom = 1;
-const tsuruTo = 50;
+const tsuruTo = 55;
 
 const listOfImages = [];
 for (let i = tsuruFrom; i <= tsuruTo; i++) {
