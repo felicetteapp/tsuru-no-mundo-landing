@@ -100,6 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!itemItsInScreen) {
         thisEl.style.transform = "";
+        bgEl.style.opacity = 0;
         return;
       }
 
@@ -144,9 +145,13 @@ document.addEventListener("DOMContentLoaded", () => {
     currentFrameRenderingTimer = window.requestAnimationFrame(renderFrame);
   };
 
-  listContainerEl.addEventListener("scroll", () => {
-    renderNextFrame();
-  });
+  listContainerEl.addEventListener(
+    "scroll",
+    () => {
+      renderNextFrame();
+    },
+    { passive: true }
+  );
 
   window.addEventListener("resize", () => {
     renderNextFrame();
@@ -155,6 +160,10 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("orientationchange", () => {
     renderNextFrame();
   });
+
+  setInterval(() => {
+    renderNextFrame();
+  }, 1000 / 60);
 
   renderNextFrame();
 });
