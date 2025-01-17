@@ -96,6 +96,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const distanceToTop = Math.abs(thisElTop - listContainerElTop);
       const distanceToBottom = Math.abs(thisElBottom - listContainerElBottom);
       const distanceToCenterPercent = distanceToCenter / listContainerElHeight;
+      const itemItsInScreen = distanceToCenterPercent < 1;
+
+      if (!itemItsInScreen) {
+        thisEl.style.transform = "";
+        return;
+      }
 
       const scale = calculateEaseBetween(
         0.125,
@@ -131,33 +137,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
-  listContainerEl.addEventListener("scroll", () => {
+  const renderNextFrame = () => {
     if (currentFrameRenderingTimer) {
       window.cancelAnimationFrame(currentFrameRenderingTimer);
     }
     currentFrameRenderingTimer = window.requestAnimationFrame(renderFrame);
+  };
+
+  listContainerEl.addEventListener("scroll", () => {
+    renderNextFrame();
   });
 
   window.addEventListener("resize", () => {
-    if (currentFrameRenderingTimer) {
-      window.cancelAnimationFrame(currentFrameRenderingTimer);
-    }
-    currentFrameRenderingTimer = window.requestAnimationFrame(renderFrame);
+    renderNextFrame();
   });
 
   window.addEventListener("orientationchange", () => {
-    if (currentFrameRenderingTimer) {
-      window.cancelAnimationFrame(currentFrameRenderingTimer);
-    }
-    currentFrameRenderingTimer = window.requestAnimationFrame(renderFrame);
+    renderNextFrame();
   });
 
-  renderFrame();
-
-  setInterval(() => {
-    if (currentFrameRenderingTimer) {
-      window.cancelAnimationFrame(currentFrameRenderingTimer);
-    }
-    currentFrameRenderingTimer = window.requestAnimationFrame(renderFrame);
-  }, 100);
+  renderNextFrame();
 });
