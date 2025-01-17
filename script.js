@@ -1,6 +1,6 @@
 console.log("teste");
 
-const tsuruFrom = 40;
+const tsuruFrom = 1;
 const tsuruTo = 50;
 
 const listOfImages = [];
@@ -28,17 +28,20 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   const listItemsEls = document.querySelectorAll("#list li");
-  console.log({ listItemsEls, wrapperEl, listContainerEl, listEl });
 
   let currentFrameRenderingTimer = null;
 
   listItemsEls.forEach((item) => {
     const thisEl = item;
 
-    thisEl.setAttribute(
-      "data-initial-degree",
-      Math.floor(Math.random() * 181) - 90
-    );
+    const thisDegreeItsPositive = Math.random() > 0.5;
+    const randomInitialDegree = Math.floor(Math.random() * 181) - 90;
+    const randomFinalDegree = thisDegreeItsPositive
+      ? randomInitialDegree
+      : randomInitialDegree * -1;
+
+    thisEl.setAttribute("data-initial-degree", randomInitialDegree.toString());
+    thisEl.setAttribute("data-final-degree", randomFinalDegree.toString());
   });
 
   const renderFrame = () => {
@@ -57,6 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
       const initialDegree = Number(thisEl.getAttribute("data-initial-degree"));
+      const finalDegree = Number(thisEl.getAttribute("data-final-degree"));
 
       const thisElRect = thisEl.getBoundingClientRect();
       const thisElTop = thisElRect.top;
@@ -70,12 +74,14 @@ document.addEventListener("DOMContentLoaded", () => {
       const scale = 1 - distanceToCenterPercent;
       const opacity = 1 - distanceToCenterPercent;
 
+      const borderSize = 0.5 - 1 * distanceToCenterPercent;
+
       const itsPreviousToCenter = distanceToBottom > distanceToTop;
       const rotateZ =
         distanceToCenterPercent *
-        initialDegree *
-        (itsPreviousToCenter ? 1 : -1);
+        (itsPreviousToCenter ? initialDegree : finalDegree);
       thisEl.style.transform = `scale(${scale}) rotateZ(${rotateZ}deg)`;
+      thisEl.style.borderWidth = `${borderSize}rem`;
       bgEl.style.opacity = opacity;
     });
   };

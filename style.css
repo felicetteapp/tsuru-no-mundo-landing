@@ -1,5 +1,5 @@
 :root {
-  --item-size: min(50vh, 50vw);
+  --item-size: min(60vh, 60vw);
   --space-to-center: calc((100vh - var(--item-size)) / 2);
   --color-1: rgb(242, 131, 182);
   --color-1: black;
@@ -145,4 +145,5 @@ footer small{
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin: 0 auto;
   background-size:cover;
+  border:0.5rem solid white;
 }
