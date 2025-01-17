@@ -1,4 +1,33 @@
-console.log("teste");
+/* Easing math functions from easings.net */
+function easeInOutExpo(x) {
+  return x === 0
+    ? 0
+    : x === 1
+    ? 1
+    : x < 0.5
+    ? Math.pow(2, 20 * x - 10) / 2
+    : (2 - Math.pow(2, -20 * x + 10)) / 2;
+}
+
+function easeInOutBack(x) {
+  const c1 = 1.70158;
+  const c2 = c1 * 1.525;
+
+  return x < 0.5
+    ? (Math.pow(2 * x, 2) * ((c2 + 1) * 2 * x - c2)) / 2
+    : (Math.pow(2 * x - 2, 2) * ((c2 + 1) * (x * 2 - 2) + c2) + 2) / 2;
+}
+
+function easeInOutCirc(x) {
+  return x < 0.5
+    ? (1 - Math.sqrt(1 - Math.pow(2 * x, 2))) / 2
+    : (Math.sqrt(1 - Math.pow(-2 * x + 2, 2)) + 1) / 2;
+}
+
+const calculateEaseBetween = (from, to, progress, easeFn) => {
+  const ease = easeFn(Math.min(1, Math.max(0, progress)));
+  return from + (to - from) * ease;
+};
 
 const tsuruFrom = 1;
 const tsuruTo = 50;
@@ -11,7 +40,6 @@ for (let i = tsuruFrom; i <= tsuruTo; i++) {
 listOfImages.reverse();
 
 document.addEventListener("DOMContentLoaded", () => {
-  const wrapperEl = document.querySelector(".wrapper");
   const wrapperBgEl = document.querySelector(".bg");
   const listContainerEl = document.getElementById("list-container");
   const listEl = document.getElementById("list");
@@ -34,11 +62,8 @@ document.addEventListener("DOMContentLoaded", () => {
   listItemsEls.forEach((item) => {
     const thisEl = item;
 
-    const thisDegreeItsPositive = Math.random() > 0.5;
-    const randomInitialDegree = Math.floor(Math.random() * 181) - 90;
-    const randomFinalDegree = thisDegreeItsPositive
-      ? randomInitialDegree
-      : randomInitialDegree * -1;
+    const randomInitialDegree = Math.floor(Math.random() * 91) - 45;
+    const randomFinalDegree = Math.floor(Math.random() * 91) - 45;
 
     thisEl.setAttribute("data-initial-degree", randomInitialDegree.toString());
     thisEl.setAttribute("data-final-degree", randomFinalDegree.toString());
@@ -52,8 +77,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const listContainerElCenter =
       listContainerElTop + listContainerElHeight / 2;
 
-    listItemsEls.forEach((item, index) => {
-      const thisEl = listItemsEls[index];
+    listItemsEls.forEach((item) => {
+      const thisEl = item;
       const thisElDataSrc = thisEl.getAttribute("data-src");
       const bgEl = wrapperBgEl.querySelector(
         `div[data-src="${thisElDataSrc}"]`
@@ -71,17 +96,37 @@ document.addEventListener("DOMContentLoaded", () => {
       const distanceToTop = Math.abs(thisElTop - listContainerElTop);
       const distanceToBottom = Math.abs(thisElBottom - listContainerElBottom);
       const distanceToCenterPercent = distanceToCenter / listContainerElHeight;
-      const scale = 1 - distanceToCenterPercent;
-      const opacity = 1 - distanceToCenterPercent;
 
-      const borderSize = 0.5 - 1 * distanceToCenterPercent;
+      const scale = calculateEaseBetween(
+        0.125,
+        1,
+        1 - distanceToCenterPercent,
+        easeInOutCirc
+      );
+      const opacity = calculateEaseBetween(
+        0,
+        1,
+        1 - distanceToCenterPercent,
+        easeInOutCirc
+      );
 
       const itsPreviousToCenter = distanceToBottom > distanceToTop;
-      const rotateZ =
-        distanceToCenterPercent *
-        (itsPreviousToCenter ? initialDegree : finalDegree);
+
+      const rotateZ = itsPreviousToCenter
+        ? calculateEaseBetween(
+            initialDegree,
+            0,
+            1 - distanceToCenterPercent,
+            easeInOutExpo
+          )
+        : calculateEaseBetween(
+            finalDegree,
+            0,
+            1 - distanceToCenterPercent,
+            easeInOutExpo
+          );
+
       thisEl.style.transform = `scale(${scale}) rotateZ(${rotateZ}deg)`;
-      thisEl.style.borderWidth = `${borderSize}rem`;
       bgEl.style.opacity = opacity;
     });
   };
@@ -108,4 +153,11 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   renderFrame();
+
+  setInterval(() => {
+    if (currentFrameRenderingTimer) {
+      window.cancelAnimationFrame(currentFrameRenderingTimer);
+    }
+    currentFrameRenderingTimer = window.requestAnimationFrame(renderFrame);
+  }, 100);
 });
