@@ -11,15 +11,20 @@ for (let i = tsuruFrom; i <= tsuruTo; i++) {
 listOfImages.reverse();
 
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("teste load");
   const wrapperEl = document.querySelector(".wrapper");
+  const wrapperBgEl = document.querySelector(".bg");
   const listContainerEl = document.getElementById("list-container");
   const listEl = document.getElementById("list");
 
   listOfImages.forEach((imgSrc) => {
     const liEl = document.createElement("li");
+    liEl.setAttribute("data-src", imgSrc);
     liEl.style.backgroundImage = `url(${imgSrc})`;
     listEl.appendChild(liEl);
+    const divEl = document.createElement("div");
+    divEl.style.backgroundImage = `url(${imgSrc})`;
+    divEl.setAttribute("data-src", imgSrc);
+    wrapperBgEl.appendChild(divEl);
   });
 
   const listItemsEls = document.querySelectorAll("#list li");
@@ -46,6 +51,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     listItemsEls.forEach((item, index) => {
       const thisEl = listItemsEls[index];
+      const thisElDataSrc = thisEl.getAttribute("data-src");
+      const bgEl = wrapperBgEl.querySelector(
+        `div[data-src="${thisElDataSrc}"]`
+      );
 
       const initialDegree = Number(thisEl.getAttribute("data-initial-degree"));
 
@@ -59,6 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const distanceToBottom = Math.abs(thisElBottom - listContainerElBottom);
       const distanceToCenterPercent = distanceToCenter / listContainerElHeight;
       const scale = 1 - distanceToCenterPercent;
+      const opacity = 1 - distanceToCenterPercent;
 
       const itsPreviousToCenter = distanceToBottom > distanceToTop;
       const rotateZ =
@@ -66,6 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
         initialDegree *
         (itsPreviousToCenter ? 1 : -1);
       thisEl.style.transform = `scale(${scale}) rotateZ(${rotateZ}deg)`;
+      bgEl.style.opacity = opacity;
     });
   };
 
