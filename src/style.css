@@ -24,6 +24,32 @@ body {
   box-sizing: border-box;
 }
 
+.loading{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  background: var(--color-1);
+  color: var(--color-3);
+  font-size: 2rem;
+  z-index: 1000;
+}
+
+.loading__text{
+  font-size: 1.5rem;
+  margin-top: 1rem;
+}
+
+.loading__description{
+  font-size: 1rem;
+  margin-top: 1rem;
+}
+
 
 .wrapper {
   position: relative;

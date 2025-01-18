@@ -33,41 +33,16 @@ const tsuruFrom = 1;
 const tsuruTo = 55;
 
 const listOfImages = [];
-for (let i = tsuruFrom; i <= tsuruTo; i++) {
-  listOfImages.push(`./img/tsurus/${i}.jpeg`);
-}
-
-listOfImages.reverse();
+let listItemsEls = [];
 
 document.addEventListener("DOMContentLoaded", () => {
   const wrapperBgEl = document.querySelector(".bg");
   const listContainerEl = document.getElementById("list-container");
   const listEl = document.getElementById("list");
-
-  listOfImages.forEach((imgSrc) => {
-    const liEl = document.createElement("li");
-    liEl.setAttribute("data-src", imgSrc);
-    liEl.style.backgroundImage = `url(${imgSrc})`;
-    listEl.appendChild(liEl);
-    const divEl = document.createElement("div");
-    divEl.style.backgroundImage = `url(${imgSrc})`;
-    divEl.setAttribute("data-src", imgSrc);
-    wrapperBgEl.appendChild(divEl);
-  });
-
-  const listItemsEls = document.querySelectorAll("#list li");
+  const loadingEl = document.querySelector(".loading");
+  const loadingDescriptionEl = document.querySelector(".loading__description");
 
   let currentFrameRenderingTimer = null;
-
-  listItemsEls.forEach((item) => {
-    const thisEl = item;
-
-    const randomInitialDegree = Math.floor(Math.random() * 91) - 45;
-    const randomFinalDegree = Math.floor(Math.random() * 91) - 45;
-
-    thisEl.setAttribute("data-initial-degree", randomInitialDegree.toString());
-    thisEl.setAttribute("data-final-degree", randomFinalDegree.toString());
-  });
 
   const renderFrame = () => {
     const listContainerElRect = listContainerEl.getBoundingClientRect();
@@ -145,25 +120,107 @@ document.addEventListener("DOMContentLoaded", () => {
     currentFrameRenderingTimer = window.requestAnimationFrame(renderFrame);
   };
 
-  listContainerEl.addEventListener(
-    "scroll",
-    () => {
+  fetch("./data/listOfImages.json").then((response) => {
+    response.json().then((data) => {
+      data.forEach((img) => {
+        listOfImages.push({
+          img: img.img,
+          thumbnail: img.thumbnail,
+        });
+      });
+
+      let imagesLoaded = 0;
+
+      listOfImages.forEach(({ img: imgSrc, thumbnail }) => {
+        const liEl = document.createElement("li");
+        liEl.setAttribute("data-src", imgSrc);
+        liEl.style.backgroundImage = `url(${imgSrc})`;
+        listEl.appendChild(liEl);
+        const divEl = document.createElement("div");
+        divEl.style.backgroundImage = `url(${thumbnail})`;
+        divEl.setAttribute("data-src", imgSrc);
+        wrapperBgEl.appendChild(divEl);
+
+        const updateLoadingDescription = () => {
+          loadingDescriptionEl.textContent = `${imagesLoaded} / ${
+            listOfImages.length * 2
+          }`;
+        };
+
+        const imgEl = document.createElement("img");
+        imgEl.src = imgSrc;
+
+        const imgThumbnailEl = document.createElement("img");
+        imgThumbnailEl.src = thumbnail;
+
+        const handleImageLoad = () => {
+          updateLoadingDescription();
+          imagesLoaded += 1;
+          if (imagesLoaded === listOfImages.length * 2) {
+            loadingEl.style.display = "none";
+            renderNextFrame();
+          }
+        };
+
+        const handleImageError = () => {
+          handleImageLoad();
+          wrapperBgEl.removeChild(divEl);
+          listEl.removeChild(liEl);
+        };
+
+        imgThumbnailEl.onload = () => {
+          handleImageLoad();
+        };
+
+        imgThumbnailEl.onerror = () => {
+          handleImageError();
+        };
+
+        imgEl.onload = () => {
+          handleImageLoad();
+        };
+
+        imgEl.onerror = () => {
+          handleImageError();
+        };
+      });
+
+      listItemsEls = document.querySelectorAll("#list li");
+
+      listItemsEls.forEach((item) => {
+        const thisEl = item;
+
+        const randomInitialDegree = Math.floor(Math.random() * 91) - 45;
+        const randomFinalDegree = Math.floor(Math.random() * 91) - 45;
+
+        thisEl.setAttribute(
+          "data-initial-degree",
+          randomInitialDegree.toString()
+        );
+        thisEl.setAttribute("data-final-degree", randomFinalDegree.toString());
+      });
+
+      listContainerEl.addEventListener(
+        "scroll",
+        () => {
+          renderNextFrame();
+        },
+        { passive: true }
+      );
+
+      window.addEventListener("resize", () => {
+        renderNextFrame();
+      });
+
+      window.addEventListener("orientationchange", () => {
+        renderNextFrame();
+      });
+
+      setInterval(() => {
+        //   renderNextFrame();
+      }, 1000 / 60);
+
       renderNextFrame();
-    },
-    { passive: true }
-  );
-
-  window.addEventListener("resize", () => {
-    renderNextFrame();
+    });
   });
-
-  window.addEventListener("orientationchange", () => {
-    renderNextFrame();
-  });
-
-  setInterval(() => {
-    renderNextFrame();
-  }, 1000 / 60);
-
-  renderNextFrame();
 });
