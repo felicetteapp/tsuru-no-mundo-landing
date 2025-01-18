@@ -36,24 +36,21 @@ const listOfImages = [];
 let listItemsEls = [];
 
 document.addEventListener("DOMContentLoaded", () => {
-  const wrapperBgEl = document.querySelector(".bg");
+  const wrapperBgEl = document.querySelector(".wrapper__background");
   const listContainerEl = document.getElementById("list-container");
   const listEl = document.getElementById("list");
   const loadingEl = document.querySelector(".loading");
   const loadingDescriptionEl = document.querySelector(".loading__description");
   const modalEl = document.querySelector(".modal");
   const modalImgEl = document.querySelector(".modal__content__image");
-  const modalImgLoadingEl = document.querySelector(
-    ".modal__content__image__loading"
-  );
   const modalHeaderCloseButtonEl = document.querySelector(
     ".modal__header__close"
   );
   const modalContentEl = document.querySelector(".modal__content");
 
-  const openModal = (imgSrc) => {
+  const openModal = (imgSrc, thumbnail) => {
     history.pushState({ modalOpen: imgSrc }, document.title);
-    modalImgEl.src = imgSrc;
+    modalImgEl.src = thumbnail;
 
     const imgEl = document.createElement("img");
     imgEl.src = imgSrc;
@@ -62,6 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     imgEl.onload = () => {
       modalContentEl.classList.remove("modal__content--loading");
+      modalImgEl.src = imgSrc;
     };
 
     imgEl.onerror = () => {
@@ -187,7 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
         wrapperBgEl.appendChild(divEl);
 
         liEl.addEventListener("click", () => {
-          openModal(fullSize);
+          openModal(fullSize, thumbnail);
         });
 
         const updateLoadingDescription = () => {
