@@ -52,10 +52,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalContentEl = document.querySelector(".modal__content");
 
   const openModal = (imgSrc) => {
-    console.log("pushState");
     history.pushState({ modalOpen: imgSrc }, document.title);
     modalImgEl.src = imgSrc;
-    console.log("history.state", history.state);
 
     const imgEl = document.createElement("img");
     imgEl.src = imgSrc;
