@@ -52,7 +52,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalContentEl = document.querySelector(".modal__content");
 
   const openModal = (imgSrc) => {
+    console.log("pushState");
+    history.pushState({ modalOpen: imgSrc }, document.title);
     modalImgEl.src = imgSrc;
+    console.log("history.state", history.state);
 
     const imgEl = document.createElement("img");
     imgEl.src = imgSrc;
@@ -74,10 +77,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeModal = () => {
     modalEl.classList.remove("modal--open");
     modalEl.classList.add("modal--close");
-    modalImgEl.src = "";
   };
 
   modalHeaderCloseButtonEl.addEventListener("click", () => {
+    history.back();
+  });
+
+  window.addEventListener("popstate", (event) => {
     closeModal();
   });
 
