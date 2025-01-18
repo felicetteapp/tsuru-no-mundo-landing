@@ -29,11 +29,15 @@ const calculateEaseBetween = (from, to, progress, easeFn) => {
   return from + (to - from) * ease;
 };
 
-const tsuruFrom = 1;
-const tsuruTo = 55;
-
 const listOfImages = [];
 let listItemsEls = [];
+
+const loadImage = (src, { onLoad, onError }) => {
+  const img = new Image();
+  img.src = src;
+  img.onload = onLoad;
+  img.onerror = onError;
+};
 
 document.addEventListener("DOMContentLoaded", () => {
   const wrapperBgEl = document.querySelector(".wrapper__background");
@@ -52,19 +56,17 @@ document.addEventListener("DOMContentLoaded", () => {
     history.pushState({ modalOpen: imgSrc }, document.title);
     modalImgEl.src = thumbnail;
 
-    const imgEl = document.createElement("img");
-    imgEl.src = imgSrc;
-
     modalContentEl.classList.add("modal__content--loading");
 
-    imgEl.onload = () => {
-      modalContentEl.classList.remove("modal__content--loading");
-      modalImgEl.src = imgSrc;
-    };
-
-    imgEl.onerror = () => {
-      modalContentEl.classList.remove("modal__content--loading");
-    };
+    loadImage(imgSrc, {
+      onLoad: () => {
+        modalContentEl.classList.remove("modal__content--loading");
+        modalImgEl.src = imgSrc;
+      },
+      onError: () => {
+        modalContentEl.classList.remove("modal__content--loading");
+      },
+    });
 
     modalEl.classList.remove("modal--close");
     modalEl.classList.add("modal--open");
@@ -194,12 +196,6 @@ document.addEventListener("DOMContentLoaded", () => {
           }`;
         };
 
-        const imgEl = document.createElement("img");
-        imgEl.src = imgSrc;
-
-        const imgThumbnailEl = document.createElement("img");
-        imgThumbnailEl.src = thumbnail;
-
         const handleImageLoad = () => {
           updateLoadingDescription();
           imagesLoaded += 1;
@@ -215,21 +211,15 @@ document.addEventListener("DOMContentLoaded", () => {
           listEl.removeChild(liEl);
         };
 
-        imgThumbnailEl.onload = () => {
-          handleImageLoad();
-        };
+        loadImage(thumbnail, {
+          onLoad: handleImageLoad,
+          onError: handleImageError,
+        });
 
-        imgThumbnailEl.onerror = () => {
-          handleImageError();
-        };
-
-        imgEl.onload = () => {
-          handleImageLoad();
-        };
-
-        imgEl.onerror = () => {
-          handleImageError();
-        };
+        loadImage(imgSrc, {
+          onLoad: handleImageLoad,
+          onError: handleImageError,
+        });
       });
 
       listItemsEls = document.querySelectorAll("#list li");
@@ -264,7 +254,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       setInterval(() => {
-        //   renderNextFrame();
+        renderNextFrame();
       }, 1000 / 60);
 
       renderNextFrame();
