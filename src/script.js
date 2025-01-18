@@ -74,6 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeModal = () => {
     modalEl.classList.remove("modal--open");
     modalEl.classList.add("modal--close");
+    modalImgEl.src = "";
   };
 
   modalHeaderCloseButtonEl.addEventListener("click", () => {
