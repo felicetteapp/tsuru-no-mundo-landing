@@ -106,6 +106,7 @@ body {
   bottom:0;
   backdrop-filter: blur(2rem);
   color: var(--color-1);
+  text-shadow: 0 0 3rem var(--color-3);
 }
 
 .modal__content.modal__content--loading .modal__content__image__loading{
