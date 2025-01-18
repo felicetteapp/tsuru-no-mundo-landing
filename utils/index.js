@@ -49,9 +49,9 @@ for (let i = tsuruFrom; i <= tsuruTo; i++) {
 
   const thisImageInfo = {
     number: i,
-    img: `img/tsurus/${i}.jpeg`,
-    fullSize: `img/tsurus/full/${i}.jpeg`,
-    thumbnail: `img/tsurus/thumbnails/${i}.jpeg`,
+    img: `img/tsurus/${i}.webp`,
+    fullSize: `img/tsurus/full/${i}.webp`,
+    thumbnail: `img/tsurus/thumbnails/${i}.webp`,
   };
   listOfImages.push(thisImageInfo);
 }

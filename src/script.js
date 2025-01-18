@@ -41,6 +41,44 @@ document.addEventListener("DOMContentLoaded", () => {
   const listEl = document.getElementById("list");
   const loadingEl = document.querySelector(".loading");
   const loadingDescriptionEl = document.querySelector(".loading__description");
+  const modalEl = document.querySelector(".modal");
+  const modalImgEl = document.querySelector(".modal__content__image");
+  const modalImgLoadingEl = document.querySelector(
+    ".modal__content__image__loading"
+  );
+  const modalHeaderCloseButtonEl = document.querySelector(
+    ".modal__header__close"
+  );
+  const modalContentEl = document.querySelector(".modal__content");
+
+  const openModal = (imgSrc) => {
+    modalImgEl.src = imgSrc;
+
+    const imgEl = document.createElement("img");
+    imgEl.src = imgSrc;
+
+    modalContentEl.classList.add("modal__content--loading");
+
+    imgEl.onload = () => {
+      modalContentEl.classList.remove("modal__content--loading");
+    };
+
+    imgEl.onerror = () => {
+      modalContentEl.classList.remove("modal__content--loading");
+    };
+
+    modalEl.classList.remove("modal--close");
+    modalEl.classList.add("modal--open");
+  };
+
+  const closeModal = () => {
+    modalEl.classList.remove("modal--open");
+    modalEl.classList.add("modal--close");
+  };
+
+  modalHeaderCloseButtonEl.addEventListener("click", () => {
+    closeModal();
+  });
 
   let currentFrameRenderingTimer = null;
 
@@ -126,20 +164,26 @@ document.addEventListener("DOMContentLoaded", () => {
         listOfImages.push({
           img: img.img,
           thumbnail: img.thumbnail,
+          fullSize: img.fullSize,
         });
       });
 
       let imagesLoaded = 0;
 
-      listOfImages.forEach(({ img: imgSrc, thumbnail }) => {
+      listOfImages.forEach(({ img: imgSrc, thumbnail, fullSize }) => {
         const liEl = document.createElement("li");
         liEl.setAttribute("data-src", imgSrc);
+        liEl.setAttribute("data-thumbnail", thumbnail);
         liEl.style.backgroundImage = `url(${imgSrc})`;
         listEl.appendChild(liEl);
         const divEl = document.createElement("div");
         divEl.style.backgroundImage = `url(${thumbnail})`;
         divEl.setAttribute("data-src", imgSrc);
         wrapperBgEl.appendChild(divEl);
+
+        liEl.addEventListener("click", () => {
+          openModal(fullSize);
+        });
 
         const updateLoadingDescription = () => {
           loadingDescriptionEl.textContent = `${imagesLoaded} / ${
