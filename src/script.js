@@ -87,14 +87,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let currentFrameRenderingTimer = null;
 
-  const renderFrame = () => {
-    const listContainerElRect = listContainerEl.getBoundingClientRect();
-    const listContainerElTop = listContainerElRect.top;
-    const listContainerElBottom = listContainerElRect.bottom;
-    const listContainerElHeight = listContainerElRect.height;
-    const listContainerElCenter =
-      listContainerElTop + listContainerElHeight / 2;
+  let listContainerElRect = listContainerEl.getBoundingClientRect();
+  let listContainerElTop = listContainerElRect.top;
+  let listContainerElBottom = listContainerElRect.bottom;
+  let listContainerElHeight = listContainerElRect.height;
+  let listContainerElCenter = listContainerElTop + listContainerElHeight / 2;
 
+  const calculateListContainerSize = () => {
+    listContainerElRect = listContainerEl.getBoundingClientRect();
+    listContainerElTop = listContainerElRect.top;
+    listContainerElBottom = listContainerElRect.bottom;
+    listContainerElHeight = listContainerElRect.height;
+    listContainerElCenter = listContainerElTop + listContainerElHeight / 2;
+  };
+
+  const renderFrame = () => {
     listItemsEls.forEach((item) => {
       const thisEl = item;
       const thisElDataSrc = thisEl.getAttribute("data-src");
@@ -179,7 +186,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const liEl = document.createElement("li");
         liEl.setAttribute("data-src", imgSrc);
         liEl.setAttribute("data-thumbnail", thumbnail);
-        liEl.style.backgroundImage = `url(${imgSrc})`;
+        liEl.style.backgroundImage = `url(${thumbnail})`;
         listEl.appendChild(liEl);
         const divEl = document.createElement("div");
         divEl.style.backgroundImage = `url(${thumbnail})`;
@@ -191,34 +198,39 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         const updateLoadingDescription = () => {
-          loadingDescriptionEl.textContent = `${imagesLoaded} / ${
-            listOfImages.length * 2
-          }`;
+          loadingDescriptionEl.textContent = `${imagesLoaded} / ${listOfImages.length}`;
         };
 
-        const handleImageLoad = () => {
+        const handleImageLoad = (itsThumnail) => {
           updateLoadingDescription();
+
+          if (!itsThumnail) {
+            return;
+          }
           imagesLoaded += 1;
-          if (imagesLoaded === listOfImages.length * 2) {
+          if (imagesLoaded === listOfImages.length) {
             loadingEl.style.display = "none";
             renderNextFrame();
           }
         };
 
-        const handleImageError = () => {
-          handleImageLoad();
+        const handleImageError = (itsThumnail) => {
+          handleImageLoad(itsThumnail);
           wrapperBgEl.removeChild(divEl);
           listEl.removeChild(liEl);
         };
 
         loadImage(thumbnail, {
-          onLoad: handleImageLoad,
-          onError: handleImageError,
+          onLoad: () => handleImageLoad(true),
+          onError: () => handleImageError(true),
         });
 
         loadImage(imgSrc, {
-          onLoad: handleImageLoad,
-          onError: handleImageError,
+          onLoad: () => {
+            handleImageLoad(false);
+            liEl.style.backgroundImage = `url(${imgSrc})`;
+          },
+          onError: () => handleImageError(false),
         });
       });
 
@@ -237,6 +249,8 @@ document.addEventListener("DOMContentLoaded", () => {
         thisEl.setAttribute("data-final-degree", randomFinalDegree.toString());
       });
 
+      calculateListContainerSize();
+
       listContainerEl.addEventListener(
         "scroll",
         () => {
@@ -246,10 +260,12 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
       window.addEventListener("resize", () => {
+        calculateListContainerSize();
         renderNextFrame();
       });
 
       window.addEventListener("orientationchange", () => {
+        calculateListContainerSize();
         renderNextFrame();
       });
 
