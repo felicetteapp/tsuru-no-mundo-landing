@@ -15,5 +15,10 @@
   ],
   "theme_color": "#82CAB9",
   "background_color": "#1E1E1E",
-  "display": "standalone"
+  "display": "standalone",
+  "start_url": "/",
+  "scope": "/",
+  "description": "Tsuru No Mundo is a project that tells stories through origami",
+  "lang": "en-US",
+  "orientation": "portrait"
 }
