@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
     closeModal();
   });
 
-  let currentFrameRenderingTimer = null;
+  const framesPerSecond = 60;
 
   let listContainerElRect = listContainerEl.getBoundingClientRect();
   let listContainerElTop = listContainerElRect.top;
@@ -102,6 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const renderFrame = () => {
+    const initalTime = performance.now();
     listItemsEls.forEach((item) => {
       const thisEl = item;
       const thisElDataSrc = thisEl.getAttribute("data-src");
@@ -124,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const itemItsInScreen = distanceToCenterPercent < 1;
 
       if (!itemItsInScreen) {
-        thisEl.style.transform = "";
+        thisEl.style.transform = "scale(0.01) rotateZ(0deg)";
         bgEl.style.opacity = 0;
         return;
       }
@@ -159,15 +160,21 @@ document.addEventListener("DOMContentLoaded", () => {
           );
 
       thisEl.style.transform = `scale(${scale}) rotateZ(${rotateZ}deg)`;
-      bgEl.style.opacity = opacity;
+
+      bgEl.style.opacity = opacity.toFixed(2);
     });
+
+    const finalTime = performance.now();
+    const timeToRender = finalTime - initalTime;
+    const timeToNextFrame = 1000 / framesPerSecond - timeToRender;
+
+    setTimeout(() => {
+      renderNextFrame();
+    }, Math.max(timeToNextFrame, 0));
   };
 
   const renderNextFrame = () => {
-    if (currentFrameRenderingTimer) {
-      window.cancelAnimationFrame(currentFrameRenderingTimer);
-    }
-    currentFrameRenderingTimer = window.requestAnimationFrame(renderFrame);
+    renderFrame();
   };
 
   fetch("./data/listOfImages.json").then((response) => {
@@ -251,27 +258,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
       calculateListContainerSize();
 
-      listContainerEl.addEventListener(
-        "scroll",
-        () => {
-          renderNextFrame();
-        },
-        { passive: true }
-      );
-
       window.addEventListener("resize", () => {
         calculateListContainerSize();
-        renderNextFrame();
       });
 
       window.addEventListener("orientationchange", () => {
         calculateListContainerSize();
-        renderNextFrame();
       });
-
-      setInterval(() => {
-        renderNextFrame();
-      }, 1000 / 60);
 
       renderNextFrame();
     });

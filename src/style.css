@@ -152,6 +152,9 @@ body {
   bottom: 0;
   pointer-events: none;
   z-index:1;
+  filter: blur(1rem);
+  border-radius: 2rem;
+  transform:translate3d(0, 0, 0);
 }
 
 .wrapper .wrapper__background div{
@@ -162,9 +165,7 @@ body {
   height: 100%;
   background-size: cover;
   background-position: center center;
-  filter: blur(1rem);
   pointer-events: none;
-  border-radius: 2rem;
 }
 
 .header {
@@ -240,7 +241,7 @@ body {
   background: white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin: 0 auto;
-  background-size:cover;
+  background-size:100% 100%;
   cursor: pointer;
   user-select: none;
 }
