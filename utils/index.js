@@ -1,3 +1,5 @@
+// a simple script to generate the list of images for the tsuru gallery
+
 const path = require("path");
 const fs = require("fs");
 const sharp = require("sharp");
@@ -7,15 +9,16 @@ const tsuruTo = 55;
 
 const listOfImages = [];
 for (let i = tsuruFrom; i <= tsuruTo; i++) {
+  const bigFileRelativePath = `img/tsurus/${i}.webp`;
+  const imageRelativePath = `img/tsurus/full/${i}.webp`;
+  const thumbnailRelativePath = `img/tsurus/thumbnails/${i}.webp`;
+
   const thisImageFullSizePath = path.join(__dirname, `../data/imgs/${i}.jpeg`);
-  const thisBigFilePath = path.join(
-    __dirname,
-    `../src/img/tsurus/full/${i}.webp`
-  );
-  const thisImagePath = path.join(__dirname, `../src/img/tsurus/${i}.webp`);
+  const thisBigFilePath = path.join(__dirname, `../src/${imageRelativePath}`);
+  const thisImagePath = path.join(__dirname, `../src/${bigFileRelativePath}`);
   const thubnailImagePath = path.join(
     __dirname,
-    `../src/img/tsurus/thumbnails/${i}.webp`
+    `../src/${thumbnailRelativePath}`
   );
 
   sharp(thisImageFullSizePath)
@@ -49,9 +52,9 @@ for (let i = tsuruFrom; i <= tsuruTo; i++) {
 
   const thisImageInfo = {
     number: i,
-    img: `img/tsurus/${i}.webp`,
-    fullSize: `img/tsurus/full/${i}.webp`,
-    thumbnail: `img/tsurus/thumbnails/${i}.webp`,
+    img: bigFileRelativePath,
+    fullSize: imageRelativePath,
+    thumbnail: thumbnailRelativePath,
   };
   listOfImages.push(thisImageInfo);
 }
