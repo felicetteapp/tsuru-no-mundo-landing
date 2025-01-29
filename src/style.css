@@ -209,6 +209,12 @@ body {
   z-index:2;
 }
 
+.footer a{
+  color:var(--color-3);
+  text-decoration: none;
+  display:none;
+}
+
 .footer .footer__text{
     display: inline-block;
     color:var(--color-3);
