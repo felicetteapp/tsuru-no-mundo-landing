@@ -176,6 +176,11 @@ body {
   transition: transform 2s var(--bezier-curve-default);
 }
 
+
+body.--no-animation .wrapper{
+  background: radial-gradient(circle closest-side,  #82CAB9 0%, #353535 80%, #000000 100%);
+}
+
 .wrapper .wrapper__background {
   position: absolute;
   top: 0;
@@ -186,7 +191,7 @@ body {
   z-index: 1;
   filter: blur(1rem);
   border-radius: 2rem;
-  scale: 1;
+  scale: 0.99;
   transition: scale 2s var(--bezier-curve-default);
 }
 

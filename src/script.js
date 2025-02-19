@@ -18,7 +18,7 @@ let listItemsEls = [];
  * @type {number}
  */
 const framesPerSecond = 60;
-
+let os = "unknow";
 let wrapperBgEl,
   listContainerEl,
   listEl,
@@ -162,7 +162,12 @@ const closeModal = () => {
  * Renders a frame for the animation.
  */
 const renderFrame = () => {
+  const osCanAnimate = os !== "iOS" && os !== "Mac OS";
   const initalTime = performance.now();
+
+  if(!osCanAnimate){
+    document.body.classList.add("--no-animation");
+  }
   listItemsEls.forEach((item) => {
     const thisEl = item;
     const thisElDataSrc = thisEl.getAttribute("data-src");
@@ -182,11 +187,28 @@ const renderFrame = () => {
     const distanceToCenterPercent = distanceToCenter / listContainerElHeight;
     const itemItsInScreen = distanceToCenterPercent < 1;
 
+    if (!osCanAnimate) {
+      thisEl.style.transform = "scale(0.9) rotateZ(0deg)";
+      bgEl.style.opacity = 1;
+    }
+
     if (!itemItsInScreen) {
       thisEl.style.transform = "scale(0.01) rotateZ(0deg)";
       bgEl.style.opacity = 0;
       return;
     }
+
+    if (!osCanAnimate) {
+      bgEl.style.opacity = 0;
+      return;
+    }
+    const opacity = calculateEaseBetween(
+      0,
+      1,
+      1 - distanceToCenterPercent,
+      easeInOutCirc
+    );
+    bgEl.style.opacity = opacity.toFixed(2);
 
     const scale = calculateEaseBetween(
       0.125,
@@ -194,13 +216,6 @@ const renderFrame = () => {
       1 - distanceToCenterPercent,
       easeInOutCirc
     );
-    const opacity = calculateEaseBetween(
-      0,
-      1,
-      1 - distanceToCenterPercent,
-      easeInOutCirc
-    );
-
     const itsPreviousToCenter = distanceToBottom > distanceToTop;
 
     const rotateZ = itsPreviousToCenter
@@ -217,9 +232,9 @@ const renderFrame = () => {
           easeInOutExpo
         );
 
-    thisEl.style.transform = `scale(${scale}) rotateZ(${rotateZ}deg)`;
-
-    bgEl.style.opacity = opacity.toFixed(2);
+    if (osCanAnimate) {
+      thisEl.style.transform = `scale(${scale}) rotateZ(${rotateZ}deg)`;
+    }
   });
 
   const finalTime = performance.now();
@@ -399,3 +414,26 @@ const toggleAboutSection = () => {
     calculateListContainerSizeIfAboutSectionIsClosed();
   }, 2000);
 };
+
+function getOS() {
+  const userAgent = window.navigator.userAgent;
+  const platform =
+    window.navigator?.userAgentData?.platform || window.navigator.platform;
+  const macosPlatforms = ["Macintosh", "MacIntel", "MacPPC", "Mac68K"];
+  const windowsPlatforms = ["Win32", "Win64", "Windows", "WinCE"];
+  const iosPlatforms = ["iPhone", "iPad", "iPod"];
+
+  if (macosPlatforms.indexOf(platform) !== -1) {
+    os = "Mac OS";
+  } else if (iosPlatforms.indexOf(platform) !== -1) {
+    os = "iOS";
+  } else if (windowsPlatforms.indexOf(platform) !== -1) {
+    os = "Windows";
+  } else if (/Android/.test(userAgent)) {
+    os = "Android";
+  } else if (/Linux/.test(platform)) {
+    os = "Linux";
+  }
+}
+
+getOS();
