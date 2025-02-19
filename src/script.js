@@ -32,7 +32,9 @@ let wrapperBgEl,
   listContainerElTop,
   listContainerElBottom,
   listContainerElHeight,
-  listContainerElCenter;
+  listContainerElCenter,
+  aboutEl,
+  aboutOpenButtonEl;
 
 // Easing functons from easing.net
 
@@ -238,17 +240,20 @@ const renderNextFrame = () => {
 
 window.addEventListener("popstate", (event) => {
   closeModal();
+  closeAboutSection();
 });
 
 window.addEventListener("resize", () => {
-  calculateListContainerSize();
+  calculateListContainerSizeIfAboutSectionIsClosed();
 });
 
 window.addEventListener("orientationchange", () => {
-  calculateListContainerSize();
+  calculateListContainerSizeIfAboutSectionIsClosed();
 });
 
 document.addEventListener("DOMContentLoaded", () => {
+  aboutEl = document.querySelector(".about");
+  aboutOpenButtonEl = document.getElementById("about-open-btn");
   wrapperBgEl = document.querySelector(".wrapper__background");
   listContainerEl = document.getElementById("list-container");
   listEl = document.getElementById("list");
@@ -258,6 +263,10 @@ document.addEventListener("DOMContentLoaded", () => {
   modalHeaderCloseButtonEl = document.querySelector(".modal__header__close");
   modalContentEl = document.querySelector(".modal__content");
   modalImgEl = document.querySelector(".modal__content__image");
+
+  aboutOpenButtonEl.addEventListener("click", () => {
+    toggleAboutSection();
+  });
 
   calculateListContainerSize();
 
@@ -362,3 +371,32 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
+
+const calculateListContainerSizeIfAboutSectionIsClosed = () => {
+  if (!aboutEl.classList.contains("--about-show")) {
+    calculateListContainerSize();
+  }
+}
+
+
+const closeAboutSection = () => {
+  if(aboutEl.classList.contains("--about-show")) {
+    aboutEl.classList.remove("--about-show");
+  }
+};
+
+const toggleAboutSection = () => {
+  
+  if(aboutEl.classList.contains("--about-show")) {
+    aboutEl.classList.remove("--about-show");
+    history.back();
+  }else{
+    history.pushState({ aboutOpen:true }, document.title);
+    aboutEl.classList.add("--about-show");
+  }
+
+  setTimeout(() => {
+    calculateListContainerSizeIfAboutSectionIsClosed();
+  }, 2000);
+};
