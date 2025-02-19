@@ -372,31 +372,30 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-
 const calculateListContainerSizeIfAboutSectionIsClosed = () => {
   if (!aboutEl.classList.contains("--about-show")) {
     calculateListContainerSize();
   }
-}
-
+};
 
 const closeAboutSection = () => {
-  if(aboutEl.classList.contains("--about-show")) {
+  if (aboutEl.classList.contains("--about-show")) {
     aboutEl.classList.remove("--about-show");
   }
 };
 
+const timer = setTimeout(() => {}, 1);
 const toggleAboutSection = () => {
-  
-  if(aboutEl.classList.contains("--about-show")) {
+  if (aboutEl.classList.contains("--about-show")) {
     aboutEl.classList.remove("--about-show");
     history.back();
-  }else{
-    history.pushState({ aboutOpen:true }, document.title);
+  } else {
+    history.pushState({ aboutOpen: true }, document.title);
     aboutEl.classList.add("--about-show");
   }
 
-  setTimeout(() => {
+  clearTimeout(timer);
+  timer = setTimeout(() => {
     calculateListContainerSizeIfAboutSectionIsClosed();
   }, 2000);
 };

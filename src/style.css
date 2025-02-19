@@ -6,6 +6,7 @@
   --color-1: black;
   --color-2: black;
   --color-3: white;
+  --bezier-curve-default: cubic-bezier(0.87, 0, 0.13, 1);
 }
 
 /* basic style & reset */
@@ -141,7 +142,7 @@ body {
 }
 .wrapper,
 .about {
-  transition: transform 2s cubic-bezier(0.87, 0, 0.13, 1);
+  transition: transform 2s var(--bezier-curve-default);
 }
 
 .wrapper .wrapper__background {
@@ -155,7 +156,7 @@ body {
   filter: blur(1rem);
   border-radius: 2rem;
   scale: 1;
-  transition: scale 2s cubic-bezier(0.87, 0, 0.13, 1);
+  transition: scale 2s var(--bezier-curve-default);
 }
 
 .wrapper .wrapper__background div {
@@ -202,12 +203,17 @@ body {
   min-height:1em;
   max-width:1em;
   max-height:1em;
+  font-family: sans-serif;
+  font-family: "Montserrat", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-weight: 800;
   display:block;
   overflow:hidden;
   border-radius: 50%;
   font-weight: black;
   backdrop-filter: blur(10px);
-  transition: rotate 2s cubic-bezier(0.87, 0, 0.13, 1), background-color 2s cubic-bezier(0.87, 0, 0.13, 1);
+  transition: rotate 2s var(--bezier-curve-default), background-color 2s var(--bezier-curve-default);
 }
 
 .header__button:active{
@@ -311,7 +317,7 @@ body {
 
 .wrapper:has(+ .about.--about-show) .wrapper__background {
   scale: 0.5;
-  transition: scale 1s cubic-bezier(0.87, 0, 0.13, 1);
+  transition: scale 1s var(--bezier-curve-default);
 }
 
 .wrapper:has(+ .about.--about-show) .header .header__button {
@@ -326,7 +332,7 @@ body {
 .wrapper:has(+ .about.--about-show) .list__container .list li {
   opacity:0 !important;
   scale: 0.5 !important;
-  transition: opacity 1s cubic-bezier(0.87, 0, 0.13, 1), scale 1s cubic-bezier(0.87, 0, 0.13, 1);
+  transition: opacity 1s var(--bezier-curve-default), scale 1s var(--bezier-curve-default);
 }
 
 .footer {
@@ -385,7 +391,7 @@ body {
   background-size: 100% 100%;
   cursor: pointer;
   user-select: none;
-  transition: opacity 1s 1s cubic-bezier(0.87, 0, 0.13, 1);
+  transition: opacity 1s 1s var(--bezier-curve-default);
 }
 
 /* media queries */
