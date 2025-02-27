@@ -1,0 +1,25 @@
+/* variables */
+:root {
+  --color-1: black;
+  --color-2: black;
+  --color-3: white;
+  --bezier-curve-default: cubic-bezier(0.87, 0, 0.13, 1);
+}
+
+/* basic style & reset */
+
+html,
+body {
+  font-size: 20px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: "Danfo", serif;
+  position: relative;
+  background: var(--color-1);
+  overscroll-behavior: none;
+}
+
+* {
+  box-sizing: border-box;
+}
