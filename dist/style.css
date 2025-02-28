@@ -50,7 +50,7 @@ header{
   top: 0;
   right: 0;
   height: 100dvh;
-  width: calc(100dvw - (var(--tsuru-horizontal-margin) * 2) - var(--tsuru-size));
+  width: calc(100dvw - (var(--tsuru-horizontal-margin) * 3) - var(--navigator-item-size) - var(--tsuru-size));
 
 //  background:red;
   background: linear-gradient(

@@ -168,19 +168,9 @@ export class Tsuru extends Container {
 
       this.distanceToCenter = howCloseIsToCenter;
 
-      if (this.tsuruData.number === 54) {
-      }
 
-      const scale = 1 - howCloseIsToCenter;
       const alpha = 1 - howCloseIsToCenter;
       const rotation = 1 - howCloseIsToCenter;
-
-      const actualScaleWithEasing = calculateEaseBetween(
-        0.25,
-        this.fullScale.x,
-        scale,
-        easeInOutExpo
-      );
 
       const actualAlphaWithEasing = calculateEaseBetween(
         0,

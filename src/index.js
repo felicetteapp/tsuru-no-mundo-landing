@@ -11,6 +11,7 @@ import {
   Rectangle,
 } from "pixi.js";
 import { Tsuru } from "./tsuru";
+import { Navigator } from "./navigator";
 
 const app = new Application();
 const listOfImages = [];
@@ -28,6 +29,7 @@ let layoutOrientation =
 let horizontalMargin = 50;
 let locationFontSize = 36;
 let verticalMargin = 50;
+let navigatorItemSize = 100;
 
 const updateLayout = () => {
   layoutOrientation =
@@ -52,6 +54,11 @@ const updateLayout = () => {
   document.documentElement.style.setProperty(
     "--tsuru-vertical-margin",
     `${verticalMargin}px`
+  );
+
+  document.documentElement.style.setProperty(
+    "--navigator-item-size",
+    `${navigatorItemSize}px`
   );
 
   document.documentElement.classList.add(layoutOrientation);
@@ -282,6 +289,18 @@ fetch("./data/listOfImages.json").then(async (response) => {
     await tsuru.initTsuru();
   }
 
+  const navigator = new Navigator(tsurus, navigatorItemSize);
+  await navigator.initItems();
+
+  navigator.updateStageSize(app.screen.width, app.screen.height);
+
+  navigator.addEventListener("navigatorItemClick", (tsuru) => {
+    scrollToTsuruNumber(tsuru.tsuruData.number);
+  });
+
+  app.stage.addChild(navigator);
+  navigator.position.set(tsuruSize + horizontalMargin + horizontalMargin, 0);
+
   const blendInViewportTsurusImages = () => {
     const thisLoaders = [];
 
@@ -477,19 +496,23 @@ fetch("./data/listOfImages.json").then(async (response) => {
     }
   };
 
-  const scrollToNext = ()=>{
-    const tsuru = tsurus.find((tsuru) => tsuru.tsuruData.number === currentTsuru.tsuruData.number + 1);
+  const scrollToNext = () => {
+    const tsuru = tsurus.find(
+      (tsuru) => tsuru.tsuruData.number === currentTsuru.tsuruData.number + 1
+    );
     if (tsuru) {
       scrollToTsuruNumber(tsuru.tsuruData.number);
     }
-  }
+  };
 
-  const scrollToPrevious = ()=>{
-    const tsuru = tsurus.find((tsuru) => tsuru.tsuruData.number === currentTsuru.tsuruData.number - 1);
+  const scrollToPrevious = () => {
+    const tsuru = tsurus.find(
+      (tsuru) => tsuru.tsuruData.number === currentTsuru.tsuruData.number - 1
+    );
     if (tsuru) {
       scrollToTsuruNumber(tsuru.tsuruData.number);
     }
-  }
+  };
 
   window.scrollToTsuruNumber = scrollToTsuruNumber;
   window.scrollToNext = scrollToNext;
@@ -499,6 +522,8 @@ fetch("./data/listOfImages.json").then(async (response) => {
     for (let i = 0; i < tsurus.length; i++) {
       tsurus[i].update(time);
     }
+
+    navigator.update(time);
     blendInViewportTsurusImages();
     updateTsuruNumber();
     updateTextColors();
@@ -507,6 +532,8 @@ fetch("./data/listOfImages.json").then(async (response) => {
     if (layoutOrientation === "portrait") {
       maxScrollY = tsurusGroup.height - tsuruSize / 1;
     }
+
+    navigator.scrollToItem(currentTsuru.tsuruData.number);
   });
 });
 
