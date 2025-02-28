@@ -1,0 +1,222 @@
+[
+  {
+    "number": 55,
+    "location": "Jardín Japonés - Montevideo. Uruguay"
+  },
+  {
+    "number": 54,
+    "location": "Espacio de Arte Contemporáneo - Montevideo. Uruguay"
+  },
+  {
+    "number": 53,
+    "location": "Puerta de la Ciudadela - Montevideo. Uruguay"
+  },
+  {
+    "number": 52,
+    "location": "Mirador Panorámico - Montevideo. Uruguay"
+  },
+  {
+    "number": 51,
+    "location": "Pinacoteca - São Paulo, SP. Brasil"
+  },
+  {
+    "number": 50,
+    "location": "Viña del Mar, Valparaiso. Chile"
+  },
+  {
+    "number": 49,
+    "location": "Costanera SKY - Providencia, Región Metropolitana. Chile"
+  },
+  {
+    "number": 48,
+    "location": "Cementerio Municipal - Punta Arenas, Magallanes. Chile"
+  },
+  {
+    "number": 47,
+    "location": "Pasarela Fique - Ushuaia, Tierra del Fuego. Argentina"
+  },
+  {
+    "number": 46,
+    "location": "Museo Fonck - Viña del Mar, Valparaiso. Chile"
+  },
+  {
+    "number": 45,
+    "location": "Avenida Paulista - São Paulo, SP. Brasil"
+  },
+  {
+    "number": 44,
+    "location": "Cathédrale Notre-Dame de Paris - Paris. France"
+  },
+  {
+    "number": 43,
+    "location": "Parque Quinta de los Molinos - Madrid. España"
+  },
+  {
+    "number": 42,
+    "location": "Tour Eiffel - Paris. France"
+  },
+  {
+    "number": 41,
+    "location": "Edificio Anita - Curitiba, PR. Brasil"
+  },
+  {
+    "number": 40,
+    "location": "Mercado de San Miguel - Madrid. España"
+  },
+  {
+    "number": 39,
+    "location": "Van Gogh Museum - Amsterdam, Noord-Holland. Nederland"
+  },
+  {
+    "number": 38,
+    "location": "Museé du Louvre - Paris. France"
+  },
+  {
+    "number": 37,
+    "location": "Museo del Prado - Madrid. España"
+  },
+  {
+    "number": 36,
+    "location": "Museo Reina Sofía - Madrid. España"
+  },
+  {
+    "number": 35,
+    "location": "Puerta del Sol - Madrid. España"
+  },
+  {
+    "number": 34,
+    "location": "Istambul Havalimanı - Istanbul. Türkiye"
+  },
+  {
+    "number": 33,
+    "location": "Rio Claro, SP. Brasil"
+  },
+  {
+    "number": 32,
+    "location": "São Paulo, SP. Brasil"
+  },
+  {
+    "number": 31,
+    "location": "Barcelona, Catalunya. Espanya"
+  },
+  {
+    "number": 30,
+    "location": "Madrid, Comunidad de Madrid. España"
+  },
+  {
+    "number": 29,
+    "location": "Lisboa, Lisboa. Portugal"
+  },
+  {
+    "number": 28,
+    "location": "Aeroporto Internacional Afonso Pena - São José dos Pinhais, PR. Brasil"
+  },
+  {
+    "number": 27,
+    "location": "Aeroport Internacional Deputado Luís Eduardo Magalhães - Salvador, BA. Brasil"
+  },
+  {
+    "number": 26,
+    "location": "Pelourinho - Salvador, BA. Brasil"
+  },
+  {
+    "number": 25,
+    "location": "Mercado Modelo - Salvador, BA. Brasil"
+  },
+  {
+    "number": 24,
+    "location": "Elevador Lacerda - Salvador, BA. Brasil"
+  },
+  {
+    "number": 23,
+    "location": "Bienal de São Paulo - São Paulo, SP. Brasil"
+  },
+  {
+    "number": 22,
+    "location": "Farol da Barra - Salvador, BA. Brasil"
+  },
+  {
+    "number": 21,
+    "location": "Bairro da Liberdade - São Paulo, SP. Brasil"
+  },
+  {
+    "number": 20,
+    "location": "São Paulo, SP. Brasil"
+  },
+  {
+    "number": 19,
+    "location": "Paraty, RJ. Brasil"
+  },
+  {
+    "number": 18,
+    "location": "Paraty, RJ. Brasil"
+  },
+  {
+    "number": 17,
+    "location": "Navegando de barco - Paraty, RJ. Brasil"
+  },
+  {
+    "number": 16,
+    "location": "Na estrada - Paraty, RJ. Brasil"
+  },
+  {
+    "number": 15,
+    "location": "No Ar - PR. Brasil"
+  },
+  {
+    "number": 14,
+    "location": "Memorial da Imigração Polonesa - Curitiba, PR. Brasil"
+  },
+  {
+    "number": 13,
+    "location": "Curitiba, PR. Brasil"
+  },
+  {
+    "number": 12,
+    "location": "Curitiba, PR. Brasil"
+  },
+  {
+    "number": 11,
+    "location": "Museu Oscar Niemeyer - Curitiba, PR. Brasil"
+  },
+  {
+    "number": 10,
+    "location": "Curitiba, PR. Brasil"
+  },
+  {
+    "number": 9,
+    "location": "Praça Osório - Curitiba, PR. Brasil"
+  },
+  {
+    "number": 8,
+    "location": "Paço da Liberdade - Curitiba, PR. Brasil"
+  },
+  {
+    "number": 7,
+    "location": "Praça do Japão - Curitiba, PR. Brasil"
+  },
+  {
+    "number": 6,
+    "location": "Largo da Ordem - Curitiba, PR. Brasil"
+  },
+  {
+    "number": 5,
+    "location": "Paço da Liberdade - Curitiba, PR. Brasil"
+  },
+  {
+    "number": 4,
+    "location": "Fazenda Rio Grande, PR. Brasil"
+  },
+  {
+    "number": 3,
+    "location": "Araucária, PR. Brasil"
+  },
+  {
+    "number": 2,
+    "location": "Bombinhas, SC. Brasil"
+  },
+  {
+    "number": 1,
+    "location": "Itapema, SC. Brasil"
+  }
+]

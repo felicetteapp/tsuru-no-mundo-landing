@@ -4,17 +4,24 @@
   --color-2: black;
   --color-3: white;
   --bezier-curve-default: cubic-bezier(0.87, 0, 0.13, 1);
+  --tsuru-size: 100px;
+  --tsuru-horizontal-margin: 50px;
+  --tsuru-vertical-margin: 50px;
+  --tsuru-main-color: #f0f0f0;
+  --tsuru-main-color-contrast: #000;
 }
 
 /* basic style & reset */
 
 html,
 body {
-  font-size: 20px;
+  font-size: 14px;
   margin: 0;
   padding: 0;
   overflow: hidden;
-  font-family: "Danfo", serif;
+  font-family: "Montserrat", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
   position: relative;
   background: var(--color-1);
   overscroll-behavior: none;
@@ -22,4 +29,74 @@ body {
 
 * {
   box-sizing: border-box;
+}
+
+header{
+  display:none;
+}
+
+.wrapper {
+  display: grid;
+  grid-column-gap: calc(2* var(--tsuru-horizontal-margin));
+  grid-row-gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, var(--tsuru-size))); 
+  padding-top: var(--tsuru-vertical-margin);
+  padding-bottom: var(--tsuru-vertical-margin);
+  padding-right: var(--tsuru-horizontal-margin);
+  overflow: hidden;
+  overflow-y: auto;
+  position: absolute;
+  align-items: baseline;
+  top: 0;
+  right: 0;
+  height: 100dvh;
+  width: calc(100dvw - (var(--tsuru-horizontal-margin) * 2) - var(--tsuru-size));
+
+//  background:red;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.25) calc(2 * var(--tsuru-horizontal-margin))
+  ); 
+  color: var(--color-3);
+}
+
+.about__images {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  overflow: hidden;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-content: flex-start;
+  gap: 1rem;
+}
+
+h2.about__title{
+  margin-top:0;
+}
+
+.about__images img {
+  max-width: 150px;
+  width: 10dvw;
+}
+
+strong, a, h1, h2, h3, h4, h5, h6{
+  color: var(--tsuru-main-color);
+  transition:color 0.3s ease;
+}
+
+a:hover{
+  background-color: var(--tsuru-main-color-contrast);
+}
+
+footer{
+  align-self:flex-end;
+}
+
+ul{
+  list-style-type: none;
+  padding: 0;
 }

@@ -27,11 +27,13 @@ export class Tsuru extends Container {
   isInViewport = false;
   tsuruEventEmitter = new TsuruEventEmitter();
   distanceToCenter = 1;
-  constructor(tsuruData, i) {
+  horizontalMargin = 50;
+  constructor(tsuruData, i, {size, horizontalMargin}) {
     super();
     this.tsuruData = tsuruData;
     this.i = i;
-    this.size = 100;
+    this.size = size;
+    this.horizontalMargin = horizontalMargin;
     this.originalAngle = this.getRandomAngle();
   }
 
@@ -42,7 +44,6 @@ export class Tsuru extends Container {
   updateStageSize(stageWidth, stageHeight) {
     this.stageWidth = stageWidth;
     this.stageHeight = stageHeight;
-    this.updateSize(Math.min(this.stageWidth, this.stageHeight) * 0.6);
   }
 
   updateSize(size) {
@@ -72,8 +73,7 @@ export class Tsuru extends Container {
     this.sprite.height = this.size;
     this.addChild(this.sprite);
     const verticalMargin = (this.stageHeight - this.size) / 2;
-    const horizontalMargin = 50;
-    const x = horizontalMargin;
+    const x = this.horizontalMargin;
     const y = this.stageHeight / 2;
     const expectedY = y + this.i * (this.sprite.height + verticalMargin);
     const expectedX = x;
@@ -115,12 +115,14 @@ export class Tsuru extends Container {
     }
     this.isLoadingImage = true;
 
+    const previousSize = this.size;
+
     const textureAlias = `img-${this.tsuruData.number}`;
     Assets.add({ alias: textureAlias, src: this.tsuruData.img });
     const loaded = await Assets.load([textureAlias]);
     const texture = loaded[textureAlias];
     this.sprite.texture = texture;
-    this.size = Math.min(this.stageWidth, this.stageHeight) * 0.6;
+    this.size = previousSize
     this.sprite.width = this.size;
     this.sprite.height = this.size;
     this.fullScale.x = this.sprite.scale.x;

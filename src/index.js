@@ -21,7 +21,46 @@ let currentY = 0;
 let targetY = 0;
 let isScrolling = false;
 let maxScrollY = 0;
+let tsuruSize = window.innerHeight * 0.4;
+let transformTextNumberTimeout = null;
+let layoutOrientation =
+  window.innerWidth > window.innerHeight ? "landscape" : "portrait";
+let horizontalMargin = 50;
+let locationFontSize = 36;
+let verticalMargin = 50;
 
+const updateLayout = () => {
+  layoutOrientation =
+    window.innerWidth > window.innerHeight ? "landscape" : "portrait";
+  tsuruSize = window.innerHeight * 0.6;
+  if (layoutOrientation === "portrait") {
+    tsuruSize = window.innerWidth * 0.8;
+  }
+  for (let i = 0; i < listOfImages.length; i++) {
+    const tsuru = tsurus[i];
+    tsuru.updateSize(tsuruSize);
+  }
+  horizontalMargin = Math.min((window.innerWidth - tsuruSize) / 2, 50);
+  locationFontSize = layoutOrientation === "portrait" ? 18 : 24;
+
+  document.documentElement.style.setProperty("--tsuru-size", `${tsuruSize}px`);
+  document.documentElement.style.setProperty(
+    "--tsuru-horizontal-margin",
+    `${horizontalMargin}px`
+  );
+
+  document.documentElement.style.setProperty(
+    "--tsuru-vertical-margin",
+    `${verticalMargin}px`
+  );
+
+  document.documentElement.classList.add(layoutOrientation);
+  document.documentElement.classList.remove(
+    layoutOrientation === "portrait" ? "landscape" : "portrait"
+  );
+};
+
+updateLayout();
 
 const tsurusGroup = new Container();
 
@@ -145,6 +184,7 @@ fetch("./data/listOfImages.json").then(async (response) => {
       fullSize: img.fullSize,
       mainColor: img.mainColor,
       mainColorContrast: img.mainColorContrast,
+      location: img.location,
     });
   });
 
@@ -169,6 +209,10 @@ fetch("./data/listOfImages.json").then(async (response) => {
 
   window.addEventListener("wheel", onScroll);
 
+  document.querySelector(".wrapper").addEventListener("wheel", (e) => {
+    e.stopPropagation();
+  });
+
   const tsurus = [];
   //  const tsurusGroup = new Container();
 
@@ -185,33 +229,41 @@ fetch("./data/listOfImages.json").then(async (response) => {
   app.stage.addChild(backgroundsGroups);
   backgroundsGroups.addChild(background);
 
+  let locationExpectedX = horizontalMargin * 3;
+
+  if (layoutOrientation === "portrait") {
+    locationExpectedX = horizontalMargin * 2;
+  }
+
   const locationRichTextStyle = new TextStyle({
     fontFamily: "Montserrat-Black",
-    fontSize: 24,
+    fontSize: locationFontSize,
     fill: { color: "#ffffff" },
-    lineHeight: 24,
-    align: "right",
+    lineHeight: locationFontSize,
+    align: "left",
     wordWrap: true,
     fontWeight: 900,
-    wordWrapWidth: 440,
+    wordWrapWidth: tsuruSize - locationExpectedX,
   });
 
   const locationRichText = new Text({
-    text: "Jardin Japones, Montevideo. Uruguay",
+    text: "-",
     style: locationRichTextStyle,
   });
-  locationRichText.anchor.set(1, 0);
-  locationRichText.x = 640;
-  locationRichText.y = app.screen.height * 0.8 + 50;
+  locationRichText.anchor.set(0, 0);
+  locationRichText.x = locationExpectedX;
+  locationRichText.y = app.screen.height / 2 + tsuruSize / 2 + locationFontSize;
 
   app.stage.addChild(locationRichText);
-
   app.stage.addChild(tsurusGroup);
 
   const tsurusInViewport = [];
 
   for (let i = 0; i < listOfImages.length; i++) {
-    const thisTsuru = new Tsuru(listOfImages[i], i);
+    const thisTsuru = new Tsuru(listOfImages[i], i, {
+      size: tsuruSize,
+      horizontalMargin,
+    });
     thisTsuru.addEventListener("enterViewport", () => {
       tsurusInViewport.push(thisTsuru);
     });
@@ -236,11 +288,13 @@ fetch("./data/listOfImages.json").then(async (response) => {
     for (let i = 0; i < tsurusInViewport.length; i++) {
       const tsuru = tsurusInViewport[i];
       const thisAssetName = `thumb-${tsuru.tsuruData.number}`;
-
-      Assets.add({
-        alias: thisAssetName,
-        src: tsuru.tsuruData.thumbnail,
-      });
+      const alreadyLoaded = Assets.get(thisAssetName);
+      if (!alreadyLoaded) {
+        Assets.add({
+          alias: thisAssetName,
+          src: tsuru.tsuruData.thumbnail,
+        });
+      }
       thisLoaders.push({ alias: thisAssetName, tsuru });
     }
 
@@ -267,6 +321,7 @@ fetch("./data/listOfImages.json").then(async (response) => {
           newSprite.filters = [blurFilter, colorMatrixFilter];
 
           colorMatrixFilter.saturate(-0.5);
+          colorMatrixFilter.brightness(0.5);
 
           backgroundsGroups.addChild(newSprite);
 
@@ -320,8 +375,8 @@ fetch("./data/listOfImages.json").then(async (response) => {
   });
 
   // Position the text object
-  titleRichText.x = 50 - 3;
-  titleRichText.y = 50;
+  titleRichText.x = horizontalMargin - 3;
+  titleRichText.y = verticalMargin;
   titleRichText.anchor.set(0, 0);
 
   // Add the text object to the PixiJS application
@@ -345,9 +400,9 @@ fetch("./data/listOfImages.json").then(async (response) => {
     style: tsuruNumberRichTextStyle,
   });
   tsuruNumberRichText.anchor.set(0, 1);
-  tsuruNumberRichText.x = 50 + 36 - 10;
-  //  tsuruNumberRichText.y = app.screen.height / 2;
-  tsuruNumberRichText.y = app.screen.height * 0.2 + 100;
+  tsuruNumberRichText.x = horizontalMargin + 36 - 10;
+
+  tsuruNumberRichText.y = (app.screen.height - tsuruSize) / 2 + 100;
   tsuruNumberRichText.rotation = (-90 * Math.PI) / 180;
 
   app.stage.addChild(tsuruNumberRichText);
@@ -370,8 +425,15 @@ fetch("./data/listOfImages.json").then(async (response) => {
         `#${tsuruClosestToCenter.tsuruData.number}`,
         (newText) => {
           tsuruNumberRichText.text = newText;
-        }
+        },
+        transformTextNumberTimeout
       );
+    }
+  };
+
+  const updateTsuruLocation = () => {
+    if (currentTsuru) {
+      locationRichText.text = currentTsuru.tsuruData.location;
     }
   };
 
@@ -392,8 +454,46 @@ fetch("./data/listOfImages.json").then(async (response) => {
         currentTsuru.tsuruData.mainColorContrast;
 
       tsuruNumberRichText.style.fill.color = currentTsuru.tsuruData.mainColor;
+
+      document.documentElement.style.setProperty(
+        "--tsuru-main-color",
+        currentTsuru.tsuruData.mainColor
+      );
+      document.documentElement.style.setProperty(
+        "--tsuru-main-color-contrast",
+        currentTsuru.tsuruData.mainColorContrast
+      );
     }
   };
+
+  const scrollToTsuruNumber = (number) => {
+    const tsuru = tsurus.find((tsuru) => tsuru.tsuruData.number === number);
+    if (tsuru) {
+      const thisTsuruPosition = tsuru.sprite;
+      const thisTsuruY = thisTsuruPosition.y;
+      targetY = -thisTsuruY + app.screen.height / 2;
+      isScrolling = true;
+      smoothScroll();
+    }
+  };
+
+  const scrollToNext = ()=>{
+    const tsuru = tsurus.find((tsuru) => tsuru.tsuruData.number === currentTsuru.tsuruData.number + 1);
+    if (tsuru) {
+      scrollToTsuruNumber(tsuru.tsuruData.number);
+    }
+  }
+
+  const scrollToPrevious = ()=>{
+    const tsuru = tsurus.find((tsuru) => tsuru.tsuruData.number === currentTsuru.tsuruData.number - 1);
+    if (tsuru) {
+      scrollToTsuruNumber(tsuru.tsuruData.number);
+    }
+  }
+
+  window.scrollToTsuruNumber = scrollToTsuruNumber;
+  window.scrollToNext = scrollToNext;
+  window.scrollToPrevious = scrollToPrevious;
 
   app.ticker.add((time) => {
     for (let i = 0; i < tsurus.length; i++) {
@@ -402,15 +502,24 @@ fetch("./data/listOfImages.json").then(async (response) => {
     blendInViewportTsurusImages();
     updateTsuruNumber();
     updateTextColors();
-    maxScrollY = tsurusGroup.height - (app.screen.height / 2);
+    updateTsuruLocation();
+    maxScrollY = tsurusGroup.height - tsuruSize / 1;
+    if (layoutOrientation === "portrait") {
+      maxScrollY = tsurusGroup.height - tsuruSize / 1;
+    }
   });
 });
 
-let transformTextTimeout = null;
-
-const transformText = (originalText, newText, callback) => {
-  if (transformTextTimeout) {
-    clearInterval(transformTextTimeout);
+const transformText = (
+  originalText,
+  newText,
+  callback,
+  sharedInterval,
+  delay = 100,
+  removeDelay = 100
+) => {
+  if (sharedInterval) {
+    clearInterval(sharedInterval);
   }
   let currentText = originalText;
 
@@ -422,7 +531,7 @@ const transformText = (originalText, newText, callback) => {
     if (currentText.length > samePrefix.length) {
       currentText = currentText.slice(0, -1);
       callback(currentText);
-      transformTextTimeout = setTimeout(removeCharacter, 100); // Adjust the timeout as needed
+      sharedInterval = setTimeout(removeCharacter, removeDelay); // Adjust the timeout as needed
     } else {
       addCharacter();
     }
@@ -432,7 +541,7 @@ const transformText = (originalText, newText, callback) => {
     if (currentText.length < newText.length) {
       currentText += newText[currentText.length];
       callback(currentText);
-      transformTextTimeout = setTimeout(addCharacter, 100); // Adjust the timeout as needed
+      sharedInterval = setTimeout(addCharacter, delay); // Adjust the timeout as needed
     } else {
       callback(newText);
     }

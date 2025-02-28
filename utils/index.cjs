@@ -8,7 +8,7 @@ const chroma = require("chroma-js");
 
 const tsuruFrom = 1;
 const tsuruTo = 55;
-
+const tsurusInfo = getTsurusInfo();
 const listOfImages = [];
 
 const processLoop = async () => {
@@ -71,10 +71,9 @@ const processLoop = async () => {
     //generate a dark version of the main color
     const mainColorDark = mainColorChroma.luminance(0.2).hex();
 
-    const mainColorContrast =
-      mainColorChroma.luminance() > 0.5 ? "#000000" : "#ffffff";
+    const thisTsuruData = tsurusInfo.find((tsuru) => tsuru.number === i);
 
-    const mainColor = mainColorChroma.hex();
+
 
     const thisImageInfo = {
       number: i,
@@ -83,6 +82,7 @@ const processLoop = async () => {
       thumbnail: thumbnailRelativePath,
       mainColor: mainColorLight,
       mainColorContrast: mainColorDark,
+      location: thisTsuruData?.location || "-",
     };
     listOfImages.push(thisImageInfo);
   }
@@ -93,5 +93,15 @@ const processLoop = async () => {
   const outputPath = path.join(__dirname, "../dist/data/listOfImages.json");
   fs.writeFileSync(outputPath, jsonContent, "utf8");
 };
+
+
+function getTsurusInfo(){
+  //read the file
+  const tsurusInfo = fs.readFileSync(path.join(__dirname, "../dist/data/tsurusData.json"), "utf8");
+
+  //parse the file
+  const tsurusInfoParsed = JSON.parse(tsurusInfo);
+  return tsurusInfoParsed;
+}
 
 processLoop();
