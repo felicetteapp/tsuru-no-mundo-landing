@@ -13,13 +13,14 @@ const listOfImages = [];
 
 const processLoop = async () => {
   for (let i = tsuruFrom; i <= tsuruTo; i++) {
+    const paddedIndex = i.toString().padStart(2, "0");
     const bigFileRelativePath = `img/tsurus/${i}.webp`;
     const imageRelativePath = `img/tsurus/full/${i}.webp`;
     const thumbnailRelativePath = `img/tsurus/thumbnails/${i}.webp`;
 
     const thisImageFullSizePath = path.join(
       __dirname,
-      `../data/imgs/${i}.jpeg`
+      `../data/imgs/t${paddedIndex}.png`
     );
     const thisBigFilePath = path.join(
       __dirname,

@@ -30,6 +30,7 @@ let horizontalMargin = 50;
 let locationFontSize = 36;
 let verticalMargin = 50;
 let navigatorItemSize = 100;
+let userScrollDirection = "normal";
 
 const updateLayout = () => {
   layoutOrientation =
@@ -70,17 +71,6 @@ const updateLayout = () => {
 updateLayout();
 
 const tsurusGroup = new Container();
-
-const onScroll = (event) => {
-  const deltaY = event.deltaY;
-  targetY -= deltaY;
-
-  targetY = Math.max(Math.min(0, targetY), -maxScrollY);
-  if (!isScrolling) {
-    isScrolling = true;
-    smoothScroll();
-  }
-};
 
 const smoothScroll = () => {
   if (isScrolling) {
@@ -145,7 +135,40 @@ const onDragMove = (event) => {
   }
 };
 
+function detectScrollDirection() {
+  return new Promise((resolve) => {
+    const testElement = document.createElement('div');
+    testElement.style.width = '100px';
+    testElement.style.height = '100px';
+    testElement.style.overflow = 'scroll';
+    testElement.style.position = 'absolute';
+    testElement.style.top = '-9999px';
+
+    const innerElement = document.createElement('div');
+    innerElement.style.width = '100px';
+    innerElement.style.height = '200px';
+
+    testElement.appendChild(innerElement);
+    document.body.appendChild(testElement);
+
+    testElement.addEventListener('scroll', function onScroll(event) {
+      testElement.removeEventListener('scroll', onScroll);
+      document.body.removeChild(testElement);
+
+      const scrollDirection = event.deltaY > 0 ? 'normal' : 'reverse';
+      resolve(scrollDirection);
+    });
+
+    testElement.scrollTop = 10;
+  });
+}
+
+
+
 const pixiAppInit = async () => {
+
+
+  userScrollDirection = await detectScrollDirection();
   // Create a new application
   // pixiAppInitialize the application
   await app.init({ background: "black", resizeTo: window });
@@ -213,6 +236,32 @@ fetch("./data/listOfImages.json").then(async (response) => {
   app.stage.on("pointerupoutside", onDragEnd);
   app.stage.on("pointermove", onDragMove);
   app.stage.hitArea = new Rectangle(0, 0, app.screen.width, app.screen.height);
+
+  let scrollEndTimeout = null;
+  const onScroll = (event) => {
+    
+
+    if (scrollEndTimeout) {
+      clearTimeout(scrollEndTimeout);
+    }
+
+    scrollEndTimeout = setTimeout(() => {
+      const deltaY = event.deltaY;
+      let scrollDirection = deltaY > 0 ? "down" : "up";
+
+      if(userScrollDirection === "reverse") {
+        scrollDirection = scrollDirection === "down" ? "up" : "down";
+      }
+        
+      if (scrollDirection === "down") {
+        scrollToNext();
+      } else {
+        scrollToPrevious();
+      }
+    }, 200);
+  };
+
+  
 
   window.addEventListener("wheel", onScroll);
 

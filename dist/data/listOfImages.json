@@ -4,8 +4,8 @@
     "img": "img/tsurus/55.webp",
     "fullSize": "img/tsurus/full/55.webp",
     "thumbnail": "img/tsurus/thumbnails/55.webp",
-    "mainColor": "#e6e8e4",
-    "mainColorContrast": "#787e6a",
+    "mainColor": "#e7e8e5",
+    "mainColorContrast": "#787e6e",
     "location": "Jardín Japonés - Montevideo. Uruguay"
   },
   {
@@ -22,8 +22,8 @@
     "img": "img/tsurus/53.webp",
     "fullSize": "img/tsurus/full/53.webp",
     "thumbnail": "img/tsurus/thumbnails/53.webp",
-    "mainColor": "#e9e7e7",
-    "mainColorContrast": "#857978",
+    "mainColor": "#e9e7e6",
+    "mainColorContrast": "#857977",
     "location": "Puerta de la Ciudadela - Montevideo. Uruguay"
   },
   {
@@ -49,7 +49,7 @@
     "img": "img/tsurus/50.webp",
     "fullSize": "img/tsurus/full/50.webp",
     "thumbnail": "img/tsurus/thumbnails/50.webp",
-    "mainColor": "#d2eced",
+    "mainColor": "#d1eced",
     "mainColorContrast": "#538485",
     "location": "Viña del Mar, Valparaiso. Chile"
   },
@@ -59,7 +59,7 @@
     "fullSize": "img/tsurus/full/49.webp",
     "thumbnail": "img/tsurus/thumbnails/49.webp",
     "mainColor": "#dfe9e9",
-    "mainColorContrast": "#678081",
+    "mainColorContrast": "#668181",
     "location": "Costanera SKY - Providencia, Región Metropolitana. Chile"
   },
   {
@@ -76,8 +76,8 @@
     "img": "img/tsurus/47.webp",
     "fullSize": "img/tsurus/full/47.webp",
     "thumbnail": "img/tsurus/thumbnails/47.webp",
-    "mainColor": "#e3e8ee",
-    "mainColorContrast": "#747d86",
+    "mainColor": "#e5e8e8",
+    "mainColorContrast": "#737e7e",
     "location": "Pasarela Fique - Ushuaia, Tierra del Fuego. Argentina"
   },
   {
@@ -85,8 +85,8 @@
     "img": "img/tsurus/46.webp",
     "fullSize": "img/tsurus/full/46.webp",
     "thumbnail": "img/tsurus/thumbnails/46.webp",
-    "mainColor": "#e8e7e6",
-    "mainColorContrast": "#817a75",
+    "mainColor": "#e8e7e5",
+    "mainColorContrast": "#837a72",
     "location": "Museo Fonck - Viña del Mar, Valparaiso. Chile"
   },
   {
@@ -94,8 +94,8 @@
     "img": "img/tsurus/45.webp",
     "fullSize": "img/tsurus/full/45.webp",
     "thumbnail": "img/tsurus/thumbnails/45.webp",
-    "mainColor": "#e8e7e7",
-    "mainColorContrast": "#807a7a",
+    "mainColor": "#e9e7e8",
+    "mainColorContrast": "#86787e",
     "location": "Avenida Paulista - São Paulo, SP. Brasil"
   },
   {
@@ -103,8 +103,8 @@
     "img": "img/tsurus/44.webp",
     "fullSize": "img/tsurus/full/44.webp",
     "thumbnail": "img/tsurus/thumbnails/44.webp",
-    "mainColor": "#e8e7e6",
-    "mainColorContrast": "#827a74",
+    "mainColor": "#e9e7e6",
+    "mainColorContrast": "#857973",
     "location": "Cathédrale Notre-Dame de Paris - Paris. France"
   },
   {
@@ -112,8 +112,8 @@
     "img": "img/tsurus/43.webp",
     "fullSize": "img/tsurus/full/43.webp",
     "thumbnail": "img/tsurus/thumbnails/43.webp",
-    "mainColor": "#e8e7e6",
-    "mainColorContrast": "#7e7b76",
+    "mainColor": "#e9e7e6",
+    "mainColorContrast": "#837a75",
     "location": "Parque Quinta de los Molinos - Madrid. España"
   },
   {
@@ -121,8 +121,8 @@
     "img": "img/tsurus/42.webp",
     "fullSize": "img/tsurus/full/42.webp",
     "thumbnail": "img/tsurus/thumbnails/42.webp",
-    "mainColor": "#d7e9fb",
-    "mainColorContrast": "#5b7fa2",
+    "mainColor": "#c8efef",
+    "mainColorContrast": "#6a8080",
     "location": "Tour Eiffel - Paris. France"
   },
   {
@@ -130,8 +130,8 @@
     "img": "img/tsurus/41.webp",
     "fullSize": "img/tsurus/full/41.webp",
     "thumbnail": "img/tsurus/thumbnails/41.webp",
-    "mainColor": "#e8e7e7",
-    "mainColorContrast": "#817a78",
+    "mainColor": "#e9e7e6",
+    "mainColorContrast": "#867977",
     "location": "Edificio Anita - Curitiba, PR. Brasil"
   },
   {
@@ -139,8 +139,8 @@
     "img": "img/tsurus/40.webp",
     "fullSize": "img/tsurus/full/40.webp",
     "thumbnail": "img/tsurus/thumbnails/40.webp",
-    "mainColor": "#f1e5de",
-    "mainColorContrast": "#8b786c",
+    "mainColor": "#e9e7e7",
+    "mainColorContrast": "#85797b",
     "location": "Mercado de San Miguel - Madrid. España"
   },
   {
@@ -148,8 +148,8 @@
     "img": "img/tsurus/39.webp",
     "fullSize": "img/tsurus/full/39.webp",
     "thumbnail": "img/tsurus/thumbnails/39.webp",
-    "mainColor": "#e7e7e3",
-    "mainColorContrast": "#7d7d63",
+    "mainColor": "#e9e7e6",
+    "mainColorContrast": "#877973",
     "location": "Van Gogh Museum - Amsterdam, Noord-Holland. Nederland"
   },
   {
@@ -157,8 +157,8 @@
     "img": "img/tsurus/38.webp",
     "fullSize": "img/tsurus/full/38.webp",
     "thumbnail": "img/tsurus/thumbnails/38.webp",
-    "mainColor": "#e8e7e6",
-    "mainColorContrast": "#7e7b78",
+    "mainColor": "#e7e7e8",
+    "mainColorContrast": "#797c82",
     "location": "Museé du Louvre - Paris. France"
   },
   {
@@ -166,8 +166,8 @@
     "img": "img/tsurus/37.webp",
     "fullSize": "img/tsurus/full/37.webp",
     "thumbnail": "img/tsurus/thumbnails/37.webp",
-    "mainColor": "#e7e7e7",
-    "mainColorContrast": "#7b7c7a",
+    "mainColor": "#e8e7e7",
+    "mainColorContrast": "#827a7a",
     "location": "Museo del Prado - Madrid. España"
   },
   {
@@ -175,8 +175,8 @@
     "img": "img/tsurus/36.webp",
     "fullSize": "img/tsurus/full/36.webp",
     "thumbnail": "img/tsurus/thumbnails/36.webp",
-    "mainColor": "#e7e7e7",
-    "mainColorContrast": "#7c7c7c",
+    "mainColor": "#e8e7e7",
+    "mainColorContrast": "#827a7a",
     "location": "Museo Reina Sofía - Madrid. España"
   },
   {
@@ -184,8 +184,8 @@
     "img": "img/tsurus/35.webp",
     "fullSize": "img/tsurus/full/35.webp",
     "thumbnail": "img/tsurus/thumbnails/35.webp",
-    "mainColor": "#e2e7f3",
-    "mainColorContrast": "#757c8a",
+    "mainColor": "#e7e7e6",
+    "mainColorContrast": "#7c7c79",
     "location": "Puerta del Sol - Madrid. España"
   },
   {
@@ -193,8 +193,8 @@
     "img": "img/tsurus/34.webp",
     "fullSize": "img/tsurus/full/34.webp",
     "thumbnail": "img/tsurus/thumbnails/34.webp",
-    "mainColor": "#e4e8ec",
-    "mainColorContrast": "#6a7e95",
+    "mainColor": "#e8e7e7",
+    "mainColorContrast": "#837a79",
     "location": "Istambul Havalimanı - Istanbul. Türkiye"
   },
   {
@@ -202,8 +202,8 @@
     "img": "img/tsurus/33.webp",
     "fullSize": "img/tsurus/full/33.webp",
     "thumbnail": "img/tsurus/thumbnails/33.webp",
-    "mainColor": "#e6e7e9",
-    "mainColorContrast": "#757c87",
+    "mainColor": "#e7e7e8",
+    "mainColorContrast": "#7a7b80",
     "location": "Rio Claro, SP. Brasil"
   },
   {
@@ -211,8 +211,8 @@
     "img": "img/tsurus/32.webp",
     "fullSize": "img/tsurus/full/32.webp",
     "thumbnail": "img/tsurus/thumbnails/32.webp",
-    "mainColor": "#dbe9f5",
-    "mainColorContrast": "#687e92",
+    "mainColor": "#daeaec",
+    "mainColorContrast": "#5e8286",
     "location": "São Paulo, SP. Brasil"
   },
   {
@@ -220,8 +220,8 @@
     "img": "img/tsurus/31.webp",
     "fullSize": "img/tsurus/full/31.webp",
     "thumbnail": "img/tsurus/thumbnails/31.webp",
-    "mainColor": "#e7e7e6",
-    "mainColorContrast": "#7d7c76",
+    "mainColor": "#ece6e2",
+    "mainColorContrast": "#937662",
     "location": "Barcelona, Catalunya. Espanya"
   },
   {
@@ -239,7 +239,7 @@
     "fullSize": "img/tsurus/full/29.webp",
     "thumbnail": "img/tsurus/thumbnails/29.webp",
     "mainColor": "#e8e7e5",
-    "mainColorContrast": "#827a72",
+    "mainColorContrast": "#807b71",
     "location": "Lisboa, Lisboa. Portugal"
   },
   {
@@ -247,8 +247,8 @@
     "img": "img/tsurus/28.webp",
     "fullSize": "img/tsurus/full/28.webp",
     "thumbnail": "img/tsurus/thumbnails/28.webp",
-    "mainColor": "#e9e7e5",
-    "mainColorContrast": "#847a71",
+    "mainColor": "#e9e7e6",
+    "mainColorContrast": "#867976",
     "location": "Aeroporto Internacional Afonso Pena - São José dos Pinhais, PR. Brasil"
   },
   {
@@ -256,17 +256,17 @@
     "img": "img/tsurus/27.webp",
     "fullSize": "img/tsurus/full/27.webp",
     "thumbnail": "img/tsurus/thumbnails/27.webp",
-    "mainColor": "#ede6dc",
-    "mainColorContrast": "#847a6c",
-    "location": "Aeroport Internacional Deputado Luís Eduardo Magalhães - Salvador, BA. Brasil"
+    "mainColor": "#eae7e2",
+    "mainColorContrast": "#877a64",
+    "location": "Salvador, BA. Brasil"
   },
   {
     "number": 26,
     "img": "img/tsurus/26.webp",
     "fullSize": "img/tsurus/full/26.webp",
     "thumbnail": "img/tsurus/thumbnails/26.webp",
-    "mainColor": "#eae6e6",
-    "mainColorContrast": "#857977",
+    "mainColor": "#e9e7e6",
+    "mainColorContrast": "#877876",
     "location": "Pelourinho - Salvador, BA. Brasil"
   },
   {
@@ -274,8 +274,8 @@
     "img": "img/tsurus/25.webp",
     "fullSize": "img/tsurus/full/25.webp",
     "thumbnail": "img/tsurus/thumbnails/25.webp",
-    "mainColor": "#e7e7e8",
-    "mainColorContrast": "#7b7b82",
+    "mainColor": "#eae6e5",
+    "mainColorContrast": "#8b786f",
     "location": "Mercado Modelo - Salvador, BA. Brasil"
   },
   {
@@ -283,8 +283,8 @@
     "img": "img/tsurus/24.webp",
     "fullSize": "img/tsurus/full/24.webp",
     "thumbnail": "img/tsurus/thumbnails/24.webp",
-    "mainColor": "#e6e7e5",
-    "mainColorContrast": "#7a7c78",
+    "mainColor": "#e5e7e9",
+    "mainColorContrast": "#747d82",
     "location": "Elevador Lacerda - Salvador, BA. Brasil"
   },
   {
@@ -292,8 +292,8 @@
     "img": "img/tsurus/23.webp",
     "fullSize": "img/tsurus/full/23.webp",
     "thumbnail": "img/tsurus/thumbnails/23.webp",
-    "mainColor": "#ece6e0",
-    "mainColorContrast": "#807b75",
+    "mainColor": "#e7e7e7",
+    "mainColorContrast": "#7a7c7b",
     "location": "Bienal de São Paulo - São Paulo, SP. Brasil"
   },
   {
@@ -301,8 +301,8 @@
     "img": "img/tsurus/22.webp",
     "fullSize": "img/tsurus/full/22.webp",
     "thumbnail": "img/tsurus/thumbnails/22.webp",
-    "mainColor": "#eae7da",
-    "mainColorContrast": "#7f7c6d",
+    "mainColor": "#e9e7e6",
+    "mainColorContrast": "#877877",
     "location": "Farol da Barra - Salvador, BA. Brasil"
   },
   {
@@ -310,8 +310,8 @@
     "img": "img/tsurus/21.webp",
     "fullSize": "img/tsurus/full/21.webp",
     "thumbnail": "img/tsurus/thumbnails/21.webp",
-    "mainColor": "#eae7e2",
-    "mainColorContrast": "#807b73",
+    "mainColor": "#eae6e6",
+    "mainColorContrast": "#8a7876",
     "location": "Bairro da Liberdade - São Paulo, SP. Brasil"
   },
   {
@@ -319,17 +319,17 @@
     "img": "img/tsurus/20.webp",
     "fullSize": "img/tsurus/full/20.webp",
     "thumbnail": "img/tsurus/thumbnails/20.webp",
-    "mainColor": "#f2e6d3",
-    "mainColorContrast": "#857a6a",
-    "location": "São Paulo, SP. Brasil"
+    "mainColor": "#eee6df",
+    "mainColorContrast": "#9e734e",
+    "location": "MASP - São Paulo, SP. Brasil"
   },
   {
     "number": 19,
     "img": "img/tsurus/19.webp",
     "fullSize": "img/tsurus/full/19.webp",
     "thumbnail": "img/tsurus/thumbnails/19.webp",
-    "mainColor": "#e8e7e7",
-    "mainColorContrast": "#807a7d",
+    "mainColor": "#e9e7e5",
+    "mainColorContrast": "#827a73",
     "location": "Paraty, RJ. Brasil"
   },
   {
@@ -337,8 +337,8 @@
     "img": "img/tsurus/18.webp",
     "fullSize": "img/tsurus/full/18.webp",
     "thumbnail": "img/tsurus/thumbnails/18.webp",
-    "mainColor": "#ede6df",
-    "mainColorContrast": "#88796a",
+    "mainColor": "#e8e7e7",
+    "mainColorContrast": "#7e7b79",
     "location": "Paraty, RJ. Brasil"
   },
   {
@@ -346,17 +346,17 @@
     "img": "img/tsurus/17.webp",
     "fullSize": "img/tsurus/full/17.webp",
     "thumbnail": "img/tsurus/thumbnails/17.webp",
-    "mainColor": "#d0ede9",
-    "mainColorContrast": "#2a8a7c",
-    "location": "Navegando de barco - Paraty, RJ. Brasil"
+    "mainColor": "#e8e7e5",
+    "mainColorContrast": "#7f7c71",
+    "location": "Paraty, RJ. Brasil"
   },
   {
     "number": 16,
     "img": "img/tsurus/16.webp",
     "fullSize": "img/tsurus/full/16.webp",
     "thumbnail": "img/tsurus/thumbnails/16.webp",
-    "mainColor": "#eae7df",
-    "mainColorContrast": "#807c6d",
+    "mainColor": "#e8e7e7",
+    "mainColorContrast": "#817a7a",
     "location": "Na estrada - Paraty, RJ. Brasil"
   },
   {
@@ -364,8 +364,8 @@
     "img": "img/tsurus/15.webp",
     "fullSize": "img/tsurus/full/15.webp",
     "thumbnail": "img/tsurus/thumbnails/15.webp",
-    "mainColor": "#c9edfb",
-    "mainColorContrast": "#6b7f86",
+    "mainColor": "#e7e7e8",
+    "mainColorContrast": "#797c80",
     "location": "No Ar - PR. Brasil"
   },
   {
@@ -445,8 +445,8 @@
     "img": "img/tsurus/6.webp",
     "fullSize": "img/tsurus/full/6.webp",
     "thumbnail": "img/tsurus/thumbnails/6.webp",
-    "mainColor": "#eae6e6",
-    "mainColorContrast": "#8a7777",
+    "mainColor": "#ebe6e6",
+    "mainColorContrast": "#8c7676",
     "location": "Largo da Ordem - Curitiba, PR. Brasil"
   },
   {
@@ -463,8 +463,8 @@
     "img": "img/tsurus/4.webp",
     "fullSize": "img/tsurus/full/4.webp",
     "thumbnail": "img/tsurus/thumbnails/4.webp",
-    "mainColor": "#e8e7e7",
-    "mainColorContrast": "#817a7b",
+    "mainColor": "#e7e7e7",
+    "mainColorContrast": "#7b7c7c",
     "location": "Fazenda Rio Grande, PR. Brasil"
   },
   {
@@ -473,7 +473,7 @@
     "fullSize": "img/tsurus/full/3.webp",
     "thumbnail": "img/tsurus/thumbnails/3.webp",
     "mainColor": "#eae6e7",
-    "mainColorContrast": "#89777a",
+    "mainColorContrast": "#897779",
     "location": "Araucária, PR. Brasil"
   },
   {
