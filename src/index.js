@@ -14,25 +14,32 @@ import { Navigator } from "./navigator";
 
 const app = new Application();
 const listOfImages = [];
-let isDragging = false;
-let startY = 0;
-let startScrollY = 0;
-let currentY = 0;
-let targetY = 0;
-let isScrolling = false;
-let maxScrollY = 0;
-let tsuruSize = window.innerHeight * 0.4;
-let transformTextNumberTimeout = null;
-let layoutOrientation =
-  window.innerWidth > window.innerHeight ? "landscape" : "portrait";
-let horizontalMargin = 50;
-let locationFontSize = 36;
-let verticalMargin = 50;
-let navigatorItemSize = 100;
-let userScrollDirection = "normal";
-let fontIsReady = false;
-let dataIsReady = false;
 const tsurus = [];
+let isDragging = false,
+  startY = 0,
+  startScrollY = 0,
+  currentY = 0,
+  targetY = 0,
+  isScrolling = false,
+  maxScrollY = 0,
+  tsuruSize = window.innerHeight * 0.4,
+  transformTextNumberTimeout = null,
+  layoutOrientation =
+    window.innerWidth > window.innerHeight ? "landscape" : "portrait",
+  horizontalMargin = 50,
+  locationFontSize = 36,
+  verticalMargin = 50,
+  navigatorItemSize = 100,
+  userScrollDirection = "normal",
+  fontIsReady = false,
+  dataIsReady = false,
+  previousLayoutOrientation = layoutOrientation,
+  numberScrollDistance = 0,
+  numberDragDistance = 0,
+  numberDragDistanceOrigin = 0,
+  isDraggingFromNumber = false,
+  numberDragThreshold = 50,
+  numberDragNextNumber = 0;
 
 const updateLayout = () => {
   layoutOrientation =
@@ -49,6 +56,7 @@ const updateLayout = () => {
 
   if (layoutOrientation === "portrait") {
     tsuruSize = window.innerWidth * 0.8;
+    horizontalMargin = (window.innerWidth - tsuruSize) / 2;
   }
   for (let i = 0; i < listOfImages.length; i++) {
     const tsuru = tsurus[i];
@@ -76,6 +84,8 @@ const updateLayout = () => {
   document.documentElement.classList.remove(
     layoutOrientation === "portrait" ? "landscape" : "portrait"
   );
+
+  console.log({ horizontalMargin });
 };
 
 updateLayout();
@@ -140,11 +150,13 @@ const pixiAppInit = async () => {
   wrapperToggleBtnEl.addEventListener("click", () => {
     document.documentElement.classList.toggle("wrapper--open");
 
-    const labelEl = wrapperToggleBtnEl.querySelector('.wrapper__toggle__button__label');
+    const labelEl = wrapperToggleBtnEl.querySelector(
+      ".wrapper__toggle__button__label"
+    );
 
     if (document.documentElement.classList.contains("wrapper--open")) {
       labelEl.innerHTML = "Less";
-    }else{
+    } else {
       labelEl.innerHTML = "More";
     }
   });
@@ -202,10 +214,12 @@ fetch("./data/listOfImages.json").then(async (response) => {
     startScrollY = tsurusGroup.y;
     currentY = tsurusGroup.y;
     targetY = tsurusGroup.y;
+    dragHitAreaDebug.cursor = "grabbing";
   };
 
   const onDragEnd = () => {
     isDragging = false;
+    dragHitAreaDebug.cursor = "grab";
 
     //scroll to closest
     scrollToTsuruNumber(currentTsuru.tsuruData.number);
@@ -324,12 +338,20 @@ fetch("./data/listOfImages.json").then(async (response) => {
 
   for (let i = 0; i < tsurus.length; i++) {
     const tsuru = tsurus[i];
-    tsuru.updateStageSize(app.screen.width, app.screen.height);
+    tsuru.updateStageSize(
+      app.screen.width,
+      app.screen.height,
+      horizontalMargin
+    );
     await tsuru.initTsuru();
   }
 
   const navigator = new Navigator(tsurus, navigatorItemSize, horizontalMargin);
-  navigator.updateStageSize(app.screen.width, app.screen.height);
+  navigator.updateStageSize(
+    app.screen.width,
+    app.screen.height,
+    horizontalMargin
+  );
   await navigator.initItems(app);
 
   navigator.addEventListener("navigatorItemClick", (tsuru) => {
@@ -341,6 +363,7 @@ fetch("./data/listOfImages.json").then(async (response) => {
 
   app.stage.interactive = true;
   app.stage.addChild(dragHitAreaDebug);
+  dragHitAreaDebug.cursor = "grab";
 
   const blendInViewportTsurusImages = () => {
     const thisLoaders = [];
@@ -460,6 +483,173 @@ fetch("./data/listOfImages.json").then(async (response) => {
     text: "#" + currentTsuru.tsuruData.number,
     style: tsuruNumberRichTextStyle,
   });
+
+  tsuruNumberRichText.zIndex = 4;
+
+  tsuruNumberRichText.interactive = true;
+
+  tsuruNumberRichText.on("pointerdown", (e) => {
+    isDraggingFromNumber = true;
+
+    numberDragDistance = 0;
+    numberDragDistanceOrigin = e.global.y;
+  });
+
+  tsuruNumberRichText.on("pointerup", (e) => {
+    isDraggingFromNumber = false;
+    numberDragDistance = 0;
+  });
+
+  tsuruNumberRichText.on("pointerupoutside", (e) => {
+    isDraggingFromNumber = false;
+
+    scrollToTsuruNumber(numberDragNextNumber);
+
+    numberDragDistance = 0;
+  });
+
+  const nextNumberThumbnail = new Sprite(Texture.WHITE);
+  nextNumberThumbnail.anchor.set(0.5, 0.5);
+  nextNumberThumbnail.width = navigatorItemSize;
+  nextNumberThumbnail.height = navigatorItemSize;
+  nextNumberThumbnail.x =
+    horizontalMargin + horizontalMargin + navigatorItemSize;
+  nextNumberThumbnail.y = app.screen.height / 2 - navigatorItemSize / 2;
+  nextNumberThumbnail.zIndex = 2;
+
+  const nextNumberThumbnailOverlay = new Sprite(Texture.WHITE);
+  nextNumberThumbnailOverlay.anchor.set(0, 0);
+  nextNumberThumbnailOverlay.width = app.stage.width;
+  nextNumberThumbnailOverlay.height = app.stage.height;
+  nextNumberThumbnailOverlay.x = 0;
+  nextNumberThumbnailOverlay.y = 0;
+  nextNumberThumbnailOverlay.tint = 0x000000;
+
+  app.stage.addChild(nextNumberThumbnailOverlay);
+
+  // app.stage.addChild(nextNumberThumbnailOverlay);
+  //  nextNumberThumbnail.tint = 0x000000;
+  app.stage.addChild(nextNumberThumbnail);
+
+  // calculate the next tsuru number based on the drag distance
+
+  const calculateNextTsuruNumberBasedOnDrag = () => {
+    nextNumberThumbnail.alpha = 0;
+    nextNumberThumbnailOverlay.alpha = 0;
+    nextNumberThumbnailOverlay.zIndex = numberDragNextNumber > 0 ? 1 : -1;
+
+    if (!isDraggingFromNumber) {
+      numberDragNextNumber = 0;
+      tsuruNumberRichText.cursor = "grab";
+      app.stage.cursor = "";
+      return;
+    } else {
+      tsuruNumberRichText.cursor = "grabbing";
+      app.stage.cursor = "ns-resize";
+    }
+
+    if (numberDragNextNumber > 0) {
+      const nextTsuru = tsurus.find(
+        (tsuru) => tsuru.tsuruData.number === numberDragNextNumber
+      );
+      if (nextTsuru) {
+        tsuruNumberRichText.text = `#${nextTsuru.tsuruData.number}`;
+
+        titleRichText.style.fill.color = nextTsuru.tsuruData.mainColor;
+        tsuruNumberRichText.style.stroke.color =
+          nextTsuru.tsuruData.mainColorContrast;
+        tsuruNumberRichText.style.dropShadow.color =
+          nextTsuru.tsuruData.mainColorContrast;
+        tsuruNumberRichText.style.fill.color = nextTsuru.tsuruData.mainColor;
+
+        nextNumberThumbnail.alpha = 1;
+        nextNumberThumbnailOverlay.alpha = 0.5;
+        nextNumberThumbnail.texture =
+          nextTsuru.imageTexture || nextTsuru.thumbnailTexture;
+        nextNumberThumbnail.position.set(
+          currentTsuru.sprite.x + tsuruSize / 2,
+          currentTsuru.sprite.y + tsurusGroup.y
+        );
+        nextNumberThumbnail.width = navigatorItemSize;
+        nextNumberThumbnail.height = navigatorItemSize;
+      }
+    } else {
+      tsuruNumberRichText.text = `#${currentTsuru.tsuruData.number}`;
+
+      titleRichText.style.fill.color = currentTsuru.tsuruData.mainColor;
+
+      tsuruNumberRichText.style.stroke.color =
+        currentTsuru.tsuruData.mainColorContrast;
+
+      tsuruNumberRichText.style.dropShadow.color =
+        currentTsuru.tsuruData.mainColorContrast;
+
+      tsuruNumberRichText.style.fill.color = currentTsuru.tsuruData.mainColor;
+    }
+
+    if (!currentTsuru) {
+      numberDragNextNumber = 0;
+      return;
+    }
+
+    const currentNumber = currentTsuru.tsuruData.number;
+    const dragDistance = numberDragDistance;
+    const dragDirection = dragDistance > 0 ? -1 : 1;
+
+    const mousePositionRelativeToScreen = numberDragDistanceOrigin;
+    const distanceToTop = mousePositionRelativeToScreen;
+    const distanceToBottom =
+      app.screen.height - verticalMargin - mousePositionRelativeToScreen;
+
+    const previousTsurus = tsurus.filter(
+      (tsuru) => tsuru.tsuruData.number < currentTsuru.tsuruData.number
+    );
+
+    const nextTsurus = tsurus.filter(
+      (tsuru) => tsuru.tsuruData.number > currentTsuru.tsuruData.number
+    );
+
+    numberDragThreshold =
+      dragDirection > 0
+        ? distanceToTop / nextTsurus.length - 1
+        : distanceToBottom / previousTsurus.length - 1;
+
+    const dragThreshold = numberDragThreshold;
+    const dragDistanceAbs = Math.abs(dragDistance);
+    const howManyNumbers =
+      dragDirection * Math.floor(dragDistanceAbs / dragThreshold);
+
+    if (dragDistanceAbs > dragThreshold) {
+      const targetNextNumber = Math.min(
+        tsurus.length,
+        Math.max(1, currentNumber + howManyNumbers)
+      );
+
+      if (targetNextNumber !== numberDragNextNumber) {
+        window.navigator.vibrate(10);
+      }
+      numberDragNextNumber = targetNextNumber;
+    } else {
+      numberDragNextNumber = 0;
+    }
+  };
+
+  app.stage.on("pointermove", (e) => {
+    if (isDraggingFromNumber) {
+      numberDragDistance = e.global.y - numberDragDistanceOrigin;
+    }
+  });
+  tsuruNumberRichText.on("wheel", (e) => {
+    numberScrollDistance +=
+      e.deltaY * (userScrollDirection === "normal" ? 1 : -1);
+    if (numberScrollDistance > 100) {
+      scrollToNext();
+      numberScrollDistance = 0;
+    } else if (numberScrollDistance < -100) {
+      scrollToPrevious();
+      numberScrollDistance = 0;
+    }
+  });
   tsuruNumberRichText.anchor.set(0, 1);
   tsuruNumberRichText.x = horizontalMargin + 36 - 10;
 
@@ -564,10 +754,28 @@ fetch("./data/listOfImages.json").then(async (response) => {
     updateLayout();
     background.width = app.screen.width;
     background.height = app.screen.height;
-    navigator.updateStageSize(app.screen.width, app.screen.height);
-    navigator.position.set(tsuruSize + horizontalMargin, 0);
+
+    if (layoutOrientation === "portrait") {
+      navigator.position.set(app.stage.width);
+    } else {
+      navigator.position.set(tsuruSize + horizontalMargin, 0);
+
+      if (previousLayoutOrientation === "portrait") {
+        navigator.initItems(app).then(() => {
+          navigator.updateStageSize(
+            app.screen.width,
+            app.screen.height,
+            horizontalMargin
+          );
+        });
+      }
+    }
     for (let i = 0; i < tsurus.length; i++) {
-      tsurus[i].updateStageSize(app.screen.width, app.screen.height);
+      tsurus[i].updateStageSize(
+        app.screen.width,
+        app.screen.height,
+        horizontalMargin
+      );
       tsurus[i].updateSize(tsuruSize);
     }
 
@@ -583,9 +791,12 @@ fetch("./data/listOfImages.json").then(async (response) => {
     tsuruNumberRichText.y = (app.screen.height - tsuruSize) / 2 + 100;
     dragHitAreaDebug.width = horizontalMargin + tsuruSize;
     dragHitAreaDebug.height = app.screen.height;
+
     updateTsuruNumber();
     updateTsuruLocation();
     updateTextColors();
+
+    previousLayoutOrientation = layoutOrientation;
   });
   app.ticker.add((time) => {
     for (let i = 0; i < tsurus.length; i++) {
@@ -597,6 +808,7 @@ fetch("./data/listOfImages.json").then(async (response) => {
     updateTsuruNumber();
     updateTextColors();
     updateTsuruLocation();
+    calculateNextTsuruNumberBasedOnDrag();
     maxScrollY = tsurusGroup.height - tsuruSize / 1;
     if (layoutOrientation === "portrait") {
       maxScrollY = tsurusGroup.height - tsuruSize / 1;

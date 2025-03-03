@@ -21,6 +21,11 @@ export class Navigator extends Container {
   stageHeight = null;
   scrollBox = null;
   horizontalMargin = 0;
+  maskBlurStrength = 50;
+  maskSprite = null;
+  maskRectangle = null;
+  maskBounds = null;
+  maskTexture = null;
   constructor(tsurus, itemSize, horizontalMargin) {
     super();
     this.tsurus = tsurus;
@@ -32,18 +37,33 @@ export class Navigator extends Container {
     this.currentTsuru = tsuru;
   }
 
-  updateStageSize(stageWidth, stageHeight) {
+  updateStageSize(stageWidth, stageHeight, horizontalMargin) {
     this.stageWidth = stageWidth;
     this.stageHeight = stageHeight;
     this.navigatorItems.forEach((navigatorItem) => {
       navigatorItem.updateStageSize(stageWidth, stageHeight);
     });
+    this.horizontalMargin = horizontalMargin;
+    if(
+      this.scrollBox
+    ){
+      this.scrollBox.horPadding = this.horizontalMargin;
+      this.scrollBox.width = this.itemSize + this.horizontalMargin * 2;
+      this.scrollBox.height =  this.stageHeight;
+      this.scrollBox.resize();
+    }
+
+    if(this.mask){
+      this.mask.width = this.stageWidth;
+      this.mask.height = this.stageHeight;
+      this.maskSprite.width = this.stageWidth;
+      this.maskSprite.height = this.stageHeight;
+
+    }
+
   }
 
   scrollToItem(tsuruNumber) {
-    const thisTsuru = this.scrollBox.list.children.find(
-      (item) => item.tsuru.tsuruData.number === tsuruNumber
-    );
 
     const howManyItemsAreVisible = Math.floor(this.stageHeight / this.itemSize);
 
@@ -73,6 +93,12 @@ export class Navigator extends Container {
   }
 
   async initItems(app) {
+
+    if(this.scrollBox){
+      this.scrollBox.destroy();
+      this.removeChild(this.scrollBox);
+    }
+
     this.scrollBox = new ScrollBox({
       width: this.itemSize + this.horizontalMargin * 2,
       height: this.stageHeight,
@@ -98,38 +124,34 @@ export class Navigator extends Container {
 
     this.scrollBox.scrollTop();
 
-    //generate vertical gradient mask to hide the start and end of the container
-
-    const blurStrength = 50;
-
-    const rectangle = new Graphics();
-    rectangle.fill(0xffffff);
-    rectangle.rect(
+    this.maskRectangle = new Graphics();
+    this.maskRectangle.fill(0xffffff);
+    this.maskRectangle.rect(
       0,
-      blurStrength * 1.5,
+      this.maskBlurStrength * 1.5,
       app.stage.width,
-      this.stageHeight - blurStrength * 1.5 - blurStrength * 1.5
+      this.stageHeight - this.maskBlurStrength * 1.5 - this.maskBlurStrength * 1.5
     );
-    rectangle.fill();
+    this.maskRectangle.fill();
 
-    rectangle.filters = [
+    this.maskRectangle.filters = [
       new BlurFilter({
-        strength: blurStrength,
+        strength: this.maskBlurStrength,
       }),
     ];
 
-    const bounds = new Rectangle(0, 0, app.stage.width, this.stageHeight);
+    this.maskBounds = new Rectangle(0, 0, app.stage.width, this.stageHeight);
 
-    const texture = app.renderer.generateTexture({
-      target: rectangle,
+    this.maskTexture = app.renderer.generateTexture({
+      target: this.maskRectangle,
       resolution: 1,
-      frame: bounds,
+      frame: this.maskBounds,
     });
 
-    const mask = new Sprite(texture);
-    mask.alpha = 0.5;
-    app.stage.addChild(mask);
-    this.mask = mask;
+    this.maskSprite = new Sprite(this.maskTexture);
+    this.maskSprite.alpha = 0.5;
+    app.stage.addChild(this.maskSprite);
+    this.mask = this.maskSprite;
   }
 
   update() {

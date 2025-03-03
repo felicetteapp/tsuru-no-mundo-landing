@@ -21,6 +21,8 @@ export class Tsuru extends Container {
     width: 100,
     height: 100,
   };
+  thumbnailTexture = null;
+  imageTexture = null;
   originalAngle = 0;
   isAnimatingBlurOut = false;
   isLoadingImage = false;
@@ -41,9 +43,10 @@ export class Tsuru extends Container {
     this.tsuruEventEmitter.on(eventName, callback);
   }
 
-  updateStageSize(stageWidth, stageHeight) {
+  updateStageSize(stageWidth, stageHeight, horizontalMargin) {
     this.stageWidth = stageWidth;
     this.stageHeight = stageHeight;
+    this.horizontalMargin = horizontalMargin;
   }
 
   updateSize(size) {
@@ -74,6 +77,7 @@ export class Tsuru extends Container {
     Assets.add({ alias: textureAlias, src: this.tsuruData.thumbnail });
     const loaded = await Assets.load([textureAlias]);
     const texture = loaded[textureAlias];
+    this.thumbnailTexture = texture;
     this.sprite = new Sprite(texture);
 
     this.sprite.width = this.size;
@@ -128,6 +132,7 @@ export class Tsuru extends Container {
     Assets.add({ alias: textureAlias, src: this.tsuruData.img });
     const loaded = await Assets.load([textureAlias]);
     const texture = loaded[textureAlias];
+    this.imageTexture = texture;
     this.sprite.texture = texture;
     this.size = previousSize
     this.sprite.width = this.size;
