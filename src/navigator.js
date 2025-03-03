@@ -1,11 +1,16 @@
-import { Container, Assets, Sprite } from "pixi.js";
-import { calculateEaseBetween, easeInOutExpo } from "./easings";
+import {
+  Container,
+  Assets,
+  Sprite,
+  Graphics,
+  Rectangle,
+  SCALE_MODES,
+  BlurFilter,
+} from "pixi.js";
+import { ScrollBox } from "@pixi/ui";
 
 const EventEmitter = require("events");
 class TsuruEventEmitter extends EventEmitter {}
-
-let navigatorTargetY = 0;
-let navigatorCurrentY = 0;
 
 export class Navigator extends Container {
   tsurus = [];
@@ -15,10 +20,13 @@ export class Navigator extends Container {
   currentTsuru = null;
   stageWidth = null;
   stageHeight = null;
-  constructor(tsurus, itemSize) {
+  scrollBox = null;
+  horizontalMargin = 0;
+  constructor(tsurus, itemSize, horizontalMargin) {
     super();
     this.tsurus = tsurus;
     this.itemSize = itemSize;
+    this.horizontalMargin = horizontalMargin;
   }
 
   updateCurrentTsuru(tsuru) {
@@ -34,67 +42,95 @@ export class Navigator extends Container {
   }
 
   scrollToItem(tsuruNumber) {
-    const tsuru = this.tsurus.find(
-      (tsuru) => tsuru.tsuruData.number === tsuruNumber
+    const thisTsuru = this.scrollBox.list.children.find(
+      (item) => item.tsuru.tsuruData.number === tsuruNumber
     );
-    const index = this.tsurus.indexOf(tsuru);
-    this.scrollToIndex(index);
+
+    const howManyItemsAreVisible = Math.floor(this.stageHeight / this.itemSize);
+
+    const tsuruIndex = this.scrollBox.list.children.findIndex(
+      (item) => item.tsuru.tsuruData.number === tsuruNumber
+    );
+
+    const targetIndex = Math.max(
+      tsuruIndex + Math.floor(howManyItemsAreVisible / 2),
+      howManyItemsAreVisible - 1
+    );
+
+    this.scrollToIndex(targetIndex);
   }
 
   scrollToIndex(index) {
-    navigatorTargetY = -1 * (index * this.itemSize);
-    //adjust to center item at the screen
-
-    navigatorTargetY = navigatorTargetY - this.itemSize / 2;
-    navigatorTargetY = navigatorTargetY + window.innerHeight / 2;
-
-    const animate = () => {
-      navigatorCurrentY = this.y;
-      const distance = navigatorTargetY - navigatorCurrentY;
-      const step = distance * 0.025;
-      const newY = navigatorCurrentY + step;
-      this.y = newY;
-
-      if (Math.abs(distance) < 1) {
-        this.y = navigatorTargetY;
-        navigatorCurrentY = navigatorTargetY;
-        return;
-      }
-
-      requestAnimationFrame(animate);
-    };
-
-    requestAnimationFrame(animate);
+    const safeIndex = Math.max(
+      0,
+      Math.min(index, this.scrollBox.list.children.length - 1)
+    );
+    this.scrollBox.scrollTo(safeIndex);
   }
 
   addEventListener(eventName, callback) {
     this.tsuruEventEmitter.on(eventName, callback);
   }
 
-  async initItems() {
+  async initItems(app) {
+    this.scrollBox = new ScrollBox({
+      width: this.itemSize + this.horizontalMargin * 2,
+      height: this.stageHeight,
+      elementsMargin: 10,
+      globalScroll: false,
+      horPadding: this.horizontalMargin,
+      vertPadding: 100,
+    });
+
     for (let i = 0; i < this.tsurus.length; i++) {
       const tsuru = this.tsurus[i];
       const navigatorItem = new NavigatorItem(tsuru, i, this.itemSize);
-      this.navigatorItems.push(navigatorItem);
-      navigatorItem.position.y = i * this.itemSize;
-      this.addChild(navigatorItem);
 
-      navigatorItem.interactive = true;
-      navigatorItem.buttonMode = true;
-      navigatorItem.cursor = "pointer";
-      navigatorItem.on('pointerover', () => {
-        navigatorItem.sprite.tint = navigatorItem.tsuru.tsuruData.mainColor;
-      }
-      );
-      navigatorItem.on('pointerout', () => {
-        navigatorItem.sprite.tint = 0xffffff;
-      }
-      );
-      navigatorItem.on("pointerup", () => {
+      navigatorItem.addEventListener("navigatorItemClick", (tsuru) => {
         this.tsuruEventEmitter.emit("navigatorItemClick", tsuru);
       });
+
       await navigatorItem.init();
+      this.scrollBox.addItem(navigatorItem);
     }
+
+    this.addChild(this.scrollBox);
+
+    this.scrollBox.scrollTop();
+
+    //generate vertical gradient mask to hide the start and end of the container
+
+    const blurStrength = 50;
+
+    const rectangle = new Graphics();
+    rectangle.beginFill(0xffffff);
+    rectangle.drawRect(
+      0,
+      blurStrength * 1.5,
+      app.stage.width,
+      this.stageHeight - blurStrength * 1.5 - blurStrength * 1.5
+    );
+    rectangle.endFill();
+
+    rectangle.filters = [
+      new BlurFilter({
+        strength: blurStrength,
+      }),
+    ];
+
+    const bounds = new Rectangle(0, 0, app.stage.width, this.stageHeight);
+
+    const texture = app.renderer.generateTexture({
+      target: rectangle,
+      style: { scaleMode: SCALE_MODES.NEAREST },
+      resolution: 1,
+      frame: bounds,
+    });
+
+    const mask = new Sprite(texture);
+    mask.alpha = 0.5;
+    app.stage.addChild(mask);
+    this.mask = mask;
   }
 
   update() {
@@ -134,26 +170,20 @@ class NavigatorItem extends Container {
     this.sprite.width = this.size;
     this.sprite.height = this.size;
     this.addChild(this.sprite);
+
+    this.interactive = true;
+    this.buttonMode = true;
+    this.cursor = "pointer";
+    this.on("pointerover", () => {
+      this.sprite.tint = this.tsuru.tsuruData.mainColor;
+    });
+    this.on("pointerout", () => {
+      this.sprite.tint = 0xffffff;
+    });
+    this.on("click", () => {
+      this.tsuruEventEmitter.emit("navigatorItemClick", this.tsuru);
+    });
   }
 
-  update() {
-    const positionRelativeToViewPort = this.sprite.getGlobalPosition();
-
-    const y = positionRelativeToViewPort.y + this.height / 2;
-
-    const howCloseIsToCenterY =
-      Math.abs(y - this.stageHeight / 2) / (this.stageHeight * 0.8);
-
-    const howCloseIsToCenter = Math.max(0, Math.min(1, howCloseIsToCenterY));
-    const alpha = 1 - howCloseIsToCenter;
-
-    const actualAlphaWithEasing = calculateEaseBetween(
-      0,
-      1,
-      alpha,
-      easeInOutExpo
-    );
-
-    this.alpha = actualAlphaWithEasing;
-  }
+  update() {}
 }

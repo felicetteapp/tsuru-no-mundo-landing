@@ -89,73 +89,27 @@ const smoothScroll = () => {
   }
 };
 
-let velocity = 0;
-let lastScrollTime = 0;
-
-const onDragStart = (event) => {
-  isDragging = true;
-  startY = event.data.global.y;
-  startScrollY = tsurusGroup.y;
-  currentY = tsurusGroup.y;
-  targetY = tsurusGroup.y;
-};
-
-let momentoFrame;
-const applyMomentum = () => {
-  cancelAnimationFrame(momentoFrame);
-  if (Math.abs(velocity) > 0.1) {
-    targetY += velocity * 5;
-    targetY = Math.max(Math.min(0, targetY), -maxScrollY);
-    currentY = targetY;
-    tsurusGroup.y = targetY;
-    velocity *= 0.9;
-    momentoFrame = requestAnimationFrame(applyMomentum);
-  }
-};
-
-const onDragEnd = () => {
-  isDragging = false;
-  lastScrollTime = Date.now();
-  applyMomentum();
-};
-
-const onDragMove = (event) => {
-  if (isDragging) {
-    const deltaY = event.data.global.y - startY;
-    currentY = startScrollY + deltaY;
-    currentY = Math.max(Math.min(0, currentY), -maxScrollY);
-    targetY = currentY;
-    tsurusGroup.y = currentY;
-
-    const now = Date.now();
-    const deltaTime = now - lastScrollTime;
-    lastScrollTime = now;
-
-    velocity = deltaY / deltaTime;
-  }
-};
-
 function detectScrollDirection() {
   return new Promise((resolve) => {
-    const testElement = document.createElement('div');
-    testElement.style.width = '100px';
-    testElement.style.height = '100px';
-    testElement.style.overflow = 'scroll';
-    testElement.style.position = 'absolute';
-    testElement.style.top = '-9999px';
+    const testElement = document.createElement("div");
+    testElement.style.width = "100px";
+    testElement.style.height = "100px";
+    testElement.style.overflow = "scroll";
+    testElement.style.position = "absolute";
+    testElement.style.top = "-9999px";
 
-    const innerElement = document.createElement('div');
-    innerElement.style.width = '100px';
-    innerElement.style.height = '200px';
+    const innerElement = document.createElement("div");
+    innerElement.style.width = "100px";
+    innerElement.style.height = "200px";
 
     testElement.appendChild(innerElement);
     document.body.appendChild(testElement);
 
-    testElement.addEventListener('scroll', function onScroll(event) {
-      testElement.removeEventListener('scroll', onScroll);
+    testElement.addEventListener("scroll", function onScroll(event) {
+      testElement.removeEventListener("scroll", onScroll);
       document.body.removeChild(testElement);
 
-      const scrollDirection = event.deltaY > 0 ? 'normal' : 'reverse';
+      const scrollDirection = event.deltaY > 0 ? "normal" : "reverse";
       resolve(scrollDirection);
     });
 
@@ -163,11 +117,7 @@ function detectScrollDirection() {
   });
 }
 
-
-
 const pixiAppInit = async () => {
-
-
   userScrollDirection = await detectScrollDirection();
   // Create a new application
   // pixiAppInitialize the application
@@ -230,17 +180,53 @@ fetch("./data/listOfImages.json").then(async (response) => {
 
   // add a fullscreen background
 
-  app.stage.interactive = true;
-  app.stage.on("pointerdown", onDragStart);
-  app.stage.on("pointerup", onDragEnd);
-  app.stage.on("pointerupoutside", onDragEnd);
-  app.stage.on("pointermove", onDragMove);
-  app.stage.hitArea = new Rectangle(0, 0, app.screen.width, app.screen.height);
+  const onDragStart = (event) => {
+    isDragging = true;
+    startY = event.data.global.y;
+    startScrollY = tsurusGroup.y;
+    currentY = tsurusGroup.y;
+    targetY = tsurusGroup.y;
+  };
+
+  const onDragEnd = () => {
+    isDragging = false;
+
+    //scroll to closest
+    scrollToTsuruNumber(currentTsuru.tsuruData.number);
+  };
+
+  const onSwipeUp = () => {
+    scrollToNext();
+  };
+
+  const onSwipeDown = () => {
+    scrollToPrevious();
+  };
+
+  const onDragMove = (event) => {
+    if (isDragging) {
+      const deltaY = event.data.global.y - startY;
+      currentY = startScrollY + deltaY;
+      currentY = Math.max(Math.min(0, currentY), -maxScrollY);
+      targetY = currentY;
+      tsurusGroup.y = currentY;
+    }
+  };
+
+  const dragHitAreaDebug = new Sprite(Texture.WHITE);
+  dragHitAreaDebug.width = horizontalMargin + tsuruSize;
+  dragHitAreaDebug.height = app.screen.height;
+
+  dragHitAreaDebug.alpha = 0;
+  dragHitAreaDebug.interactive = true;
+  dragHitAreaDebug.x = 0;
+  dragHitAreaDebug.y = 0;
+  dragHitAreaDebug.eventMode = "static";
+
+  
 
   let scrollEndTimeout = null;
   const onScroll = (event) => {
-    
-
     if (scrollEndTimeout) {
       clearTimeout(scrollEndTimeout);
     }
@@ -249,10 +235,10 @@ fetch("./data/listOfImages.json").then(async (response) => {
       const deltaY = event.deltaY;
       let scrollDirection = deltaY > 0 ? "down" : "up";
 
-      if(userScrollDirection === "reverse") {
+      if (userScrollDirection === "reverse") {
         scrollDirection = scrollDirection === "down" ? "up" : "down";
       }
-        
+
       if (scrollDirection === "down") {
         scrollToNext();
       } else {
@@ -261,9 +247,12 @@ fetch("./data/listOfImages.json").then(async (response) => {
     }, 200);
   };
 
-  
-
-  window.addEventListener("wheel", onScroll);
+  dragHitAreaDebug
+    .on("pointerdown", onDragStart)
+    .on("pointerup", onDragEnd)
+    .on("pointerupoutside", onDragEnd)
+    .on("pointermove", onDragMove)
+    .on("wheel", onScroll);
 
   document.querySelector(".wrapper").addEventListener("wheel", (e) => {
     e.stopPropagation();
@@ -280,7 +269,7 @@ fetch("./data/listOfImages.json").then(async (response) => {
 
   background.width = app.screen.width;
   background.height = app.screen.height;
-  background.tint = 0xffffff;
+  background.tint = 0x000000;
 
   app.stage.addChild(backgroundsGroups);
   backgroundsGroups.addChild(background);
@@ -338,17 +327,20 @@ fetch("./data/listOfImages.json").then(async (response) => {
     await tsuru.initTsuru();
   }
 
-  const navigator = new Navigator(tsurus, navigatorItemSize);
-  await navigator.initItems();
-
+  const navigator = new Navigator(tsurus, navigatorItemSize,horizontalMargin);
   navigator.updateStageSize(app.screen.width, app.screen.height);
+  await navigator.initItems(app);
 
   navigator.addEventListener("navigatorItemClick", (tsuru) => {
+    console.log("navigatorItemClick", tsuru.tsuruData.number);
     scrollToTsuruNumber(tsuru.tsuruData.number);
   });
 
   app.stage.addChild(navigator);
-  navigator.position.set(tsuruSize + horizontalMargin + horizontalMargin, 0);
+  navigator.position.set(tsuruSize + horizontalMargin, 0);
+
+  app.stage.interactive = true;
+  app.stage.addChild(dragHitAreaDebug);
 
   const blendInViewportTsurusImages = () => {
     const thisLoaders = [];
@@ -463,8 +455,9 @@ fetch("./data/listOfImages.json").then(async (response) => {
     lineHeight: 36,
   });
 
+  let currentTsuru = tsurus[0];
   const tsuruNumberRichText = new Text({
-    text: "#",
+    text: "#" + currentTsuru.tsuruData.number,
     style: tsuruNumberRichTextStyle,
   });
   tsuruNumberRichText.anchor.set(0, 1);
@@ -474,8 +467,6 @@ fetch("./data/listOfImages.json").then(async (response) => {
   tsuruNumberRichText.rotation = (-90 * Math.PI) / 180;
 
   app.stage.addChild(tsuruNumberRichText);
-
-  let currentTsuru;
 
   const updateTsuruNumber = () => {
     const tsuruClosestToCenter = tsurusInViewport.sort(
@@ -567,6 +558,7 @@ fetch("./data/listOfImages.json").then(async (response) => {
   window.scrollToNext = scrollToNext;
   window.scrollToPrevious = scrollToPrevious;
 
+  let lastScrolledTsuru = currentTsuru.tsuruData.number;
   app.ticker.add((time) => {
     for (let i = 0; i < tsurus.length; i++) {
       tsurus[i].update(time);
@@ -582,7 +574,13 @@ fetch("./data/listOfImages.json").then(async (response) => {
       maxScrollY = tsurusGroup.height - tsuruSize / 1;
     }
 
-    navigator.scrollToItem(currentTsuru.tsuruData.number);
+    if (
+      currentTsuru.tsuruData.number > -1 &&
+      currentTsuru.tsuruData.number !== lastScrolledTsuru
+    ) {
+      navigator.scrollToItem(currentTsuru.tsuruData.number);
+      lastScrolledTsuru = currentTsuru.tsuruData.number;
+    }
   });
 });
 
