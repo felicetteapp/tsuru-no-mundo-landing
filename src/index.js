@@ -84,8 +84,6 @@ const updateLayout = () => {
   document.documentElement.classList.remove(
     layoutOrientation === "portrait" ? "landscape" : "portrait"
   );
-
-  console.log({ horizontalMargin });
 };
 
 updateLayout();

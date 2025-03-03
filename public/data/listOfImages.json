@@ -1,0 +1,497 @@
+[
+  {
+    "number": 55,
+    "img": "img/tsurus/55.webp",
+    "fullSize": "img/tsurus/full/55.webp",
+    "thumbnail": "img/tsurus/thumbnails/55.webp",
+    "mainColor": "#e7e8e5",
+    "mainColorContrast": "#787e6e",
+    "location": "Jardín Japonés - Montevideo. Uruguay"
+  },
+  {
+    "number": 54,
+    "img": "img/tsurus/54.webp",
+    "fullSize": "img/tsurus/full/54.webp",
+    "thumbnail": "img/tsurus/thumbnails/54.webp",
+    "mainColor": "#e9e7e6",
+    "mainColorContrast": "#877976",
+    "location": "Espacio de Arte Contemporáneo - Montevideo. Uruguay"
+  },
+  {
+    "number": 53,
+    "img": "img/tsurus/53.webp",
+    "fullSize": "img/tsurus/full/53.webp",
+    "thumbnail": "img/tsurus/thumbnails/53.webp",
+    "mainColor": "#e9e7e6",
+    "mainColorContrast": "#857977",
+    "location": "Puerta de la Ciudadela - Montevideo. Uruguay"
+  },
+  {
+    "number": 52,
+    "img": "img/tsurus/52.webp",
+    "fullSize": "img/tsurus/full/52.webp",
+    "thumbnail": "img/tsurus/thumbnails/52.webp",
+    "mainColor": "#e8e7e6",
+    "mainColorContrast": "#7f7b76",
+    "location": "Mirador Panorámico - Montevideo. Uruguay"
+  },
+  {
+    "number": 51,
+    "img": "img/tsurus/51.webp",
+    "fullSize": "img/tsurus/full/51.webp",
+    "thumbnail": "img/tsurus/thumbnails/51.webp",
+    "mainColor": "#ebe6e5",
+    "mainColorContrast": "#8f7671",
+    "location": "Pinacoteca - São Paulo, SP. Brasil"
+  },
+  {
+    "number": 50,
+    "img": "img/tsurus/50.webp",
+    "fullSize": "img/tsurus/full/50.webp",
+    "thumbnail": "img/tsurus/thumbnails/50.webp",
+    "mainColor": "#d1eced",
+    "mainColorContrast": "#538485",
+    "location": "Viña del Mar, Valparaiso. Chile"
+  },
+  {
+    "number": 49,
+    "img": "img/tsurus/49.webp",
+    "fullSize": "img/tsurus/full/49.webp",
+    "thumbnail": "img/tsurus/thumbnails/49.webp",
+    "mainColor": "#dfe9e9",
+    "mainColorContrast": "#668181",
+    "location": "Costanera SKY - Providencia, Región Metropolitana. Chile"
+  },
+  {
+    "number": 48,
+    "img": "img/tsurus/48.webp",
+    "fullSize": "img/tsurus/full/48.webp",
+    "thumbnail": "img/tsurus/thumbnails/48.webp",
+    "mainColor": "#e8e7e5",
+    "mainColorContrast": "#817b72",
+    "location": "Cementerio Municipal - Punta Arenas, Magallanes. Chile"
+  },
+  {
+    "number": 47,
+    "img": "img/tsurus/47.webp",
+    "fullSize": "img/tsurus/full/47.webp",
+    "thumbnail": "img/tsurus/thumbnails/47.webp",
+    "mainColor": "#e5e8e8",
+    "mainColorContrast": "#737e7e",
+    "location": "Pasarela Fique - Ushuaia, Tierra del Fuego. Argentina"
+  },
+  {
+    "number": 46,
+    "img": "img/tsurus/46.webp",
+    "fullSize": "img/tsurus/full/46.webp",
+    "thumbnail": "img/tsurus/thumbnails/46.webp",
+    "mainColor": "#e8e7e5",
+    "mainColorContrast": "#837a72",
+    "location": "Museo Fonck - Viña del Mar, Valparaiso. Chile"
+  },
+  {
+    "number": 45,
+    "img": "img/tsurus/45.webp",
+    "fullSize": "img/tsurus/full/45.webp",
+    "thumbnail": "img/tsurus/thumbnails/45.webp",
+    "mainColor": "#e9e7e8",
+    "mainColorContrast": "#86787e",
+    "location": "Avenida Paulista - São Paulo, SP. Brasil"
+  },
+  {
+    "number": 44,
+    "img": "img/tsurus/44.webp",
+    "fullSize": "img/tsurus/full/44.webp",
+    "thumbnail": "img/tsurus/thumbnails/44.webp",
+    "mainColor": "#e9e7e6",
+    "mainColorContrast": "#857973",
+    "location": "Cathédrale Notre-Dame de Paris - Paris. France"
+  },
+  {
+    "number": 43,
+    "img": "img/tsurus/43.webp",
+    "fullSize": "img/tsurus/full/43.webp",
+    "thumbnail": "img/tsurus/thumbnails/43.webp",
+    "mainColor": "#e9e7e6",
+    "mainColorContrast": "#837a75",
+    "location": "Parque Quinta de los Molinos - Madrid. España"
+  },
+  {
+    "number": 42,
+    "img": "img/tsurus/42.webp",
+    "fullSize": "img/tsurus/full/42.webp",
+    "thumbnail": "img/tsurus/thumbnails/42.webp",
+    "mainColor": "#c8efef",
+    "mainColorContrast": "#6a8080",
+    "location": "Tour Eiffel - Paris. France"
+  },
+  {
+    "number": 41,
+    "img": "img/tsurus/41.webp",
+    "fullSize": "img/tsurus/full/41.webp",
+    "thumbnail": "img/tsurus/thumbnails/41.webp",
+    "mainColor": "#e9e7e6",
+    "mainColorContrast": "#867977",
+    "location": "Edificio Anita - Curitiba, PR. Brasil"
+  },
+  {
+    "number": 40,
+    "img": "img/tsurus/40.webp",
+    "fullSize": "img/tsurus/full/40.webp",
+    "thumbnail": "img/tsurus/thumbnails/40.webp",
+    "mainColor": "#e9e7e7",
+    "mainColorContrast": "#85797b",
+    "location": "Mercado de San Miguel - Madrid. España"
+  },
+  {
+    "number": 39,
+    "img": "img/tsurus/39.webp",
+    "fullSize": "img/tsurus/full/39.webp",
+    "thumbnail": "img/tsurus/thumbnails/39.webp",
+    "mainColor": "#e9e7e6",
+    "mainColorContrast": "#877973",
+    "location": "Van Gogh Museum - Amsterdam, Noord-Holland. Nederland"
+  },
+  {
+    "number": 38,
+    "img": "img/tsurus/38.webp",
+    "fullSize": "img/tsurus/full/38.webp",
+    "thumbnail": "img/tsurus/thumbnails/38.webp",
+    "mainColor": "#e7e7e8",
+    "mainColorContrast": "#797c82",
+    "location": "Museé du Louvre - Paris. France"
+  },
+  {
+    "number": 37,
+    "img": "img/tsurus/37.webp",
+    "fullSize": "img/tsurus/full/37.webp",
+    "thumbnail": "img/tsurus/thumbnails/37.webp",
+    "mainColor": "#e8e7e7",
+    "mainColorContrast": "#827a7a",
+    "location": "Museo del Prado - Madrid. España"
+  },
+  {
+    "number": 36,
+    "img": "img/tsurus/36.webp",
+    "fullSize": "img/tsurus/full/36.webp",
+    "thumbnail": "img/tsurus/thumbnails/36.webp",
+    "mainColor": "#e8e7e7",
+    "mainColorContrast": "#827a7a",
+    "location": "Museo Reina Sofía - Madrid. España"
+  },
+  {
+    "number": 35,
+    "img": "img/tsurus/35.webp",
+    "fullSize": "img/tsurus/full/35.webp",
+    "thumbnail": "img/tsurus/thumbnails/35.webp",
+    "mainColor": "#e7e7e6",
+    "mainColorContrast": "#7c7c79",
+    "location": "Puerta del Sol - Madrid. España"
+  },
+  {
+    "number": 34,
+    "img": "img/tsurus/34.webp",
+    "fullSize": "img/tsurus/full/34.webp",
+    "thumbnail": "img/tsurus/thumbnails/34.webp",
+    "mainColor": "#e8e7e7",
+    "mainColorContrast": "#837a79",
+    "location": "Istambul Havalimanı - Istanbul. Türkiye"
+  },
+  {
+    "number": 33,
+    "img": "img/tsurus/33.webp",
+    "fullSize": "img/tsurus/full/33.webp",
+    "thumbnail": "img/tsurus/thumbnails/33.webp",
+    "mainColor": "#e7e7e8",
+    "mainColorContrast": "#7a7b80",
+    "location": "Rio Claro, SP. Brasil"
+  },
+  {
+    "number": 32,
+    "img": "img/tsurus/32.webp",
+    "fullSize": "img/tsurus/full/32.webp",
+    "thumbnail": "img/tsurus/thumbnails/32.webp",
+    "mainColor": "#daeaec",
+    "mainColorContrast": "#5e8286",
+    "location": "São Paulo, SP. Brasil"
+  },
+  {
+    "number": 31,
+    "img": "img/tsurus/31.webp",
+    "fullSize": "img/tsurus/full/31.webp",
+    "thumbnail": "img/tsurus/thumbnails/31.webp",
+    "mainColor": "#ece6e2",
+    "mainColorContrast": "#937662",
+    "location": "Barcelona, Catalunya. Espanya"
+  },
+  {
+    "number": 30,
+    "img": "img/tsurus/30.webp",
+    "fullSize": "img/tsurus/full/30.webp",
+    "thumbnail": "img/tsurus/thumbnails/30.webp",
+    "mainColor": "#e8e7e8",
+    "mainColorContrast": "#807a82",
+    "location": "Madrid, Comunidad de Madrid. España"
+  },
+  {
+    "number": 29,
+    "img": "img/tsurus/29.webp",
+    "fullSize": "img/tsurus/full/29.webp",
+    "thumbnail": "img/tsurus/thumbnails/29.webp",
+    "mainColor": "#e8e7e5",
+    "mainColorContrast": "#807b71",
+    "location": "Lisboa, Lisboa. Portugal"
+  },
+  {
+    "number": 28,
+    "img": "img/tsurus/28.webp",
+    "fullSize": "img/tsurus/full/28.webp",
+    "thumbnail": "img/tsurus/thumbnails/28.webp",
+    "mainColor": "#e9e7e6",
+    "mainColorContrast": "#867976",
+    "location": "Aeroporto Internacional Afonso Pena - São José dos Pinhais, PR. Brasil"
+  },
+  {
+    "number": 27,
+    "img": "img/tsurus/27.webp",
+    "fullSize": "img/tsurus/full/27.webp",
+    "thumbnail": "img/tsurus/thumbnails/27.webp",
+    "mainColor": "#eae7e2",
+    "mainColorContrast": "#877a64",
+    "location": "Salvador, BA. Brasil"
+  },
+  {
+    "number": 26,
+    "img": "img/tsurus/26.webp",
+    "fullSize": "img/tsurus/full/26.webp",
+    "thumbnail": "img/tsurus/thumbnails/26.webp",
+    "mainColor": "#e9e7e6",
+    "mainColorContrast": "#877876",
+    "location": "Pelourinho - Salvador, BA. Brasil"
+  },
+  {
+    "number": 25,
+    "img": "img/tsurus/25.webp",
+    "fullSize": "img/tsurus/full/25.webp",
+    "thumbnail": "img/tsurus/thumbnails/25.webp",
+    "mainColor": "#eae6e5",
+    "mainColorContrast": "#8b786f",
+    "location": "Mercado Modelo - Salvador, BA. Brasil"
+  },
+  {
+    "number": 24,
+    "img": "img/tsurus/24.webp",
+    "fullSize": "img/tsurus/full/24.webp",
+    "thumbnail": "img/tsurus/thumbnails/24.webp",
+    "mainColor": "#e5e7e9",
+    "mainColorContrast": "#747d82",
+    "location": "Elevador Lacerda - Salvador, BA. Brasil"
+  },
+  {
+    "number": 23,
+    "img": "img/tsurus/23.webp",
+    "fullSize": "img/tsurus/full/23.webp",
+    "thumbnail": "img/tsurus/thumbnails/23.webp",
+    "mainColor": "#e7e7e7",
+    "mainColorContrast": "#7a7c7b",
+    "location": "Bienal de São Paulo - São Paulo, SP. Brasil"
+  },
+  {
+    "number": 22,
+    "img": "img/tsurus/22.webp",
+    "fullSize": "img/tsurus/full/22.webp",
+    "thumbnail": "img/tsurus/thumbnails/22.webp",
+    "mainColor": "#e9e7e6",
+    "mainColorContrast": "#877877",
+    "location": "Farol da Barra - Salvador, BA. Brasil"
+  },
+  {
+    "number": 21,
+    "img": "img/tsurus/21.webp",
+    "fullSize": "img/tsurus/full/21.webp",
+    "thumbnail": "img/tsurus/thumbnails/21.webp",
+    "mainColor": "#eae6e6",
+    "mainColorContrast": "#8a7876",
+    "location": "Bairro da Liberdade - São Paulo, SP. Brasil"
+  },
+  {
+    "number": 20,
+    "img": "img/tsurus/20.webp",
+    "fullSize": "img/tsurus/full/20.webp",
+    "thumbnail": "img/tsurus/thumbnails/20.webp",
+    "mainColor": "#eee6df",
+    "mainColorContrast": "#9e734e",
+    "location": "MASP - São Paulo, SP. Brasil"
+  },
+  {
+    "number": 19,
+    "img": "img/tsurus/19.webp",
+    "fullSize": "img/tsurus/full/19.webp",
+    "thumbnail": "img/tsurus/thumbnails/19.webp",
+    "mainColor": "#e9e7e5",
+    "mainColorContrast": "#827a73",
+    "location": "Paraty, RJ. Brasil"
+  },
+  {
+    "number": 18,
+    "img": "img/tsurus/18.webp",
+    "fullSize": "img/tsurus/full/18.webp",
+    "thumbnail": "img/tsurus/thumbnails/18.webp",
+    "mainColor": "#e8e7e7",
+    "mainColorContrast": "#7e7b79",
+    "location": "Paraty, RJ. Brasil"
+  },
+  {
+    "number": 17,
+    "img": "img/tsurus/17.webp",
+    "fullSize": "img/tsurus/full/17.webp",
+    "thumbnail": "img/tsurus/thumbnails/17.webp",
+    "mainColor": "#e8e7e5",
+    "mainColorContrast": "#7f7c71",
+    "location": "Paraty, RJ. Brasil"
+  },
+  {
+    "number": 16,
+    "img": "img/tsurus/16.webp",
+    "fullSize": "img/tsurus/full/16.webp",
+    "thumbnail": "img/tsurus/thumbnails/16.webp",
+    "mainColor": "#e8e7e7",
+    "mainColorContrast": "#817a7a",
+    "location": "Na estrada - Paraty, RJ. Brasil"
+  },
+  {
+    "number": 15,
+    "img": "img/tsurus/15.webp",
+    "fullSize": "img/tsurus/full/15.webp",
+    "thumbnail": "img/tsurus/thumbnails/15.webp",
+    "mainColor": "#e7e7e8",
+    "mainColorContrast": "#797c80",
+    "location": "No Ar - PR. Brasil"
+  },
+  {
+    "number": 14,
+    "img": "img/tsurus/14.webp",
+    "fullSize": "img/tsurus/full/14.webp",
+    "thumbnail": "img/tsurus/thumbnails/14.webp",
+    "mainColor": "#e9e7e6",
+    "mainColorContrast": "#827a77",
+    "location": "Memorial da Imigração Polonesa - Curitiba, PR. Brasil"
+  },
+  {
+    "number": 13,
+    "img": "img/tsurus/13.webp",
+    "fullSize": "img/tsurus/full/13.webp",
+    "thumbnail": "img/tsurus/thumbnails/13.webp",
+    "mainColor": "#eae6e6",
+    "mainColorContrast": "#8c7775",
+    "location": "Curitiba, PR. Brasil"
+  },
+  {
+    "number": 12,
+    "img": "img/tsurus/12.webp",
+    "fullSize": "img/tsurus/full/12.webp",
+    "thumbnail": "img/tsurus/thumbnails/12.webp",
+    "mainColor": "#e9e7e7",
+    "mainColorContrast": "#847979",
+    "location": "Curitiba, PR. Brasil"
+  },
+  {
+    "number": 11,
+    "img": "img/tsurus/11.webp",
+    "fullSize": "img/tsurus/full/11.webp",
+    "thumbnail": "img/tsurus/thumbnails/11.webp",
+    "mainColor": "#e6e8e6",
+    "mainColorContrast": "#777d79",
+    "location": "Museu Oscar Niemeyer - Curitiba, PR. Brasil"
+  },
+  {
+    "number": 10,
+    "img": "img/tsurus/10.webp",
+    "fullSize": "img/tsurus/full/10.webp",
+    "thumbnail": "img/tsurus/thumbnails/10.webp",
+    "mainColor": "#e9e6e8",
+    "mainColorContrast": "#88777e",
+    "location": "Curitiba, PR. Brasil"
+  },
+  {
+    "number": 9,
+    "img": "img/tsurus/9.webp",
+    "fullSize": "img/tsurus/full/9.webp",
+    "thumbnail": "img/tsurus/thumbnails/9.webp",
+    "mainColor": "#e9e7e8",
+    "mainColorContrast": "#85787e",
+    "location": "Praça Osório - Curitiba, PR. Brasil"
+  },
+  {
+    "number": 8,
+    "img": "img/tsurus/8.webp",
+    "fullSize": "img/tsurus/full/8.webp",
+    "thumbnail": "img/tsurus/thumbnails/8.webp",
+    "mainColor": "#f3e4e2",
+    "mainColorContrast": "#a17068",
+    "location": "Paço da Liberdade - Curitiba, PR. Brasil"
+  },
+  {
+    "number": 7,
+    "img": "img/tsurus/7.webp",
+    "fullSize": "img/tsurus/full/7.webp",
+    "thumbnail": "img/tsurus/thumbnails/7.webp",
+    "mainColor": "#e9e7e6",
+    "mainColorContrast": "#877974",
+    "location": "Praça do Japão - Curitiba, PR. Brasil"
+  },
+  {
+    "number": 6,
+    "img": "img/tsurus/6.webp",
+    "fullSize": "img/tsurus/full/6.webp",
+    "thumbnail": "img/tsurus/thumbnails/6.webp",
+    "mainColor": "#ebe6e6",
+    "mainColorContrast": "#8c7676",
+    "location": "Largo da Ordem - Curitiba, PR. Brasil"
+  },
+  {
+    "number": 5,
+    "img": "img/tsurus/5.webp",
+    "fullSize": "img/tsurus/full/5.webp",
+    "thumbnail": "img/tsurus/thumbnails/5.webp",
+    "mainColor": "#e8e7e9",
+    "mainColorContrast": "#807985",
+    "location": "Paço da Liberdade - Curitiba, PR. Brasil"
+  },
+  {
+    "number": 4,
+    "img": "img/tsurus/4.webp",
+    "fullSize": "img/tsurus/full/4.webp",
+    "thumbnail": "img/tsurus/thumbnails/4.webp",
+    "mainColor": "#e7e7e7",
+    "mainColorContrast": "#7b7c7c",
+    "location": "Fazenda Rio Grande, PR. Brasil"
+  },
+  {
+    "number": 3,
+    "img": "img/tsurus/3.webp",
+    "fullSize": "img/tsurus/full/3.webp",
+    "thumbnail": "img/tsurus/thumbnails/3.webp",
+    "mainColor": "#eae6e7",
+    "mainColorContrast": "#897779",
+    "location": "Araucária, PR. Brasil"
+  },
+  {
+    "number": 2,
+    "img": "img/tsurus/2.webp",
+    "fullSize": "img/tsurus/full/2.webp",
+    "thumbnail": "img/tsurus/thumbnails/2.webp",
+    "mainColor": "#e6e8e7",
+    "mainColorContrast": "#777d7a",
+    "location": "Bombinhas, SC. Brasil"
+  },
+  {
+    "number": 1,
+    "img": "img/tsurus/1.webp",
+    "fullSize": "img/tsurus/full/1.webp",
+    "thumbnail": "img/tsurus/thumbnails/1.webp",
+    "mainColor": "#e8e7e8",
+    "mainColorContrast": "#83797f",
+    "location": "Itapema, SC. Brasil"
+  }
+]

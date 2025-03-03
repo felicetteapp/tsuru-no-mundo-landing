@@ -3,14 +3,18 @@
   "version": "1.0.0",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "generate:images": "node utils/index.cjs"
+    "generate:images": "node utils/index.cjs",
+    "build": "webpack --mode production"
   },
   "author": "Facundo Leites",
   "license": "ISC",
   "description": "",
   "devDependencies": {
     "chroma-js": "^3.1.2",
+    "clean-webpack-plugin": "^4.0.0",
     "colorthief": "^2.6.0",
+    "copy-webpack-plugin": "^13.0.0",
+    "html-webpack-plugin": "^5.6.3",
     "sharp": "^0.33.5",
     "webpack": "^5.98.0",
     "webpack-cli": "^6.0.1"
