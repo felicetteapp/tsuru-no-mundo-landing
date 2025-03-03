@@ -4,7 +4,6 @@ import {
   Sprite,
   Graphics,
   Rectangle,
-  SCALE_MODES,
   BlurFilter,
 } from "pixi.js";
 import { ScrollBox } from "@pixi/ui";
@@ -53,9 +52,9 @@ export class Navigator extends Container {
     );
 
     const targetIndex = Math.max(
-      tsuruIndex + Math.floor(howManyItemsAreVisible / 2),
+      tsuruIndex + Math.floor(howManyItemsAreVisible / 2) ,
       howManyItemsAreVisible - 1
-    );
+    )
 
     this.scrollToIndex(targetIndex);
   }
@@ -65,6 +64,7 @@ export class Navigator extends Container {
       0,
       Math.min(index, this.scrollBox.list.children.length - 1)
     );
+
     this.scrollBox.scrollTo(safeIndex);
   }
 
@@ -103,14 +103,14 @@ export class Navigator extends Container {
     const blurStrength = 50;
 
     const rectangle = new Graphics();
-    rectangle.beginFill(0xffffff);
-    rectangle.drawRect(
+    rectangle.fill(0xffffff);
+    rectangle.rect(
       0,
       blurStrength * 1.5,
       app.stage.width,
       this.stageHeight - blurStrength * 1.5 - blurStrength * 1.5
     );
-    rectangle.endFill();
+    rectangle.fill();
 
     rectangle.filters = [
       new BlurFilter({
@@ -122,7 +122,6 @@ export class Navigator extends Container {
 
     const texture = app.renderer.generateTexture({
       target: rectangle,
-      style: { scaleMode: SCALE_MODES.NEAREST },
       resolution: 1,
       frame: bounds,
     });
@@ -182,7 +181,12 @@ class NavigatorItem extends Container {
     });
     this.on("click", () => {
       this.tsuruEventEmitter.emit("navigatorItemClick", this.tsuru);
-    });
+    }).on(
+      "tap",
+      () => {
+        this.tsuruEventEmitter.emit("navigatorItemClick", this.tsuru);
+      }
+    )
   }
 
   update() {}

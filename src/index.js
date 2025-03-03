@@ -8,7 +8,6 @@ import {
   ColorMatrixFilter,
   Text,
   TextStyle,
-  Rectangle,
 } from "pixi.js";
 import { Tsuru } from "./tsuru";
 import { Navigator } from "./navigator";
@@ -31,11 +30,23 @@ let locationFontSize = 36;
 let verticalMargin = 50;
 let navigatorItemSize = 100;
 let userScrollDirection = "normal";
+let fontIsReady = false;
+let dataIsReady = false;
+const tsurus = [];
 
 const updateLayout = () => {
   layoutOrientation =
-    window.innerWidth > window.innerHeight ? "landscape" : "portrait";
+    window.innerWidth < window.innerHeight ? "portrait" : "landscape";
+  horizontalMargin = 50;
   tsuruSize = window.innerHeight * 0.6;
+
+  if (layoutOrientation === "landscape") {
+    tsuruSize = Math.min(
+      (window.innerWidth - horizontalMargin * 3 - navigatorItemSize) / 2,
+      tsuruSize
+    );
+  }
+
   if (layoutOrientation === "portrait") {
     tsuruSize = window.innerWidth * 0.8;
   }
@@ -43,7 +54,6 @@ const updateLayout = () => {
     const tsuru = tsurus[i];
     tsuru.updateSize(tsuruSize);
   }
-  horizontalMargin = Math.min((window.innerWidth - tsuruSize) / 2, 50);
   locationFontSize = layoutOrientation === "portrait" ? 18 : 24;
 
   document.documentElement.style.setProperty("--tsuru-size", `${tsuruSize}px`);
@@ -121,14 +131,25 @@ const pixiAppInit = async () => {
   userScrollDirection = await detectScrollDirection();
   // Create a new application
   // pixiAppInitialize the application
-  await app.init({ background: "black", resizeTo: window });
+  await app.init({ background: "black", resizeTo: window.document.body });
   // Append the application canvas to the document body
   document.body.appendChild(app.canvas);
+
+  const wrapperToggleBtnEl = document.getElementById("wrapper-toggle-button");
+
+  wrapperToggleBtnEl.addEventListener("click", () => {
+    document.documentElement.classList.toggle("wrapper--open");
+
+    const labelEl = wrapperToggleBtnEl.querySelector('.wrapper__toggle__button__label');
+
+    if (document.documentElement.classList.contains("wrapper--open")) {
+      labelEl.innerHTML = "Less";
+    }else{
+      labelEl.innerHTML = "More";
+    }
+  });
   return app;
 };
-
-let fontIsReady = false;
-let dataIsReady = false;
 
 // Function to dynamically load fonts
 function loadFont(name, url) {
@@ -137,7 +158,6 @@ function loadFont(name, url) {
     .load()
     .then((loadedFont) => {
       document.fonts.add(loadedFont);
-      console.log(`Font loaded: ${name}`, loadedFont);
     })
     .catch((error) => {
       console.error(`Failed to load font: ${name}`, error);
@@ -148,9 +168,7 @@ function loadFont(name, url) {
 loadFont("Danfo-Regular", "./fonts/Danfo-Regular.ttf");
 loadFont("Montserrat-Black", "./fonts/Montserrat-Black.ttf");
 
-document.fonts.ready.then((teste) => {
-  console.log({ teste });
-  console.log("All fonts loaded");
+document.fonts.ready.then(() => {
   fontIsReady = true;
 });
 
@@ -169,8 +187,6 @@ fetch("./data/listOfImages.json").then(async (response) => {
   });
 
   dataIsReady = true;
-
-  console.log("Data loaded");
 
   while (!fontIsReady || !dataIsReady) {
     await new Promise((resolve) => setTimeout(resolve, 100));
@@ -195,14 +211,6 @@ fetch("./data/listOfImages.json").then(async (response) => {
     scrollToTsuruNumber(currentTsuru.tsuruData.number);
   };
 
-  const onSwipeUp = () => {
-    scrollToNext();
-  };
-
-  const onSwipeDown = () => {
-    scrollToPrevious();
-  };
-
   const onDragMove = (event) => {
     if (isDragging) {
       const deltaY = event.data.global.y - startY;
@@ -223,28 +231,22 @@ fetch("./data/listOfImages.json").then(async (response) => {
   dragHitAreaDebug.y = 0;
   dragHitAreaDebug.eventMode = "static";
 
-  
-
   let scrollEndTimeout = null;
   const onScroll = (event) => {
+    const deltaY = event.deltaY * (userScrollDirection === "normal" ? 1 : -1);
+
+    currentY = currentY + deltaY;
+    currentY = Math.max(Math.min(0, currentY), -maxScrollY);
+    targetY = currentY;
+    tsurusGroup.y = currentY;
+
     if (scrollEndTimeout) {
       clearTimeout(scrollEndTimeout);
     }
 
     scrollEndTimeout = setTimeout(() => {
-      const deltaY = event.deltaY;
-      let scrollDirection = deltaY > 0 ? "down" : "up";
-
-      if (userScrollDirection === "reverse") {
-        scrollDirection = scrollDirection === "down" ? "up" : "down";
-      }
-
-      if (scrollDirection === "down") {
-        scrollToNext();
-      } else {
-        scrollToPrevious();
-      }
-    }, 200);
+      scrollToTsuruNumber(currentTsuru.tsuruData.number);
+    }, 250);
   };
 
   dragHitAreaDebug
@@ -255,17 +257,12 @@ fetch("./data/listOfImages.json").then(async (response) => {
     .on("wheel", onScroll);
 
   document.querySelector(".wrapper").addEventListener("wheel", (e) => {
-    e.stopPropagation();
+    if (layoutOrientation === "portrait") {
+      e.stopPropagation();
+    }
   });
-
-  const tsurus = [];
-  //  const tsurusGroup = new Container();
-
   const backgroundsGroups = new Container();
-  backgroundsGroups.interactive = true;
   const background = new Sprite(Texture.WHITE);
-  background.interactive = true;
-  background.hitArea = new Rectangle(0, 0, app.screen.width, app.screen.height);
 
   background.width = app.screen.width;
   background.height = app.screen.height;
@@ -295,7 +292,11 @@ fetch("./data/listOfImages.json").then(async (response) => {
     text: "-",
     style: locationRichTextStyle,
   });
+
+  locationRichText.style.fontSize = locationFontSize;
+  locationRichText.style.lineHeight = locationFontSize;
   locationRichText.anchor.set(0, 0);
+  locationRichText.style.wordWrapWidth = tsuruSize - locationExpectedX;
   locationRichText.x = locationExpectedX;
   locationRichText.y = app.screen.height / 2 + tsuruSize / 2 + locationFontSize;
 
@@ -327,12 +328,11 @@ fetch("./data/listOfImages.json").then(async (response) => {
     await tsuru.initTsuru();
   }
 
-  const navigator = new Navigator(tsurus, navigatorItemSize,horizontalMargin);
+  const navigator = new Navigator(tsurus, navigatorItemSize, horizontalMargin);
   navigator.updateStageSize(app.screen.width, app.screen.height);
   await navigator.initItems(app);
 
   navigator.addEventListener("navigatorItemClick", (tsuru) => {
-    console.log("navigatorItemClick", tsuru.tsuruData.number);
     scrollToTsuruNumber(tsuru.tsuruData.number);
   });
 
@@ -559,6 +559,34 @@ fetch("./data/listOfImages.json").then(async (response) => {
   window.scrollToPrevious = scrollToPrevious;
 
   let lastScrolledTsuru = currentTsuru.tsuruData.number;
+
+  window.addEventListener("resize", () => {
+    updateLayout();
+    background.width = app.screen.width;
+    background.height = app.screen.height;
+    navigator.updateStageSize(app.screen.width, app.screen.height);
+    navigator.position.set(tsuruSize + horizontalMargin, 0);
+    for (let i = 0; i < tsurus.length; i++) {
+      tsurus[i].updateStageSize(app.screen.width, app.screen.height);
+      tsurus[i].updateSize(tsuruSize);
+    }
+
+    locationRichText.style.fontSize = locationFontSize;
+    locationRichText.style.lineHeight = locationFontSize;
+    locationRichText.style.wordWrapWidth = tsuruSize - locationExpectedX;
+    locationRichText.x = locationExpectedX;
+    locationRichText.y =
+      app.screen.height / 2 + tsuruSize / 2 + locationFontSize;
+
+    tsuruNumberRichText.x = horizontalMargin + 36 - 10;
+
+    tsuruNumberRichText.y = (app.screen.height - tsuruSize) / 2 + 100;
+    dragHitAreaDebug.width = horizontalMargin + tsuruSize;
+    dragHitAreaDebug.height = app.screen.height;
+    updateTsuruNumber();
+    updateTsuruLocation();
+    updateTextColors();
+  });
   app.ticker.add((time) => {
     for (let i = 0; i < tsurus.length; i++) {
       tsurus[i].update(time);

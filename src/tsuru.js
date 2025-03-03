@@ -50,16 +50,23 @@ export class Tsuru extends Container {
     this.size = size;
     this.fullSize.width = size;
     this.fullSize.height = size;
+    this.sprite.width = size;
+    this.sprite.height = size;
+    this.fullScale.x = this.sprite.scale.x;
+    this.fullScale.y = this.sprite.scale.y;
+    this.sprite.anchor.set(0, 0.5);
+
+    const verticalMargin = (this.stageHeight - this.size) / 2;
+    const x = this.horizontalMargin;
+    const y = this.stageHeight / 2;
+    const expectedY = y + this.i * (this.sprite.height + verticalMargin);
+    const expectedX = x;
+    this.sprite.position.set(expectedX, expectedY);
+
   }
 
   getRandomAngle() {
     return 0;
-
-    return -30;
-    const minAngle = -45;
-    const maxAngle = 45;
-
-    return Math.random() * (maxAngle - minAngle) + minAngle;
   }
 
   async initTsuru() {
