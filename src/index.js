@@ -355,14 +355,16 @@ fetch("./data/listOfImages.json").then(async (response) => {
   const handleTsuruThumbnailLoaded = (tsuru) => {
     const thisTsuruDataEl = document.createElement("div");
     thisTsuruDataEl.classList.add("loading__label__item");
-    thisTsuruDataEl.innerHTML = `#${tsuru.tsuruData.number} - ${tsuru.tsuruData.location}`;
+
+    const numberWithLeadingZeros = tsuru.tsuruData.number.toString().padStart(2, '0');
+    thisTsuruDataEl.innerHTML = `#${numberWithLeadingZeros} - ${tsuru.tsuruData.location}`;
     loadingTextEl.appendChild(thisTsuruDataEl);
 
     thisTsuruDataEl
       .animate(
         [
-          { opacity: 0, height: 0, maxWidth: '50px' },
-          { opacity: 1, height: "1rem", maxWidth:'250px' },
+          { opacity: 0, height: 0, maxWidth: '20px' },
+          { opacity: 1, height: "1rem", maxWidth:'450px' },
         ],
         {
           duration: 1000,
@@ -371,15 +373,16 @@ fetch("./data/listOfImages.json").then(async (response) => {
         }
       )
       .finished.then((anim) => {
+        anim.commitStyles();
         anim.cancel();
         thisTsuruDataEl
           .animate(
             [
-              { opacity: 1, height: "1rem", maxWidth: '250px' },
-              { opacity: 0, height: 0 , maxWidth: '50px'},
+              { opacity: 1, height: "1rem", maxWidth: '450px' },
+              { opacity: 0, height: 0 , maxWidth: '20px'},
             ],
             {
-              duration: 250,
+              duration: 1000,
               easing: "ease-in-out",
               fill: "forwards",
               delay: 2000,
