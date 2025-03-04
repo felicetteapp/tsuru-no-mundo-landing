@@ -213,14 +213,29 @@ fetch("./data/listOfImages.json").then(async (response) => {
     currentY = tsurusGroup.y;
     targetY = tsurusGroup.y;
     dragHitAreaDebug.cursor = "grabbing";
+    currentTsuruWhenStartDragging = currentTsuru;
   };
 
-  const onDragEnd = () => {
+  const onDragEnd = (event) => {
     isDragging = false;
     dragHitAreaDebug.cursor = "grab";
 
-    //scroll to closest
-    scrollToTsuruNumber(currentTsuru.tsuruData.number);
+    const swipeThreshold = tsuruSize / 5;
+
+    const wasSwipedUp = startY - event.data.global.y > swipeThreshold;
+    const wasSwipedDown = event.data.global.y - startY > swipeThreshold;
+
+    const itsTheSameThatWasDragged =
+      currentTsuru.tsuruData.number ===
+      currentTsuruWhenStartDragging.tsuruData.number;
+
+    if (wasSwipedDown && itsTheSameThatWasDragged) {
+      scrollToNext();
+    } else if (wasSwipedUp && itsTheSameThatWasDragged) {
+      scrollToPrevious();
+    } else {
+      scrollToTsuruNumber(currentTsuru.tsuruData.number);
+    }
   };
 
   const onDragMove = (event) => {
@@ -477,6 +492,7 @@ fetch("./data/listOfImages.json").then(async (response) => {
   });
 
   let currentTsuru = tsurus[0];
+  let currentTsuruWhenStartDragging = tsurus[0];
   const tsuruNumberRichText = new Text({
     text: "#" + currentTsuru.tsuruData.number,
     style: tsuruNumberRichTextStyle,
@@ -486,21 +502,24 @@ fetch("./data/listOfImages.json").then(async (response) => {
 
   tsuruNumberRichText.interactive = true;
 
-  tsuruNumberRichText.on("pointerdown", (e) => {
-    isDraggingFromNumber = true;
+  tsuruNumberRichText
+    .on("pointerdown", (e) => {
+      isDraggingFromNumber = true;
 
-    numberDragDistance = 0;
-    numberDragDistanceOrigin = e.global.y;
-  }).on("pointerup", (e) => {
-    isDraggingFromNumber = false;
-    numberDragDistance = 0;
-  }).on("pointerupoutside", (e) => {
-    isDraggingFromNumber = false;
+      numberDragDistance = 0;
+      numberDragDistanceOrigin = e.global.y;
+    })
+    .on("pointerup", (e) => {
+      isDraggingFromNumber = false;
+      numberDragDistance = 0;
+    })
+    .on("pointerupoutside", (e) => {
+      isDraggingFromNumber = false;
 
-    scrollToTsuruNumber(numberDragNextNumber);
+      scrollToTsuruNumber(numberDragNextNumber);
 
-    numberDragDistance = 0;
-  });
+      numberDragDistance = 0;
+    });
 
   const nextNumberThumbnail = new Sprite(Texture.WHITE);
   nextNumberThumbnail.anchor.set(0.5, 0.5);
@@ -561,7 +580,7 @@ fetch("./data/listOfImages.json").then(async (response) => {
         nextNumberThumbnailOverlay.alpha = 0.5;
         nextNumberThumbnail.texture =
           nextTsuru.imageTexture || nextTsuru.thumbnailTexture;
-          nextNumberThumbnail.zIndex = 2;
+        nextNumberThumbnail.zIndex = 2;
         nextNumberThumbnail.position.set(
           currentTsuru.sprite.x + tsuruSize / 2,
           currentTsuru.sprite.y + tsurusGroup.y
@@ -817,22 +836,16 @@ fetch("./data/listOfImages.json").then(async (response) => {
   });
 
   const loadingEl = document.getElementById("loading");
-  loadingEl.animate(
-    [
-      { opacity: 1 },
-      { opacity: 0 },
-    ],
-    {
+  loadingEl
+    .animate([{ opacity: 1 }, { opacity: 0 }], {
       duration: 250,
       easing: "ease-in-out",
       fill: "forwards",
-    }
-  ).finished.then(
-    (anim) => {
+    })
+    .finished.then((anim) => {
       loadingEl.style.display = "none";
       anim.cancel();
-    }
-  )
+    });
 });
 
 const transformText = (

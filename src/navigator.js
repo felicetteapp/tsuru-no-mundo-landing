@@ -44,27 +44,22 @@ export class Navigator extends Container {
       navigatorItem.updateStageSize(stageWidth, stageHeight);
     });
     this.horizontalMargin = horizontalMargin;
-    if(
-      this.scrollBox
-    ){
+    if (this.scrollBox) {
       this.scrollBox.horPadding = this.horizontalMargin;
       this.scrollBox.width = this.itemSize + this.horizontalMargin * 2;
-      this.scrollBox.height =  this.stageHeight;
+      this.scrollBox.height = this.stageHeight;
       this.scrollBox.resize();
     }
 
-    if(this.mask){
+    if (this.mask) {
       this.mask.width = this.stageWidth;
       this.mask.height = this.stageHeight;
       this.maskSprite.width = this.stageWidth;
       this.maskSprite.height = this.stageHeight;
-
     }
-
   }
 
   scrollToItem(tsuruNumber) {
-
     const howManyItemsAreVisible = Math.floor(this.stageHeight / this.itemSize);
 
     const tsuruIndex = this.scrollBox.list.children.findIndex(
@@ -72,9 +67,9 @@ export class Navigator extends Container {
     );
 
     const targetIndex = Math.max(
-      tsuruIndex + Math.floor(howManyItemsAreVisible / 2) ,
+      tsuruIndex + Math.floor(howManyItemsAreVisible / 2),
       howManyItemsAreVisible - 1
-    )
+    );
 
     this.scrollToIndex(targetIndex);
   }
@@ -93,8 +88,7 @@ export class Navigator extends Container {
   }
 
   async initItems(app) {
-
-    if(this.scrollBox){
+    if (this.scrollBox) {
       this.scrollBox.destroy();
       this.removeChild(this.scrollBox);
     }
@@ -130,7 +124,9 @@ export class Navigator extends Container {
       0,
       this.maskBlurStrength * 1.5,
       app.stage.width,
-      this.stageHeight - this.maskBlurStrength * 1.5 - this.maskBlurStrength * 1.5
+      this.stageHeight -
+        this.maskBlurStrength * 1.5 -
+        this.maskBlurStrength * 1.5
     );
     this.maskRectangle.fill();
 
@@ -203,12 +199,9 @@ class NavigatorItem extends Container {
     });
     this.on("click", () => {
       this.tsuruEventEmitter.emit("navigatorItemClick", this.tsuru);
-    }).on(
-      "tap",
-      () => {
-        this.tsuruEventEmitter.emit("navigatorItemClick", this.tsuru);
-      }
-    )
+    }).on("tap", () => {
+      this.tsuruEventEmitter.emit("navigatorItemClick", this.tsuru);
+    });
   }
 
   update() {}

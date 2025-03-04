@@ -30,7 +30,7 @@ export class Tsuru extends Container {
   tsuruEventEmitter = new TsuruEventEmitter();
   distanceToCenter = 1;
   horizontalMargin = 50;
-  constructor(tsuruData, i, {size, horizontalMargin}) {
+  constructor(tsuruData, i, { size, horizontalMargin }) {
     super();
     this.tsuruData = tsuruData;
     this.i = i;
@@ -65,7 +65,6 @@ export class Tsuru extends Container {
     const expectedY = y + this.i * (this.sprite.height + verticalMargin);
     const expectedX = x;
     this.sprite.position.set(expectedX, expectedY);
-
   }
 
   getRandomAngle() {
@@ -108,7 +107,6 @@ export class Tsuru extends Container {
   }
 
   removeBlurFilterWithAnimation() {
-    //this.filters = [new BlurFilter({ strength: 8,repeatEdgePixels:true })];
     this.isAnimatingBlurOut = true;
   }
 
@@ -134,7 +132,7 @@ export class Tsuru extends Container {
     const texture = loaded[textureAlias];
     this.imageTexture = texture;
     this.sprite.texture = texture;
-    this.size = previousSize
+    this.size = previousSize;
     this.sprite.width = this.size;
     this.sprite.height = this.size;
     this.fullScale.x = this.sprite.scale.x;
@@ -180,7 +178,6 @@ export class Tsuru extends Container {
 
       this.distanceToCenter = howCloseIsToCenter;
 
-
       const alpha = 1 - howCloseIsToCenter;
       const rotation = 1 - howCloseIsToCenter;
 
@@ -210,7 +207,6 @@ export class Tsuru extends Container {
       }
 
       this.filters[1].saturate(-1 + actualAlphaWithEasing);
-      //this.sprite.scale.set(actualScaleWithEasing);
       this.sprite.rotation = actualRotationInRadians;
       this.sprite.alpha = actualAlphaWithEasing;
     } else {
@@ -219,7 +215,6 @@ export class Tsuru extends Container {
         this.tsuruEventEmitter.emit("exitViewport");
       }
       this.isInViewport = false;
-     // this.sprite.scale.set(0.25);
       this.sprite.rotation =
         (isAboveCenter ? this.originalAngle : -this.originalAngle) *
         (Math.PI / 180);
