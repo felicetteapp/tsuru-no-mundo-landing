@@ -349,6 +349,49 @@ fetch("./data/listOfImages.json").then(async (response) => {
     tsurus.push(thisTsuru);
   }
 
+  const loadingEl = document.getElementById("loading");
+  const loadingTextEl = loadingEl.querySelector(".loading__label");
+
+  const handleTsuruThumbnailLoaded = (tsuru) => {
+    const thisTsuruDataEl = document.createElement("div");
+    thisTsuruDataEl.classList.add("loading__label__item");
+    thisTsuruDataEl.innerHTML = `#${tsuru.tsuruData.number} - ${tsuru.tsuruData.location}`;
+    loadingTextEl.appendChild(thisTsuruDataEl);
+
+    thisTsuruDataEl
+      .animate(
+        [
+          { opacity: 0, height: 0, maxWidth: '50px' },
+          { opacity: 1, height: "1rem", maxWidth:'250px' },
+        ],
+        {
+          duration: 1000,
+          easing: "ease-in-out",
+          fill: "forwards",
+        }
+      )
+      .finished.then((anim) => {
+        anim.cancel();
+        thisTsuruDataEl
+          .animate(
+            [
+              { opacity: 1, height: "1rem", maxWidth: '250px' },
+              { opacity: 0, height: 0 , maxWidth: '50px'},
+            ],
+            {
+              duration: 250,
+              easing: "ease-in-out",
+              fill: "forwards",
+              delay: 2000,
+            }
+          )
+          .finished.then((anim) => {
+            anim.cancel();
+            thisTsuruDataEl.remove();
+          });
+      });
+  };
+
   for (let i = 0; i < tsurus.length; i++) {
     const tsuru = tsurus[i];
     tsuru.updateStageSize(
@@ -356,6 +399,7 @@ fetch("./data/listOfImages.json").then(async (response) => {
       app.screen.height,
       horizontalMargin
     );
+    tsuru.addEventListener("thumbnailLoaded", handleTsuruThumbnailLoaded);
     await tsuru.initTsuru();
   }
 
@@ -537,15 +581,8 @@ fetch("./data/listOfImages.json").then(async (response) => {
   nextNumberThumbnailOverlay.x = 0;
   nextNumberThumbnailOverlay.y = 0;
   nextNumberThumbnailOverlay.tint = 0x000000;
-
   app.stage.addChild(nextNumberThumbnailOverlay);
-
-  // app.stage.addChild(nextNumberThumbnailOverlay);
-  //  nextNumberThumbnail.tint = 0x000000;
   app.stage.addChild(nextNumberThumbnail);
-
-  // calculate the next tsuru number based on the drag distance
-
   const calculateNextTsuruNumberBasedOnDrag = () => {
     nextNumberThumbnail.alpha = 0;
     nextNumberThumbnail.zIndex = -1;
@@ -835,7 +872,6 @@ fetch("./data/listOfImages.json").then(async (response) => {
     }
   });
 
-  const loadingEl = document.getElementById("loading");
   loadingEl
     .animate([{ opacity: 1 }, { opacity: 0 }], {
       duration: 250,
