@@ -529,6 +529,7 @@ fetch("./data/listOfImages.json").then(async (response) => {
 
   const calculateNextTsuruNumberBasedOnDrag = () => {
     nextNumberThumbnail.alpha = 0;
+    nextNumberThumbnail.zIndex = -1;
     nextNumberThumbnailOverlay.alpha = 0;
     nextNumberThumbnailOverlay.zIndex = numberDragNextNumber > 0 ? 1 : -1;
 
@@ -560,6 +561,7 @@ fetch("./data/listOfImages.json").then(async (response) => {
         nextNumberThumbnailOverlay.alpha = 0.5;
         nextNumberThumbnail.texture =
           nextTsuru.imageTexture || nextTsuru.thumbnailTexture;
+          nextNumberThumbnail.zIndex = 2;
         nextNumberThumbnail.position.set(
           currentTsuru.sprite.x + tsuruSize / 2,
           currentTsuru.sprite.y + tsurusGroup.y
