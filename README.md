@@ -6,6 +6,6 @@ A simple and responsive website built with pure JavaScript, HTML, and CSS, featu
 
 ![Mobile Screen](screen_mobile.gif)
 
-## Laptop
+## Widescreen desktop
 
-![Notebook Screen](screen_notebook.gif)
+![Notebook Screen](screen_widescreen.gif)
