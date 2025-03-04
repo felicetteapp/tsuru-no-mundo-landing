@@ -619,9 +619,6 @@ fetch("./data/listOfImages.json").then(async (response) => {
         Math.max(1, currentNumber + howManyNumbers)
       );
 
-      if (targetNextNumber !== numberDragNextNumber) {
-        window.navigator.vibrate(10);
-      }
       numberDragNextNumber = targetNextNumber;
     } else {
       numberDragNextNumber = 0;
