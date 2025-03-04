@@ -491,14 +491,10 @@ fetch("./data/listOfImages.json").then(async (response) => {
 
     numberDragDistance = 0;
     numberDragDistanceOrigin = e.global.y;
-  });
-
-  tsuruNumberRichText.on("pointerup", (e) => {
+  }).on("pointerup", (e) => {
     isDraggingFromNumber = false;
     numberDragDistance = 0;
-  });
-
-  tsuruNumberRichText.on("pointerupoutside", (e) => {
+  }).on("pointerupoutside", (e) => {
     isDraggingFromNumber = false;
 
     scrollToTsuruNumber(numberDragNextNumber);
@@ -820,6 +816,24 @@ fetch("./data/listOfImages.json").then(async (response) => {
       lastScrolledTsuru = currentTsuru.tsuruData.number;
     }
   });
+
+  const loadingEl = document.getElementById("loading");
+  loadingEl.animate(
+    [
+      { opacity: 1 },
+      { opacity: 0 },
+    ],
+    {
+      duration: 250,
+      easing: "ease-in-out",
+      fill: "forwards",
+    }
+  ).finished.then(
+    (anim) => {
+      loadingEl.style.display = "none";
+      anim.cancel();
+    }
+  )
 });
 
 const transformText = (
