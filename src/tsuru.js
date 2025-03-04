@@ -76,8 +76,6 @@ export class Tsuru extends Container {
     Assets.add({ alias: textureAlias, src: this.tsuruData.thumbnail });
     const loaded = await Assets.load([textureAlias]);
     const texture = loaded[textureAlias];
-
-    console.log({texture});
     this.thumbnailTexture = texture;
     this.sprite = new Sprite(texture);
 

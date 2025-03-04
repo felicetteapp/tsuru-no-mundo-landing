@@ -11,6 +11,7 @@ import {
 } from "pixi.js";
 import { Tsuru } from "./tsuru";
 import { Navigator } from "./navigator";
+import { openTsuruModal } from "./modal";
 
 const app = new Application();
 const listOfImages = [];
@@ -217,6 +218,10 @@ fetch("./data/listOfImages.json").then(async (response) => {
   };
 
   const onDragEnd = (event) => {
+    if(!isDragging){
+      return false;
+    }
+    
     isDragging = false;
     dragHitAreaDebug.cursor = "grab";
 
@@ -229,10 +234,31 @@ fetch("./data/listOfImages.json").then(async (response) => {
       currentTsuru.tsuruData.number ===
       currentTsuruWhenStartDragging.tsuruData.number;
 
+    const samePlaceThreshold = 10;
+    const hasReleasedInTheSamePlace =
+      Math.abs(startY - event.data.global.y) < samePlaceThreshold;
+
+    const hasReleasedInsideTheTsuruHorizontally =
+      event.data.global.x > horizontalMargin &&
+      event.data.global.x < horizontalMargin + tsuruSize;
+
+    const minY = (window.innerHeight - tsuruSize) / 2;
+    const maxY = window.innerHeight - (window.innerHeight - tsuruSize) / 2;
+
+    const hasReleasedInsideTheTsuruVertically =
+      event.data.global.y > minY && event.data.global.y < maxY;
+
     if (wasSwipedDown && itsTheSameThatWasDragged) {
       scrollToNext();
     } else if (wasSwipedUp && itsTheSameThatWasDragged) {
       scrollToPrevious();
+    } else if (
+      hasReleasedInTheSamePlace &&
+      itsTheSameThatWasDragged &&
+      hasReleasedInsideTheTsuruHorizontally &&
+      hasReleasedInsideTheTsuruVertically
+    ) {
+      openTsuruModal(currentTsuru.tsuruData);
     } else {
       scrollToTsuruNumber(currentTsuru.tsuruData.number);
     }
@@ -356,15 +382,17 @@ fetch("./data/listOfImages.json").then(async (response) => {
     const thisTsuruDataEl = document.createElement("div");
     thisTsuruDataEl.classList.add("loading__label__item");
 
-    const numberWithLeadingZeros = tsuru.tsuruData.number.toString().padStart(2, '0');
+    const numberWithLeadingZeros = tsuru.tsuruData.number
+      .toString()
+      .padStart(2, "0");
     thisTsuruDataEl.innerHTML = `#${numberWithLeadingZeros} - ${tsuru.tsuruData.location}`;
     loadingTextEl.appendChild(thisTsuruDataEl);
 
     thisTsuruDataEl
       .animate(
         [
-          { opacity: 0, height: 0, maxWidth: '20px' },
-          { opacity: 1, height: "1rem", maxWidth:'450px' },
+          { opacity: 0, height: 0, maxWidth: "20px" },
+          { opacity: 1, height: "1rem", maxWidth: "450px" },
         ],
         {
           duration: 1000,
@@ -373,13 +401,19 @@ fetch("./data/listOfImages.json").then(async (response) => {
         }
       )
       .finished.then((anim) => {
+        const elStillExists = loadingTextEl.contains(thisTsuruDataEl);
+        const loadingElIsVisible = loadingEl.style.display !== "none";
+        if (!elStillExists || !loadingElIsVisible) {
+          anim.cancel();
+          return;
+        }
         anim.commitStyles();
         anim.cancel();
         thisTsuruDataEl
           .animate(
             [
-              { opacity: 1, height: "1rem", maxWidth: '450px' },
-              { opacity: 0, height: 0 , maxWidth: '20px'},
+              { opacity: 1, height: "1rem", maxWidth: "450px" },
+              { opacity: 0, height: 0, maxWidth: "20px" },
             ],
             {
               duration: 1000,
@@ -926,3 +960,4 @@ const transformText = (
 
   removeCharacter();
 };
+
