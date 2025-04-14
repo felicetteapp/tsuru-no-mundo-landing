@@ -31,6 +31,10 @@ module.exports = {
     }),
     new CopyWebpackPlugin({
       patterns: [
+        {
+          from: "public/.well-known",
+          to: ".well-known",
+        },
         { from: "public/img", to: "img" },
         { from: "public/fonts", to: "fonts" },
         { from: "public/data", to: "data" },
