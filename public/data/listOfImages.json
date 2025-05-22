@@ -1,5 +1,14 @@
 [
   {
+    "number": 56,
+    "img": "img/tsurus/56.webp",
+    "fullSize": "img/tsurus/full/56.webp",
+    "thumbnail": "img/tsurus/thumbnails/56.webp",
+    "mainColor": "#e0e9e9",
+    "mainColorContrast": "#638181",
+    "location": "Jardim Botânico - Curitiba, PR. Brasil"
+  },
+  {
     "number": 55,
     "img": "img/tsurus/55.webp",
     "fullSize": "img/tsurus/full/55.webp",
