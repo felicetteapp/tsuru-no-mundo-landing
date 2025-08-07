@@ -1,5 +1,14 @@
 [
   {
+    "number": 57,
+    "img": "img/tsurus/57.webp",
+    "fullSize": "img/tsurus/full/57.webp",
+    "thumbnail": "img/tsurus/thumbnails/57.webp",
+    "mainColor": "#e5e8e7",
+    "mainColorContrast": "#757e7a",
+    "location": "Isla Martillo - Tierra del Fuego. Argentina"
+  },
+  {
     "number": 56,
     "img": "img/tsurus/56.webp",
     "fullSize": "img/tsurus/full/56.webp",
