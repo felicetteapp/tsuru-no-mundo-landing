@@ -12,6 +12,13 @@ import {
 import { Tsuru } from "./tsuru";
 import { Navigator } from "./navigator";
 import { openTsuruModal } from "./modal";
+import { gsap } from "gsap";
+import { TextPlugin } from "gsap/TextPlugin";
+
+gsap.registerPlugin(TextPlugin);
+
+const LOADING_ITEM_TOTAL_DURATION = 3;
+const LOADING_ITEM_DISSAPEAR_TIME = 1;
 
 const app = new Application();
 const listOfImages = [];
@@ -218,10 +225,10 @@ fetch("./data/listOfImages.json").then(async (response) => {
   };
 
   const onDragEnd = (event) => {
-    if(!isDragging){
+    if (!isDragging) {
       return false;
     }
-    
+
     isDragging = false;
     dragHitAreaDebug.cursor = "grab";
 
@@ -385,48 +392,55 @@ fetch("./data/listOfImages.json").then(async (response) => {
     const numberWithLeadingZeros = tsuru.tsuruData.number
       .toString()
       .padStart(2, "0");
-    thisTsuruDataEl.innerHTML = `#${numberWithLeadingZeros} - ${tsuru.tsuruData.location}`;
+
     loadingTextEl.appendChild(thisTsuruDataEl);
 
-    thisTsuruDataEl
-      .animate(
-        [
-          { opacity: 0, height: 0, maxWidth: "20px" },
-          { opacity: 1, height: "1rem", maxWidth: "450px" },
-        ],
-        {
-          duration: 1000,
-          easing: "ease-in-out",
-          fill: "forwards",
-        }
-      )
-      .finished.then((anim) => {
-        const elStillExists = loadingTextEl.contains(thisTsuruDataEl);
-        const loadingElIsVisible = loadingEl.style.display !== "none";
-        if (!elStillExists || !loadingElIsVisible) {
-          anim.cancel();
-          return;
-        }
-        anim.commitStyles();
-        anim.cancel();
-        thisTsuruDataEl
-          .animate(
-            [
-              { opacity: 1, height: "1rem", maxWidth: "450px" },
-              { opacity: 0, height: 0, maxWidth: "20px" },
-            ],
-            {
-              duration: 1000,
-              easing: "ease-in-out",
-              fill: "forwards",
-              delay: 2000,
-            }
-          )
-          .finished.then((anim) => {
-            anim.cancel();
-            thisTsuruDataEl.remove();
-          });
-      });
+    gsap.set(thisTsuruDataEl, {
+      yPercent: 0,
+    });
+    const tl = gsap.timeline();
+
+    const targetText = `#${numberWithLeadingZeros} - ${tsuru.tsuruData.location}`;
+
+    const targetDuration = Math.min(
+      targetText.length * 0.025,
+      LOADING_ITEM_TOTAL_DURATION - LOADING_ITEM_DISSAPEAR_TIME
+    );
+
+    const expectedDelay = LOADING_ITEM_TOTAL_DURATION - targetDuration;
+
+    gsap.set(thisTsuruDataEl, {
+      text: `#${numberWithLeadingZeros} - `,
+      color: tsuru.tsuruData.mainColor,
+      opacity: 1,
+    });
+
+    tl.to(thisTsuruDataEl, {
+      text: {
+        value: targetText,
+        delimiter: "",
+      },
+      color: tsuru.tsuruData.mainColorContrast,
+      duration: targetDuration,
+    });
+
+    tl.to(
+      thisTsuruDataEl,
+      {
+        duration: LOADING_ITEM_DISSAPEAR_TIME,
+        text: {
+          value: `#${numberWithLeadingZeros} - `,
+          delimiter: "",
+        },
+        opacity: 0,
+        color: tsuru.tsuruData.mainColor,
+      },
+      `+=${expectedDelay}`
+    );
+
+    tl.eventCallback("onComplete", () => {
+      thisTsuruDataEl.remove();
+    });
   };
 
   for (let i = 0; i < tsurus.length; i++) {
@@ -439,6 +453,12 @@ fetch("./data/listOfImages.json").then(async (response) => {
     tsuru.addEventListener("thumbnailLoaded", handleTsuruThumbnailLoaded);
     await tsuru.initTsuru();
   }
+
+  await new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, LOADING_ITEM_DISSAPEAR_TIME + LOADING_ITEM_TOTAL_DURATION * 1000);
+  });
 
   const navigator = new Navigator(tsurus, navigatorItemSize, horizontalMargin);
   navigator.updateStageSize(
@@ -960,4 +980,3 @@ const transformText = (
 
   removeCharacter();
 };
-

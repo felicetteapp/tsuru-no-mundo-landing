@@ -6,6 +6,10 @@ import {
   ColorMatrixFilter,
 } from "pixi.js";
 import { calculateEaseBetween, easeInOutExpo } from "./easings";
+import { gsap } from "gsap";
+import { PixiPlugin } from "gsap/PixiPlugin";
+
+gsap.registerPlugin(PixiPlugin);
 
 const EventEmitter = require("events");
 class TsuruEventEmitter extends EventEmitter {}
@@ -25,6 +29,7 @@ export class Tsuru extends Container {
   imageTexture = null;
   originalAngle = 0;
   isAnimatingBlurOut = false;
+  blurAnimation = null;
   isLoadingImage = false;
   isInViewport = false;
   tsuruEventEmitter = new TsuruEventEmitter();
@@ -110,7 +115,21 @@ export class Tsuru extends Container {
   }
 
   removeBlurFilterWithAnimation() {
+    if (this.blurAnimation) {
+      this.blurAnimation.kill();
+    }
+
     this.isAnimatingBlurOut = true;
+
+    this.blurAnimation = gsap.to(this.filters[0], {
+      strength: 0,
+      duration: 1,
+      ease: "power2.out",
+      onComplete: () => {
+        this.isAnimatingBlurOut = false;
+        this.blurAnimation = null;
+      },
+    });
   }
 
   async loadImage() {
@@ -200,14 +219,6 @@ export class Tsuru extends Container {
 
       const actualRotationInRadians =
         (actualRotationWithEasing * Math.PI) / 180;
-
-      if (this.isAnimatingBlurOut) {
-        this.filters[0].strength -= time.deltaTime * 1;
-        if (this.filters[0].strength <= 0) {
-          this.filters[0].strength = 0;
-          this.isAnimatingBlurOut = false;
-        }
-      }
 
       this.filters[1].saturate(-1 + actualAlphaWithEasing);
       this.sprite.rotation = actualRotationInRadians;

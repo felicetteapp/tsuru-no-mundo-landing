@@ -1,3 +1,5 @@
+import { gsap } from "gsap";
+
 export const openTsuruModal = (tsuruData) => {
   const preview = tsuruData.img;
   const fullSize = tsuruData.fullSize;
@@ -11,16 +13,13 @@ export const openTsuruModal = (tsuruData) => {
     <button class="modal__close">Close</button>`;
   document.body.appendChild(modal);
 
-  modal
-    .animate([{ opacity: 0 }, { opacity: 1 }], {
-      duration: 500,
-      easing: "ease-in-out",
-      fill: "forwards",
-    })
-    .finished.then((anim) => {
-      anim.commitStyles();
-      anim.cancel();
+  gsap.set(modal, { opacity: 0 });
 
+  gsap.to(modal, {
+    opacity: 1,
+    duration: 0.5,
+    ease: "power2.inOut",
+    onComplete: () => {
       modal
         .querySelector(".modal__close")
         .addEventListener("click", closeTsuruModal);
@@ -36,24 +35,22 @@ export const openTsuruModal = (tsuruData) => {
           closeTsuruModal();
         }
       });
-    });
+    },
+  });
 };
 
 const closeTsuruModal = () => {
   const modal = document.querySelector(".modal");
 
-  modal
-    .animate([{ opacity: 1 }, { opacity: 0 }], {
-      duration: 500,
-      easing: "ease-in-out",
-      fill: "forwards",
-    })
-    .finished.then((anim) => {
-      anim.commitStyles();
-      anim.cancel();
+  gsap.to(modal, {
+    opacity: 0,
+    duration: 0.5,
+    ease: "power2.inOut",
+    onComplete: () => {
       modal.remove();
       modal
         .querySelector(".modal__close")
         .removeEventListener("click", closeTsuruModal);
-    });
+    },
+  });
 };
