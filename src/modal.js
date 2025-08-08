@@ -2,7 +2,7 @@ import { gsap } from "gsap";
 
 export const openTsuruModal = (tsuruData) => {
   const fullSize = tsuruData.fullSize;
-  const thumbnail = tsuruData.thumbnail;
+  const thumbnail = tsuruData.img;
 
   const modal = document.createElement("div");
   modal.classList.add("modal");
@@ -48,14 +48,8 @@ export const openTsuruModal = (tsuruData) => {
     });
 
     modalFullSizeImage.onload = () => {
-      gsap.set(modalFullSizeImage, {
-        borderRadius: "50%",
-        filter: "blur(5rem)",
-      });
       tl.to(modalFullSizeImage, {
         opacity: 1,
-        borderRadius: 0,
-        filter: "blur(0rem)",
       });
       tl.to(modalImage, { opacity: 0, duration: 0.3 });
     };
@@ -74,12 +68,8 @@ const closeTsuruModal = () => {
 
   const tl = gsap.timeline();
 
-  tl.to(modalImage, { opacity: 0, duration: 0.3, borderRadius: "50%" });
-  tl.to(
-    modalFullSizeImage,
-    { opacity: 0, duration: 0.3, borderRadius: "50%", filter: "blur(5rem)" },
-    "<"
-  );
+  tl.to(modalImage, { opacity: 0, duration: 0.3 });
+  tl.to(modalFullSizeImage, { opacity: 0, duration: 0.3 }, "<");
   tl.to(modal, {
     opacity: 0,
     duration: 0.5,

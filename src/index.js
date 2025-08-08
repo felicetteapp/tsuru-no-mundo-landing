@@ -14,11 +14,16 @@ import { Navigator } from "./navigator";
 import { openTsuruModal } from "./modal";
 import { gsap } from "gsap";
 import { TextPlugin } from "gsap/TextPlugin";
+import { SplitText } from "gsap/SplitText";
+import { PixiPlugin } from "gsap/PixiPlugin";
 
 gsap.registerPlugin(TextPlugin);
+gsap.registerPlugin(SplitText);
+gsap.registerPlugin(PixiPlugin);
 
 const LOADING_ITEM_TOTAL_DURATION = 3;
 const LOADING_ITEM_DISSAPEAR_TIME = 1;
+const loadingTl = gsap.timeline();
 
 const app = new Application();
 const listOfImages = [];
@@ -98,6 +103,8 @@ updateLayout();
 
 const tsurusGroup = new Container();
 
+tsurusGroup.alpha = 0;
+
 const smoothScroll = () => {
   if (isScrolling) {
     const distance = targetY - currentY;
@@ -143,6 +150,10 @@ function detectScrollDirection() {
   });
 }
 
+const wrapperToggleBtnEl = document.getElementById("wrapper-toggle-button");
+
+gsap.set(wrapperToggleBtnEl, { opacity: 0 });
+
 const pixiAppInit = async () => {
   userScrollDirection = await detectScrollDirection();
   // Create a new application
@@ -150,8 +161,6 @@ const pixiAppInit = async () => {
   await app.init({ background: "black", resizeTo: window.document.body });
   // Append the application canvas to the document body
   document.body.appendChild(app.canvas);
-
-  const wrapperToggleBtnEl = document.getElementById("wrapper-toggle-button");
 
   wrapperToggleBtnEl.addEventListener("click", () => {
     document.documentElement.classList.toggle("wrapper--open");
@@ -161,9 +170,21 @@ const pixiAppInit = async () => {
     );
 
     if (document.documentElement.classList.contains("wrapper--open")) {
-      labelEl.innerHTML = "Less";
+      const tl = gsap.timeline();
+      tl.to(labelEl, {
+        text: "----",
+      });
+      tl.to(labelEl, {
+        text: "Less",
+      });
     } else {
-      labelEl.innerHTML = "More";
+      const tl = gsap.timeline();
+      tl.to(labelEl, {
+        text: "----",
+      });
+      tl.to(labelEl, {
+        text: "More",
+      });
     }
   });
   return app;
@@ -398,7 +419,6 @@ fetch("./data/listOfImages.json").then(async (response) => {
     gsap.set(thisTsuruDataEl, {
       yPercent: 0,
     });
-    const tl = gsap.timeline();
 
     const targetText = `#${numberWithLeadingZeros} - ${tsuru.tsuruData.location}`;
 
@@ -415,7 +435,10 @@ fetch("./data/listOfImages.json").then(async (response) => {
       opacity: 1,
     });
 
-    tl.to(thisTsuruDataEl, {
+    const dissapearDelay =
+      loadingTl.startTime() + expectedDelay + targetDuration + loadingTl.time();
+
+    gsap.to(thisTsuruDataEl, {
       text: {
         value: targetText,
         delimiter: "",
@@ -424,7 +447,7 @@ fetch("./data/listOfImages.json").then(async (response) => {
       duration: targetDuration,
     });
 
-    tl.to(
+    loadingTl.to(
       thisTsuruDataEl,
       {
         duration: LOADING_ITEM_DISSAPEAR_TIME,
@@ -434,13 +457,12 @@ fetch("./data/listOfImages.json").then(async (response) => {
         },
         opacity: 0,
         color: tsuru.tsuruData.mainColor,
+        onComplete: () => {
+          thisTsuruDataEl.remove();
+        },
       },
-      `+=${expectedDelay}`
+      dissapearDelay
     );
-
-    tl.eventCallback("onComplete", () => {
-      thisTsuruDataEl.remove();
-    });
   };
 
   for (let i = 0; i < tsurus.length; i++) {
@@ -454,10 +476,14 @@ fetch("./data/listOfImages.json").then(async (response) => {
     await tsuru.initTsuru();
   }
 
+  loadingTl.to(".loading__spinner", {
+    opacity: 0,
+  });
+
   await new Promise((resolve) => {
-    setTimeout(() => {
+    loadingTl.eventCallback("onComplete", () => {
       resolve();
-    }, LOADING_ITEM_DISSAPEAR_TIME + LOADING_ITEM_TOTAL_DURATION * 1000);
+    });
   });
 
   const navigator = new Navigator(tsurus, navigatorItemSize, horizontalMargin);
@@ -929,16 +955,141 @@ fetch("./data/listOfImages.json").then(async (response) => {
     }
   });
 
-  loadingEl
-    .animate([{ opacity: 1 }, { opacity: 0 }], {
-      duration: 250,
-      easing: "ease-in-out",
-      fill: "forwards",
-    })
-    .finished.then((anim) => {
-      loadingEl.style.display = "none";
-      anim.cancel();
-    });
+  locationRichText.alpha = 0;
+  tsuruNumberRichText.alpha = 0;
+  titleRichText.alpha = 0;
+  navigator.alpha = 0;
+
+  gsap.set(".wrapper", {
+    opacity: 0,
+  });
+
+  gsap.to(loadingEl, {
+    opacity: 0,
+    onComplete: () => {
+      loadingEl.remove();
+
+      const tl = gsap.timeline();
+
+      const tsuruGroupCurrentY = tsurusGroup.y;
+      gsap.set(tsurusGroup, {
+        y: tsuruGroupCurrentY - 50,
+      });
+
+      tl.to(tsurusGroup, {
+        alpha: 1,
+        y: tsuruGroupCurrentY,
+      });
+
+      const locationRichTextCurrentY = locationRichText.y;
+      gsap.set(locationRichText, {
+        y: locationRichTextCurrentY - 50,
+      });
+
+      tl.to(locationRichText, {
+        alpha: 1,
+        y: locationRichTextCurrentY,
+      });
+
+      const tsuruNumberRichTextCurrentY = tsuruNumberRichText.y;
+      gsap.set(tsuruNumberRichText, {
+        y: tsuruNumberRichTextCurrentY - 50,
+      });
+
+      tl.to(tsuruNumberRichText, {
+        alpha: 1,
+        y: tsuruNumberRichTextCurrentY,
+      });
+
+      const titleRichTextCurrentY = titleRichText.y;
+
+      gsap.set(titleRichText, {
+        y: titleRichTextCurrentY - 50,
+      });
+
+      tl.to(titleRichText, {
+        alpha: 1,
+        y: titleRichTextCurrentY,
+      });
+
+      tl.to(navigator, {
+        alpha: 1,
+      });
+
+      tl.to(
+        ".wrapper",
+        {
+          opacity: 1,
+        },
+        "<"
+      );
+
+      tl.to(
+        wrapperToggleBtnEl,
+        {
+          opacity: 1,
+        },
+        "<"
+      );
+
+      SplitText.create(".about__title,.contact__title", {
+        type: "words",
+        mask: "lines",
+        autoSplit: true,
+        onSplit(self) {
+          return tl.from(self.words, {
+            duration: 1,
+            y: 100,
+            autoAlpha: 0,
+            stagger: 0.05,
+          });
+        },
+      });
+
+      SplitText.create(".about__text,.contact__text", {
+        type: "lines",
+        mask: "lines",
+        autoSplit: true,
+        onSplit(self) {
+          return tl.from(
+            self.lines,
+            {
+              duration: 1,
+              y: 100,
+              autoAlpha: 0,
+              stagger: 0.05,
+            },
+            "<"
+          );
+        },
+      });
+
+      tl.from(".about__images img,.contact__links li", {
+        duration: 1,
+        autoAlpha: 0,
+        stagger: 0.05,
+      });
+
+      SplitText.create(".footer__text", {
+        type: "lines",
+        mask: "lines",
+        autoSplit: true,
+        onSplit(self) {
+          return tl.from(self.lines, {
+            duration: 1,
+            autoAlpha: 0,
+            stagger: 0.05,
+          });
+        },
+      });
+
+      tl.from(".footer__credits, .footer hr", {
+        duration: 1,
+        autoAlpha: 0,
+        stagger: 0.05,
+      });
+    },
+  });
 });
 
 const transformText = (

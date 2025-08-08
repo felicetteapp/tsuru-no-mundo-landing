@@ -347,7 +347,6 @@ ul {
 }
 
 .modal__image{
-  filter: blur(5rem);
   width:min(100vw,100vh);
   height:min(100vw,100vh);
   object-fit:contain;
@@ -357,12 +356,10 @@ ul {
   right:0;
   bottom:0;
 
-  border-radius:50%;
 }
 
 .modal__image.modal__image--fullsize{
   filter: none;
-  border-radius:0;
 }
 
 .modal__close{
