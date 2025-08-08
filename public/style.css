@@ -320,10 +320,10 @@ ul {
   bottom:0;
   z-index:-1;
   opacity:0.75;
+  transition: background-color 0.3s ease;
 }
 
 .modal__content{
-  background-color: var(--tsuru-main-color);
   color:var(--color-3);
   display:flex;
   align-items:center;
@@ -332,6 +332,9 @@ ul {
   max-width:100%;
   max-height:100%;
   position:relative;
+  width:min(100vw,100vh);
+  height:min(100vw,100vh);
+  overflow:visible;
 }
 
 .modal__content img{
@@ -341,6 +344,25 @@ ul {
   max-height:100%;
   max-width:100%;
   object-fit:contain;
+}
+
+.modal__image{
+  filter: blur(5rem);
+  width:min(100vw,100vh);
+  height:min(100vw,100vh);
+  object-fit:contain;
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+
+  border-radius:50%;
+}
+
+.modal__image.modal__image--fullsize{
+  filter: none;
+  border-radius:0;
 }
 
 .modal__close{
