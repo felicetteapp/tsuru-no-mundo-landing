@@ -1,5 +1,14 @@
 [
   {
+    "number": 58,
+    "img": "img/tsurus/58.webp",
+    "fullSize": "img/tsurus/full/58.webp",
+    "thumbnail": "img/tsurus/thumbnails/58.webp",
+    "mainColor": "#e8e7e7",
+    "mainColorContrast": "#807a7d",
+    "location": "Duisburg, Nordrhein-Westfalen. Deutschland"
+  },
+  {
     "number": 57,
     "img": "img/tsurus/57.webp",
     "fullSize": "img/tsurus/full/57.webp",
