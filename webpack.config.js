@@ -2,6 +2,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const { generateAltPageContent } = require("./utils/alt.js");
 
 module.exports = {
   entry: "./src/index.js",
@@ -29,6 +30,14 @@ module.exports = {
       template: "./public/index.html",
       filename: "index.html",
     }),
+    new HtmlWebpackPlugin({
+      template: "./public/alt.html",
+      filename: "alt.html",
+      inject: false,
+      templateParameters: {
+        dynamicContent: generateAltPageContent(),
+      },
+    }),
     new CopyWebpackPlugin({
       patterns: [
         {
@@ -39,22 +48,24 @@ module.exports = {
         { from: "public/fonts", to: "fonts" },
         { from: "public/data", to: "data" },
         {
-            from: "public/favicon.ico",
-            to: "favicon.ico",
+          from: "public/favicon.ico",
+          to: "favicon.ico",
         },
         {
-            from: "public/style.css",
-            to: "style.css",
+          from: "public/style.css",
+          to: "style.css",
         },
         {
-            from:   "public/site.webmanifest",
-            to:     "site.webmanifest",
-        }
+          from: "public/site.webmanifest",
+          to: "site.webmanifest",
+        },
       ],
     }),
   ],
   devServer: {
-    contentBase: path.join(__dirname, "dist"),
+    static: {
+      directory: path.join(__dirname, "dist"),
+    },
     compress: true,
     port: 9000,
     historyApiFallback: true,
