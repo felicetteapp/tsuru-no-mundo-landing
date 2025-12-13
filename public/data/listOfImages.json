@@ -1,5 +1,14 @@
 [
   {
+    "number": 59,
+    "img": "img/tsurus/59.webp",
+    "fullSize": "img/tsurus/full/59.webp",
+    "thumbnail": "img/tsurus/thumbnails/59.webp",
+    "mainColor": "#e9e6e6",
+    "mainColorContrast": "#887878",
+    "location": "36ª Bienal de São Paulo - São Paulo, SP. Brasil"
+  },
+  {
     "number": 58,
     "img": "img/tsurus/58.webp",
     "fullSize": "img/tsurus/full/58.webp",
