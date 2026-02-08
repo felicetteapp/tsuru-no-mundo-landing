@@ -6,8 +6,8 @@ const sharp = require("sharp");
 const ColorThief = require("colorthief");
 const chroma = require("chroma-js");
 
-const tsuruFrom = 59;
-const tsuruTo = 59;
+const tsuruFrom = 60;
+const tsuruTo = 60;
 const tsurusInfo = getTsurusInfo();
 const listOfImages = [];
 
@@ -20,19 +20,19 @@ const processLoop = async () => {
 
     const thisImageFullSizePath = path.join(
       __dirname,
-      `../data/imgs/t${paddedIndex}.png`
+      `../data/imgs/t${paddedIndex}.png`,
     );
     const thisBigFilePath = path.join(
       __dirname,
-      `../public/${imageRelativePath}`
+      `../public/${imageRelativePath}`,
     );
     const thisImagePath = path.join(
       __dirname,
-      `../public/${bigFileRelativePath}`
+      `../public/${bigFileRelativePath}`,
     );
     const thubnailImagePath = path.join(
       __dirname,
-      `../public/${thumbnailRelativePath}`
+      `../public/${thumbnailRelativePath}`,
     );
 
     sharp(thisImageFullSizePath)
@@ -100,7 +100,7 @@ const processLoop = async () => {
   const uniqueFile = mergedFile.filter(
     (value, index, self) =>
       index ===
-      self.findIndex((t) => t.number === value.number && t.img === value.img)
+      self.findIndex((t) => t.number === value.number && t.img === value.img),
   );
   // sort the file by number
   uniqueFile.sort((a, b) => b.number - a.number);
@@ -114,7 +114,7 @@ function getTsurusInfo() {
   //read the file
   const tsurusInfo = fs.readFileSync(
     path.join(__dirname, "../public/data/tsurusData.json"),
-    "utf8"
+    "utf8",
   );
 
   //parse the file

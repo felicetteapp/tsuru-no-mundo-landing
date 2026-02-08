@@ -1,5 +1,14 @@
 [
   {
+    "number": 60,
+    "img": "img/tsurus/60.webp",
+    "fullSize": "img/tsurus/full/60.webp",
+    "thumbnail": "img/tsurus/thumbnails/60.webp",
+    "mainColor": "#e9e7e5",
+    "mainColorContrast": "#877971",
+    "location": "Museo De Arte Latinoamericano - Buenos Aires. Argentina"
+  },
+  {
     "number": 59,
     "img": "img/tsurus/59.webp",
     "fullSize": "img/tsurus/full/59.webp",
