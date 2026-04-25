@@ -2,7 +2,30 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
-const { generateAltPageContent } = require("./utils/alt.js");
+const {
+  getTsurusInfo,
+  compileHomePageTemplate,
+} = require("./utils/tsurus.cjs");
+const fs = require("fs");
+const { compileDetailTemplate } = require("./utils/detail.js");
+const Handlebars = require("handlebars");
+
+Handlebars.registerHelper("pathFromRoot", function (relativePath) {
+  return path.join("..", relativePath).replace(/\\/g, "/");
+});
+
+Handlebars.registerPartial("header", () =>
+  fs.readFileSync(path.resolve(__dirname, "public/header.handlebars"), "utf8"),
+);
+
+Handlebars.registerPartial("footer", () =>
+  fs.readFileSync(path.resolve(__dirname, "public/footer.handlebars"), "utf8"),
+);
+
+Handlebars.registerPartial(
+  "layout",
+  fs.readFileSync(path.resolve(__dirname, "public/layout.handlebars"), "utf8"),
+);
 
 module.exports = {
   entry: "./src/index.js",
@@ -27,24 +50,87 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      template: "./public/index.html",
-      filename: "index.html",
+      templateContent: () => {
+        const aboutTemplateRaw = fs.readFileSync(
+          path.resolve(__dirname, "public/about.handlebars"),
+          "utf8",
+        );
+        return Handlebars.compile(aboutTemplateRaw)();
+      },
+      filename: "about.html",
+      inject: false,
     }),
     new HtmlWebpackPlugin({
-      template: "./public/alt.html",
-      filename: "alt.html",
+      templateContent: () =>
+        compileHomePageTemplate(Handlebars, getTsurusInfo()),
+      filename: "index.html",
       inject: false,
-      templateParameters: {
-        dynamicContent: generateAltPageContent(),
-      },
     }),
+    ...getTsurusInfo().map((tsuru, _, tsurus) => {
+      const biggerNumber = Math.max(...tsurus.map((t) => t.number));
+      const smallerNumber = Math.min(...tsurus.map((t) => t.number));
+      const previousTsuruNumber =
+        tsuru.number === smallerNumber ? biggerNumber : tsuru.number - 1;
+      const nextTsuruNumber =
+        tsuru.number === biggerNumber ? smallerNumber : tsuru.number + 1;
+
+      tsuru.previous = {
+        number: previousTsuruNumber,
+        url: `/tsurus/${previousTsuruNumber}`,
+      };
+
+      tsuru.next = {
+        number: nextTsuruNumber,
+        url: `/tsurus/${nextTsuruNumber}`,
+      };
+
+      return new HtmlWebpackPlugin({
+        templateContent: () => compileDetailTemplate(Handlebars, tsuru),
+        filename: `tsurus/${tsuru.number}.html`,
+        inject: false,
+      });
+    }),
+    {
+      apply(compiler) {
+        compiler.hooks.thisCompilation.tap("WatchHandlebars", (compilation) => {
+          compilation.fileDependencies.add(
+            path.resolve(__dirname, "public/detail.handlebars"),
+          );
+          compilation.fileDependencies.add(
+            path.resolve(__dirname, "public/header.handlebars"),
+          );
+          compilation.fileDependencies.add(
+            path.resolve(__dirname, "public/footer.handlebars"),
+          );
+          compilation.fileDependencies.add(
+            path.resolve(__dirname, "public/layout.handlebars"),
+          );
+          compilation.fileDependencies.add(
+            path.resolve(__dirname, "public/home.handlebars"),
+          );
+          compilation.fileDependencies.add(
+            path.resolve(__dirname, "public/about.handlebars"),
+          );
+          compilation.fileDependencies.add(
+            path.resolve(__dirname, "utils/tsurus.cjs"),
+          );
+          compilation.fileDependencies.add(
+            path.resolve(__dirname, "utils/detail.js"),
+          );
+        });
+      },
+    },
     new CopyWebpackPlugin({
       patterns: [
         {
           from: "public/.well-known",
           to: ".well-known",
         },
-        { from: "public/img", to: "img" },
+        {
+          from: "public/img",
+          to: "img",
+          globOptions: { ignore: ["**/tsurus/full/**"] },
+        },
         { from: "public/fonts", to: "fonts" },
         { from: "public/data", to: "data" },
         {
@@ -66,8 +152,7 @@ module.exports = {
     static: {
       directory: path.join(__dirname, "dist"),
     },
-    compress: true,
     port: 9000,
-    historyApiFallback: true,
+    watchFiles: ["src/**/*", "public/**/*"],
   },
 };
