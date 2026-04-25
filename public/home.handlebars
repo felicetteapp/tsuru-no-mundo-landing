@@ -1,0 +1,35 @@
+{{#> layout}}
+<div class="home-container">
+    <table class="home">
+        <thead>
+            <tr>
+                <th class="number">#</th>
+                <th class="picture">picture</th>
+                <th class="location">location</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each tsurus}}
+            <tr style="--main-color:{{mainColor}}; --main-color-contrast: {{mainColorContrast}};">
+                <td class="number"><h2><a href="tsurus/{{number}}" tabindex="-1">{{paddedNumber}}</a></h2></td>
+                <td><a href="tsurus/{{number}}"><img src="{{pathFromRoot thumbnail}}" alt="{{location.raw}}" loading="lazy" /></a></td>
+                <td>
+                    <div class="location">
+                        {{#if location.detailedLocation}}
+                        <h3>{{location.detailedLocation}}</h3>
+                        {{/if}}
+                        {{#if location.city}}
+                        <h4>{{location.city}}</h4>
+                        {{/if}}
+                        {{#if location.region}}
+                        <h5>{{location.region}}</h5>
+                        {{/if}}
+                        <h6><span aria-hidden="true">&lt;</span>{{location.country}}<span aria-hidden="true">&gt;</span></h6>
+                    </div>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+{{/layout}}

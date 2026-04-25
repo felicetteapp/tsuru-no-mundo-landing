@@ -1,0 +1,24 @@
+{{#> layout mainColor=tsuru.mainColor mainColorContrast=tsuru.mainColorContrast}}
+<div class="detail-container">
+    <h2 class="number">
+        <a href="{{tsuru.previous.url}}">{{tsuru.previous.number}}</a>
+        <span class="current">{{tsuru.paddedNumber}}</span>
+        <a href="{{tsuru.next.url}}">{{tsuru.next.number}}</a>
+    </h2>
+    <div class="detail-image-container">
+        <img src="{{pathFromRoot tsuru.img}}" alt="{{tsuru.location.raw}}" />
+    </div> 
+    <section class="location">
+        {{#if tsuru.location.detailedLocation}}
+        <h3>{{tsuru.location.detailedLocation}}</h3>
+        {{/if}}
+        {{#if tsuru.location.city}}
+        <h4>{{tsuru.location.city}}</h4>
+        {{/if}}
+        {{#if tsuru.location.region}}
+        <h5>{{tsuru.location.region}}</h5>
+        {{/if}}
+        <h6><span aria-hidden="true">&lt;</span>{{tsuru.location.country}}<span aria-hidden="true">&gt;</span></h6>      
+    </section>
+</div>
+{{/layout}}
