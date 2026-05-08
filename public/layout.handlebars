@@ -10,8 +10,16 @@
     <meta name="keywords" content="Tsuru, Mundo, Origami, Art" />
     <meta name="author" content="Facundo Leites" />
     <meta name="robots" content="index, follow" />
-    <meta property="og:image" content="/src/img/seo.jpeg" />
+    {{#if coverImage}}
+    <meta property="og:image" content="{{coverImage}}" />
+    {{else}}
+    <meta property="og:image" content="/img/seo.png" />
+    {{/if}}
+    {{#if title}}
+    <title>{{title}} - Tsuru No Mundo</title>
+    {{else}}
     <title>Tsuru No Mundo</title>
+    {{/if}}
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link
       rel="apple-touch-icon"

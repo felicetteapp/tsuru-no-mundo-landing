@@ -84,6 +84,8 @@ module.exports = {
         url: `/tsurus/${nextTsuruNumber}`,
       };
 
+      tsuru.title = `${tsuru.paddedNumber} - ${tsuru.location.raw}`;
+
       return new HtmlWebpackPlugin({
         templateContent: () => compileDetailTemplate(Handlebars, tsuru),
         filename: `tsurus/${tsuru.number}.html`,
