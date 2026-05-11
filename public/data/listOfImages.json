@@ -1,5 +1,14 @@
 [
   {
+    "number": 61,
+    "img": "img/tsurus/61.webp",
+    "fullSize": "img/tsurus/full/61.webp",
+    "thumbnail": "img/tsurus/thumbnails/61.webp",
+    "mainColor": "#dfe9e9",
+    "mainColorContrast": "#658182",
+    "location": "Igreja de São Sebastião de Porto de Cima - Porto de Cima, PR. Brasil"
+  },
+  {
     "number": 60,
     "img": "img/tsurus/60.webp",
     "fullSize": "img/tsurus/full/60.webp",

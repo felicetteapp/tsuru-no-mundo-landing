@@ -6,8 +6,8 @@ const sharp = require("sharp");
 const ColorThief = require("colorthief");
 const chroma = require("chroma-js");
 
-const tsuruFrom = 60;
-const tsuruTo = 60;
+const tsuruFrom = 61;
+const tsuruTo = 61;
 const tsurusInfo = getTsurusInfo();
 const listOfImages = [];
 
