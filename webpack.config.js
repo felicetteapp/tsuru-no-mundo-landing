@@ -5,6 +5,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const {
   getTsurusInfo,
   compileHomePageTemplate,
+  compileGridPageTemplate,
 } = require("./utils/tsurus.cjs");
 const fs = require("fs");
 const { compileDetailTemplate } = require("./utils/detail.js");
@@ -64,6 +65,12 @@ module.exports = {
       templateContent: () =>
         compileHomePageTemplate(Handlebars, getTsurusInfo()),
       filename: "index.html",
+      inject: false,
+    }),
+    new HtmlWebpackPlugin({
+      templateContent: () =>
+        compileGridPageTemplate(Handlebars, getTsurusInfo()),
+      filename: "grid.html",
       inject: false,
     }),
     ...getTsurusInfo().map((tsuru, _, tsurus) => {

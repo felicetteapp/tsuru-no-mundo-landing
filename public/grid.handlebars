@@ -1,0 +1,23 @@
+{{#> layout}}
+<div class="view-mode-button-container">
+    <a href="/">View as list</a>
+</div>
+<div class="grid-container">
+    {{#each tsurus}}
+    <div class="grid-tsuru-item" style="--main-color:{{mainColor}}; --main-color-contrast: {{mainColorContrast}};">
+        <span class="number"><h2><a href="tsurus/{{number}}" tabindex="-1">{{paddedNumber}}</a></h2></span>
+        <a href="tsurus/{{number}}"><img src="{{pathFromRoot thumbnail}}" alt="{{location.raw}}" loading="lazy" /></a>
+    </div>
+    {{/each}}
+</div>
+<div class="home-container">
+    <div class="locations-container">
+        {{#each tsurus}}
+        <div style="--main-color:{{mainColor}}; --main-color-contrast: {{mainColorContrast}};">
+            <span class="number">{{paddedNumber}}.</span>
+            <div class="location">{{location.raw}}</div>
+        </div>
+        {{/each}}
+    </div>
+</div>
+{{/layout}}

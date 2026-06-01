@@ -67,4 +67,17 @@ const compileHomePageTemplate = (handlebars, tsurus) => {
   return handlebars.compile(homePageTemplateRaw)({ tsurus });
 };
 
-module.exports = { getTsurusInfo, compileHomePageTemplate };
+const compileGridPageTemplate = (handlebars, tsurus) => {
+  const gridPageTemplateRaw = fs.readFileSync(
+    path.resolve(__dirname, "..", "public/grid.handlebars"),
+    "utf8",
+  );
+
+  return handlebars.compile(gridPageTemplateRaw)({ tsurus });
+};
+
+module.exports = {
+  getTsurusInfo,
+  compileHomePageTemplate,
+  compileGridPageTemplate,
+};

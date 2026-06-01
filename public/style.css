@@ -207,6 +207,91 @@ footer.footer a:focus {
   overflow-x: hidden;
 }
 
+.view-mode-button-container{
+  margin:0 auto;
+  width:100%;
+  max-width: var(--container-width);
+  display:flex;
+  justify-content: flex-end;
+  padding-bottom:1rem;
+}
+
+.grid-container{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px,calc(80px + 1rem)));
+  align-items: center;
+  justify-content: center;
+  gap:0.5rem;
+}
+
+.grid-tsuru-item{
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap:0.5rem;
+}
+
+.grid-tsuru-item a{
+  color:inherit;
+  text-decoration: none;
+}
+
+.grid-tsuru-item .number{
+  width: 100%;
+  border-bottom:0.25rem solid var(--main-color-contrast);
+  color: var(--main-color-contrast);
+  line-height: 1;
+}
+
+
+.grid-tsuru-item:has(a:hover){
+  background:var(--main-color);
+}
+
+.grid-tsuru-item:has(a:hover) .number{
+  border-bottom-color: black;
+  color:black;
+}
+
+.grid-tsuru-item:has(a:hover) img{
+  filter: grayscale(100%);
+  mix-blend-mode: luminosity;
+}
+
+
+.grid-tsuru-item img{
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.locations-container{
+  margin-top:1rem;
+}
+
+@media (min-width: 600px) {
+ .locations-container{
+    columns: 2;
+  }
+}
+
+.locations-container > div{
+  overflow:hidden;
+  display:flex;
+  gap:0.5rem;
+  font-size:0.8rem;
+}
+
+.locations-container .number{
+    font-variant-numeric: tabular-nums;
+}
+
+.locations-container .location{
+  flex: 1;
+  min-width: 0;
+}
+
 table.home tbody tr {
   color: var(--main-color-contrast);
   --gradient-bg-color: white;
