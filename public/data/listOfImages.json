@@ -1,5 +1,14 @@
 [
   {
+    "number": 63,
+    "img": "img/tsurus/63.webp",
+    "fullSize": "img/tsurus/full/63.webp",
+    "thumbnail": "img/tsurus/thumbnails/63.webp",
+    "mainColor": "#e5e8e7",
+    "mainColorContrast": "#707f7a",
+    "location": "Teatro Solis - Montevideo. Uruguay"
+  },
+  {
     "number": 62,
     "img": "img/tsurus/62.webp",
     "fullSize": "img/tsurus/full/62.webp",
