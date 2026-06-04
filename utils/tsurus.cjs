@@ -76,8 +76,18 @@ const compileGridPageTemplate = (handlebars, tsurus) => {
   return handlebars.compile(gridPageTemplateRaw)({ tsurus });
 };
 
+const compileSlideshowPageTemplate = (handlebars, tsurus) => {
+  const slideshowPageTemplateRaw = fs.readFileSync(
+    path.resolve(__dirname, "..", "public/slideshow.handlebars"),
+    "utf8",
+  );
+
+  return handlebars.compile(slideshowPageTemplateRaw)({ tsurus });
+};
+
 module.exports = {
   getTsurusInfo,
   compileHomePageTemplate,
   compileGridPageTemplate,
+  compileSlideshowPageTemplate,
 };

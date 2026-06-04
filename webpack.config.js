@@ -6,6 +6,7 @@ const {
   getTsurusInfo,
   compileHomePageTemplate,
   compileGridPageTemplate,
+  compileSlideshowPageTemplate,
 } = require("./utils/tsurus.cjs");
 const fs = require("fs");
 const { compileDetailTemplate } = require("./utils/detail.js");
@@ -71,6 +72,12 @@ module.exports = {
       templateContent: () =>
         compileGridPageTemplate(Handlebars, getTsurusInfo()),
       filename: "grid.html",
+      inject: false,
+    }),
+    new HtmlWebpackPlugin({
+      templateContent: () =>
+        compileSlideshowPageTemplate(Handlebars, getTsurusInfo()),
+      filename: "slideshow.html",
       inject: false,
     }),
     ...getTsurusInfo().map((tsuru, _, tsurus) => {
