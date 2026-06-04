@@ -261,9 +261,9 @@ footer.footer a:focus {
 
 .grid-tsuru-item img{
   display: block;
-  width: 100%;
-  height: auto;
   object-fit: cover;
+  width: calc(80px + 1rem);
+  height: calc(80px + 1rem);
 }
 
 .locations-container{

@@ -1,5 +1,14 @@
 [
   {
+    "number": 62,
+    "img": "img/tsurus/62.webp",
+    "fullSize": "img/tsurus/full/62.webp",
+    "thumbnail": "img/tsurus/thumbnails/62.webp",
+    "mainColor": "#e9e7e6",
+    "mainColorContrast": "#877974",
+    "location": "Estrada da Graciosa - Porto de Cima, PR. Brasil"
+  },
+  {
     "number": 61,
     "img": "img/tsurus/61.webp",
     "fullSize": "img/tsurus/full/61.webp",
