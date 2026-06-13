@@ -1,5 +1,14 @@
 [
   {
+    "number": 64,
+    "img": "img/tsurus/64.webp",
+    "fullSize": "img/tsurus/full/64.webp",
+    "thumbnail": "img/tsurus/thumbnails/64.webp",
+    "mainColor": "#e9e7e7",
+    "mainColorContrast": "#86787b",
+    "location": "PARANAPREVIDÊNCIA - Curitiba, PR. Brasil"
+  },
+  {
     "number": 63,
     "img": "img/tsurus/63.webp",
     "fullSize": "img/tsurus/full/63.webp",
