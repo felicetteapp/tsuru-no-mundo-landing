@@ -1,5 +1,14 @@
 [
   {
+    "number": 65,
+    "img": "img/tsurus/65.webp",
+    "fullSize": "img/tsurus/full/65.webp",
+    "thumbnail": "img/tsurus/thumbnails/65.webp",
+    "mainColor": "#e4e8e8",
+    "mainColorContrast": "#6f7e80",
+    "location": "Parque Nacional Tierra del Fuego - Tierra del Fuego. Argentina"
+  },
+  {
     "number": 64,
     "img": "img/tsurus/64.webp",
     "fullSize": "img/tsurus/full/64.webp",
