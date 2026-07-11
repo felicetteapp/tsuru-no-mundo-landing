@@ -6,7 +6,8 @@
     "generate:images": "node utils/index.cjs",
     "build": "webpack --mode production",
     "dev": "webpack  --mode development --watch --progress",
-    "serve": "serve dist -l tcp://0.0.0.0:3000"
+    "serve": "serve dist -l tcp://0.0.0.0:3000",
+    "update:tsurusData": "node utils/tsuruUpdate.cjs"
   },
   "author": "Facundo Leites",
   "license": "ISC",
