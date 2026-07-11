@@ -1,5 +1,14 @@
 [
   {
+    "number": 66,
+    "img": "img/tsurus/66.webp",
+    "fullSize": "img/tsurus/full/66.webp",
+    "thumbnail": "img/tsurus/thumbnails/66.webp",
+    "mainColor": "#ece6e1",
+    "mainColorContrast": "#927760",
+    "location": "Pontal - Porto Alegre, RS. Brasil"
+  },
+  {
     "number": 65,
     "img": "img/tsurus/65.webp",
     "fullSize": "img/tsurus/full/65.webp",
