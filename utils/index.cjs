@@ -6,8 +6,8 @@ const sharp = require("sharp");
 const ColorThief = require("colorthief");
 const chroma = require("chroma-js");
 
-const tsuruFrom = 66;
-const tsuruTo = 66;
+const tsuruFrom = 67;
+const tsuruTo = 71;
 const tsurusInfo = getTsurusInfo();
 const listOfImages = [];
 
@@ -20,7 +20,7 @@ const processLoop = async () => {
 
     const thisImageFullSizePath = path.join(
       __dirname,
-      `../data/imgs/t${paddedIndex}.png`,
+      `../data/imgs/t${paddedIndex}.jpg`,
     );
     const thisBigFilePath = path.join(
       __dirname,
