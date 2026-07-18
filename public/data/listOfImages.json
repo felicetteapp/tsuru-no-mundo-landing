@@ -1,5 +1,50 @@
 [
   {
+    "number": 71,
+    "img": "img/tsurus/71.webp",
+    "fullSize": "img/tsurus/full/71.webp",
+    "thumbnail": "img/tsurus/thumbnails/71.webp",
+    "mainColor": "#e9e7e6",
+    "mainColorContrast": "#867978",
+    "location": "-"
+  },
+  {
+    "number": 70,
+    "img": "img/tsurus/70.webp",
+    "fullSize": "img/tsurus/full/70.webp",
+    "thumbnail": "img/tsurus/thumbnails/70.webp",
+    "mainColor": "#e7e7e7",
+    "mainColorContrast": "#797d79",
+    "location": "-"
+  },
+  {
+    "number": 69,
+    "img": "img/tsurus/69.webp",
+    "fullSize": "img/tsurus/full/69.webp",
+    "thumbnail": "img/tsurus/thumbnails/69.webp",
+    "mainColor": "#e9e7e3",
+    "mainColorContrast": "#877a64",
+    "location": "-"
+  },
+  {
+    "number": 68,
+    "img": "img/tsurus/68.webp",
+    "fullSize": "img/tsurus/full/68.webp",
+    "thumbnail": "img/tsurus/thumbnails/68.webp",
+    "mainColor": "#e8e7e7",
+    "mainColorContrast": "#817a7c",
+    "location": "-"
+  },
+  {
+    "number": 67,
+    "img": "img/tsurus/67.webp",
+    "fullSize": "img/tsurus/full/67.webp",
+    "thumbnail": "img/tsurus/thumbnails/67.webp",
+    "mainColor": "#e9e7e4",
+    "mainColorContrast": "#867a6c",
+    "location": "-"
+  },
+  {
     "number": 66,
     "img": "img/tsurus/66.webp",
     "fullSize": "img/tsurus/full/66.webp",
